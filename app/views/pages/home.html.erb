@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>Campetto</title>
+	</head>
+	<body>
+    
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand me-auto" href="#">Campetto.it</a>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                <li class="nav-item">
+                    <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-lg-2" href="#">Contatti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
+                </li>
+                </ul>
+                <!-- Bottone Registrati solo per mobile -->
+                <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
+            </div>
+        </div>
+        <div>
+        <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
+        <button class="button d-none d-lg-inline" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
+        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    </div>
+    </nav>
+
+    <!--Slider-->
+    <section class="slider-container">
+    <!-- Box di ricerca -->
+    <div class="search-box">
+        <h2 class="text-black title">Cerca un campo vicino a te!</h2>
+        <%= form_with(url: '#', method: :get, local: true) do %>
+        <!-- Prima riga: Indirizzo -->
+        <div class="d-flex align-items-center mb-3">
+            <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
+            <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'), 'https://www.bing.com/maps', target: '_blank' %>
+        </div>
+
+        <!-- Seconda riga: Sport, Data, Ora -->
+        <div class="row g-3">
+            <div class="col-md-4">
+            <%= select_tag :sport, options_for_select([['Sport', ''], ['Calcio', 'C11'], ['Calcio a 8', 'C8'], ['Calcio a 7', 'C7'], ['Calcetto', 'C5'], ['Tennis', 'Tnn'], ['Padel', 'Pdl'], ['Pallavolo', 'PaV'], ['Basket', 'Bsk']]), class: 'form-select', aria: { label: 'Sport' } %>
+            </div>
+
+            <div class="col-md-4">
+            <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' } %>
+            </div>
+
+            <div class="col-md-4">
+            <%= time_field_tag :ora, nil, class: 'form-control', aria: { label: 'Ora' } %>
+            </div>
+        </div>
+
+        <!-- Pulsante Cerca -->
+        <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+        <% end %>
+
+    </div>
+    <!--Immagini Slider-->
+    <div class="slider-wrapper">
+        <div class="slider">
+            <%= image_tag 'fotocarosel1.jpg', id: 'slide-1', alt: '' %>
+            <%= image_tag 'fotocarosel2.jpg', id: 'slide-2', alt: '' %>
+            <%= image_tag 'fotocarosel3.jpg', id: 'slide-3', alt: '' %>
+            <%= image_tag 'fotocarosel4.jpg', id: 'slide-4', alt: '' %>
+        </div>
+    </div>
+    </section>
+
+    <section class="main"> 
+    <h1>Sezione Informazioni(?)</h1>
+    </section>
+
+    <!-- FINE PAGINA -->
+    <div class="fine__container" id="terms">
+    <div class="fine__links">
+        <div class="fine__link--wrapper">
+        <div class="fine__link--items">
+            <h2>About Us</h2>
+            <a href="#nostraidea">La nostra idea</a> 
+            <a href="#chisiamo">Chi siamo</a> 
+            <a href="#terms">Terms of Service</a>
+        </div>
+        <div class="fine__link--items">
+            <h2>Follow us </h2>
+            <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
+            <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
+            <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
+        </div>
+        </div>
+    </div>
+    <section class="social__media">
+        <div class="social__media--wrap">
+        <div class="fine__logo">
+            <a class="fine-brand me-auto" href="#">Campetto.it</a>
+        </div>
+        <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
+        </div>
+    </section>
+    </div>
+  </body>
+</html>
