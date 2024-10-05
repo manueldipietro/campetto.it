@@ -20,5 +20,10 @@ Rails.application.routes.draw do
   get 'confirm_email', to: 'users#confirm_email'
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
+  
+  get 'checkout/new', to:'checkout#new', as:'new_checkout'
+  post 'checkout/create', to: 'checkout#create'
+  get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
+  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
 end
 
