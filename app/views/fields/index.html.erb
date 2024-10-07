@@ -1,0 +1,13 @@
+<h1>Campi Sportivi</h1>
+<%= link_to 'Aggiungi un Nuovo Campo', new_field_path, class: 'btn btn-primary' %>
+
+<ul>
+  <% @fields.each do |field| %>
+    <li>
+      <%= link_to field.nome, field_path(field) %> - <%= field.sport %> - Prezzo: €<%= field.prezzo %>
+      <%= link_to 'Modifica', edit_field_path(field) %> |
+      <%= link_to 'Elimina', field, method: :delete, data: { confirm: 'Sei sicuro?' } %>
+    </li>
+  <% end %>
+</ul>
+
