@@ -21,7 +21,7 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home') %>
+    <%= javascript_pack_tag 'home' %>
     <%= javascript_pack_tag 'logReg' if current_page?(controller: 'pages', action: 'logReg') %>
   </body>
 </html>

@@ -3,6 +3,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     scope: 'email,profile',
     prompt: 'select_account',
     redirect_uri: 'http://localhost:3000/auth/google_oauth2/callback',
-    provider_ignores_state: true
+    setup:true
   }
 end

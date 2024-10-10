@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create' 
   delete 'logout', to: 'sessions#destroy'
 
-  get 'welcome', to: 'sessions#welcome'
-
   # Rotte per la registrazione
   get 'signup', to: 'users#new' 
   post 'signup', to: 'users#create' 
@@ -18,6 +16,10 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#omniauth'
   # conferma email
   get 'confirm_email', to: 'users#confirm_email'
+
+  #Porta user al suo account
+  get 'accountUtente', to: 'users#accountUtente'
+
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
   
@@ -25,5 +27,7 @@ Rails.application.routes.draw do
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+
+  get 'confirm/:token', to: 'users#confirm', as: 'confirm_user'
 end
 

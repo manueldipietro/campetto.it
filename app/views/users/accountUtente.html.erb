@@ -6,8 +6,7 @@
 		<title>Campetto</title>
 	</head>
 	<body>
-    
-    <!-- NavBar -->
+  <!-- NavBar -->
     <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
         <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
@@ -32,7 +31,7 @@
             </ul>
 
             <% if current_user %>
-            <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+            <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
             <% else %>
             <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
             <% end %>
@@ -42,7 +41,7 @@
         <div>
         <% if current_user %>
             <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
-            <button class="button d-none d-lg-inline" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+            <button class="button d-none d-lg-inline" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
         <% else %>
             <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
             <button class="button d-none d-lg-inline" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
@@ -54,58 +53,34 @@
         </div>
     </div>
     </nav>
-
-
-    <!--Slider-->
-    <section class="slider-container">
-    <!-- Box di ricerca -->
-    <div class="search-box">
-        <h2 class="text-black title">Cerca un campo vicino a te!</h2>
-        <%= form_with(url: '#', method: :get, local: true) do %>
-        <!-- Prima riga: Indirizzo -->
-        <div class="d-flex align-items-center mb-3">
-            <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
-            <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'), 'https://www.bing.com/maps', target: '_blank' %>
+    <section class="mainAccount">
+      <div class="container">
+        <div class="user-info">
+          <% if @user %>
+            <h1>Ciao <%= @user.email %>!</h1>
+            <p>Benvenuto nella tua dashboard.</p>
+            <p><strong>Email:</strong> <%= @user.email %></p>
+            <!-- Aggiungi altre informazioni personali se necessario -->
+          <% else %>
+            <p>Non riesco a trovare l'utente. Potresti non essere loggato.</p>
+          <% end %>
         </div>
 
-        <!-- Seconda riga: Sport, Data, Ora -->
-        <div class="row g-3">
-            <div class="col-md-4">
-            <%= select_tag :sport, options_for_select([['Sport', ''], ['Calcio', 'C11'], ['Calcio a 8', 'C8'], ['Calcio a 7', 'C7'], ['Calcetto', 'C5'], ['Tennis', 'Tnn'], ['Padel', 'Pdl'], ['Pallavolo', 'PaV'], ['Basket', 'Bsk']]), class: 'form-select', aria: { label: 'Sport' } %>
-            </div>
-
-            <div class="col-md-4">
-            <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' } %>
-            </div>
-
-            <div class="col-md-4">
-            <%= time_field_tag :ora, nil, class: 'form-control', aria: { label: 'Ora' } %>
-            </div>
+        <div class="user-menu">
+          <ul>
+            <li><a href="#">Prenotazioni</a></li>
+            <li><a href="#">Recensioni</a></li>
+            <li><a href="#">Segnalazioni</a></li>
+            <li><a href="#">Edita Profilo</a></li>
+            <li><a href="#">Cambia Password</a></li>
+            <li><a href="#">Elimina Profilo</a></li>
+          </ul>
         </div>
-
-        <!-- Pulsante Cerca -->
-        <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-        <% end %>
-
-    </div>
-    <!--Immagini Slider-->
-    <div class="slider-wrapper">
-        <div class="slider">
-            <%= image_tag 'fotocarosel1.jpg', id: 'slide-1', alt: '' %>
-            <%= image_tag 'fotocarosel2.jpg', id: 'slide-2', alt: '' %>
-            <%= image_tag 'fotocarosel3.jpg', id: 'slide-3', alt: '' %>
-            <%= image_tag 'fotocarosel4.jpg', id: 'slide-4', alt: '' %>
-        </div>
-    </div>
+      </div>
     </section>
-
-    <section class="main"> 
-    <h1>Sezione Informazioni(?)</h1>
-    </section>
-
     <!-- FINE PAGINA -->
     <div class="fine__container" id="terms">
-    <div class="fine__links">
+      <div class="fine__links">
         <div class="fine__link--wrapper">
         <div class="fine__link--items">
             <h2>About Us</h2>
@@ -120,7 +95,7 @@
             <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
             <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
         </div>
-        </div>
+      </div>
     </div>
     <section class="social__media">
         <div class="social__media--wrap">
@@ -130,6 +105,5 @@
         <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
         </div>
     </section>
-    </div>
   </body>
 </html>
