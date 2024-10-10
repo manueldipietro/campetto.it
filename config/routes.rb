@@ -25,5 +25,7 @@ Rails.application.routes.draw do
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+  
+  resources :fields  # Questo genera tutte le rotte necessarie per le azioni CRUD
 end
 
