@@ -1,0 +1,51 @@
+<h1>Crea un Nuovo Campo Sportivo</h1>
+
+<%= form_with model: @field, local: true do |form| %>
+  <% if @field.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@field.errors.count, "errore") %> trovato:</h2>
+      <ul>
+        <% @field.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nome %>
+    <%= form.text_field :nome %>
+  </div>
+
+  <div class="field">
+    <%= form.label :descrizione %>
+    <%= form.text_area :descrizione %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sport %>
+    <%= form.text_field :sport %>
+  </div>
+
+  <div class="field">
+    <%= form.label :prezzo %>
+    <%= form.number_field :prezzo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :latitudine %>
+    <%= form.text_field :latitudine %>
+  </div>
+
+  <div class="field">
+    <%= form.label :longitudine %>
+    <%= form.text_field :longitudine %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Crea Campo' %>
+  </div>
+<% end %>
+
+<%= link_to 'Torna alla Lista', fields_path %>
+
