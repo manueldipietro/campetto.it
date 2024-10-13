@@ -180,3 +180,5 @@ function checkPassword() {
         speciale.classList.remove("checked");
     }
 }
+
+/*--------------------Form Cambio Password--------------------------*/

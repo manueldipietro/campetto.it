@@ -31,5 +31,12 @@ Rails.application.routes.draw do
   resources :fields  # Questo genera tutte le rotte necessarie per le azioni CRUD
 
   get 'confirm/:token', to: 'users#confirm', as: 'confirm_user'
+
+  post 'modify_password', to: 'users#modify_password'
+
+  #Routes per recupero password
+  post 'request_password_reset', to: 'users#request_password_reset'
+  get 'edit_password', to: 'users#edit_password', as: 'edit_password'
+  patch 'update_password', to: 'users#update_password'
 end
 

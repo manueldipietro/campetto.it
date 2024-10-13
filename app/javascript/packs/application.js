@@ -11,3 +11,10 @@ import "channels"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+document.addEventListener('DOMContentLoaded', function() {
+    const flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+      alert(flashMessage.innerText); // Mostra il messaggio come un popup
+    }
+});

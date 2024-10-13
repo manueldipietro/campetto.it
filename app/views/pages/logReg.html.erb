@@ -131,14 +131,14 @@
             <div class="form__box login">
                 <div class="form__content">
                     <h2>Recupero password</h2>
-                    <%= form_with(url: '#', method: :post, id: "id_form_reset", local: true) do |f| %>
+                    <%= form_with(url: request_password_reset_path, method: :post, id: "id_form_reset", local: true) do |f| %>
                         <div class="input__field">
-                            <%= f.email_field :email_reset, id: "email_reset", name:"email_reset",required: true, class: "form-control" %>
+                            <%= f.email_field :email_reset, id: "email_reset", required: true, class: "form-control" %>
                             <label for="email_reset">Email</label>
                         </div>
-                        
+
                         <div class="bottom__linkf"> 
-                            Ti invieremo una email per il reset della password.
+                            Ti invieremo un'email per il reset della password.
                         </div>
                         
                         <%= f.submit "Invia Email", class: "buttonCerca", id: "toReset" %>
