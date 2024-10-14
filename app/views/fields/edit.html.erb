@@ -1,5 +1,7 @@
 <h1>Modifica Campo Sportivo</h1>
 
+<p><strong>ID:</strong> <%= @field.id %></p>
+
 <%= form_with model: @field, local: true do |form| %>
   <% if @field.errors.any? %>
     <div id="error_explanation">

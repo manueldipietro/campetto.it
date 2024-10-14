@@ -1,8 +1,16 @@
-<h1><%= @field.nome %></h1>
-<p><%= @field.descrizione %></p>
+<h1>Dettagli del Campo</h1>
+
+<p><strong>ID:</strong> <%= @field.id %></p>
+<p><strong>Nome:</strong> <%= @field.nome %></p>
+<p><strong>Descrizione:</strong> <%= @field.descrizione %></p>
 <p><strong>Sport:</strong> <%= @field.sport %></p>
 <p><strong>Prezzo:</strong> €<%= @field.prezzo %></p>
 <p><strong>Posizione:</strong> Latitudine: <%= @field.latitudine %>, Longitudine: <%= @field.longitudine %></p>
+
+<!-- Aggiungi un link alle recensioni del campo -->
+<p>
+  <%= link_to 'Visualizza Recensioni', field_reviews_path(@field), class: 'btn btn-secondary' %>
+</p>
 
 <%= link_to 'Modifica', edit_field_path(@field) %> |
 <%= link_to 'Torna alla Lista', fields_path %>

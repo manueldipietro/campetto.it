@@ -1,0 +1,36 @@
+<h1>Aggiungi una Recensione</h1>
+
+<%= form_with model: [@field, @review], local: true do |form| %>
+  <% if @review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@review.errors.count, "errore") %> trovato:</h2>
+      <ul>
+        <% @review.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :titolo %>
+    <%= form.text_field :titolo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :valutazione, "Valutazione (1-5 stelle)" %>
+    <%= form.number_field :valutazione, in: 1..5 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :testo, "La tua recensione" %>
+    <%= form.text_area :testo %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Aggiungi Recensione' %>
+  </div>
+<% end %>
+
+<%= link_to 'Torna alla Lista', field_reviews_path(@field) %>
+

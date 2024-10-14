@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
   
-  resources :fields  # Questo genera tutte le rotte necessarie per le azioni CRUD
+  resources :fields do
+   resources :reviews, except:[:show]
+  end  # Questo genera tutte le rotte necessarie per i campi e le recenzioni
+  
 end
 

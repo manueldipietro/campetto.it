@@ -4,7 +4,7 @@
 <ul>
   <% @fields.each do |field| %>
     <li>
-      <%= link_to field.nome, field_path(field) %> - <%= field.sport %> - Prezzo: €<%= field.prezzo %>
+      <strong>ID: <%= field.id %></strong> - <%= link_to field.nome, field_path(field) %> - <%= field.sport %> - Prezzo: €<%= field.prezzo %>
       <%= link_to 'Modifica', edit_field_path(field) %> |
       <%= link_to 'Elimina', field, method: :delete, data: { confirm: 'Sei sicuro?' } %>
     </li>
