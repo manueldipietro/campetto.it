@@ -2,18 +2,24 @@ class SessionsController < ApplicationController
   
   def new
   end
-
+  
   def create
     user = User.find_by(email: session_params[:email_login])
   
     if user&.authenticate(session_params[:password_login])
-      session[:user_id] = user.id
-      redirect_to welcome_path, notice: "Login avvenuto con successo!"
+      if user.confirmed_at?
+        session[:user_id] = user.id
+        redirect_to accountUtente_path
+      else
+        flash[:alert] = "Devi confermare il tuo account prima di accedere."
+        redirect_to logReg_path(form: 'login')
+      end
     else
       flash[:alert] = "Email o password errati."
       redirect_to logReg_path(form: 'login')
     end
-  end  
+  end
+  
 
   def welcome
     @user = User.find(session[:user_id])
@@ -21,7 +27,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil 
-    redirect_to root_path, notice: "Logout avvenuto con successo!"
+    redirect_to root_path
   end
 
   def omniauth
@@ -31,7 +37,7 @@ class SessionsController < ApplicationController
     end
     if @user.valid?
         session[:user_id] = @user.id
-        redirect_to welcome_path
+        redirect_to accountUtente_path
     else
         render :new
     end

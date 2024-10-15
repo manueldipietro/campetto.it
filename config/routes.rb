@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create' 
   delete 'logout', to: 'sessions#destroy'
 
-  get 'welcome', to: 'sessions#welcome'
-
   # Rotte per la registrazione
   get 'signup', to: 'users#new' 
   post 'signup', to: 'users#create' 
@@ -18,6 +16,10 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#omniauth'
   # conferma email
   get 'confirm_email', to: 'users#confirm_email'
+
+  #Porta user al suo account
+  get 'accountUtente', to: 'users#accountUtente'
+
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
   
@@ -27,5 +29,17 @@ Rails.application.routes.draw do
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
   
   resources :fields  # Questo genera tutte le rotte necessarie per le azioni CRUD
+
+  get 'confirm/:token', to: 'users#confirm', as: 'confirm_user'
+
+  post 'modify_password', to: 'users#modify_password'
+
+  #Routes per recupero password
+  post 'request_password_reset', to: 'users#request_password_reset'
+  get 'edit_password', to: 'users#edit_password', as: 'edit_password'
+  patch 'update_password', to: 'users#update_password'
+
+  #Ricerca campi
+  get 'search_fields', to: 'fields#search', as: 'search_fields'
 end
 

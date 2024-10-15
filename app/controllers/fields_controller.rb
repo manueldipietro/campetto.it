@@ -45,6 +45,10 @@ class FieldsController < ApplicationController
     redirect_to fields_path, notice: "Campo sportivo eliminato con successo."
   end
 
+  def search
+    @fields = Field.where(sport: params[:sport])
+  end
+  
   private
 
   # Trova il campo in base all'id
@@ -54,7 +58,7 @@ class FieldsController < ApplicationController
 
   # Parametri permessi
   def field_params
-    params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :latitudine, :longitudine)
+    params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :latitudine, :longitudine, :image)
   end
 end
 
