@@ -1,0 +1,18 @@
+<h1>Recensioni per <%= @field.nome %></h1>
+
+<%= link_to 'Aggiungi una Recensione', new_field_review_path(@field), class: 'btn btn-primary' %>
+
+<ul>
+  <% @reviews.each do |review| %>
+    <li>
+      <strong><%= review.titolo %> - <%= review.valutazione %> stelle</strong><br>
+      <%= review.testo %><br>
+      <small>Recensito da: <%= review.user.email %></small><br>
+      <%= link_to 'Modifica', edit_field_review_path(@field, review) %> |
+      <%= link_to 'Elimina', field_review_path(@field, review), method: :delete, data: { confirm: 'Sei sicuro?' } %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Torna al Campo', field_path(@field) %>
+
