@@ -61,7 +61,7 @@
     <!-- Box di ricerca -->
     <div class="search-box">
         <h2 class="text-black title">Cerca un campo vicino a te!</h2>
-        <%= form_with(url: '#', method: :get, local: true) do %>
+        <%= form_with(url: search_fields_path, method: :get, local: true) do %>
         <!-- Prima riga: Indirizzo -->
         <div class="d-flex align-items-center mb-3">
             <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
@@ -71,7 +71,7 @@
         <!-- Seconda riga: Sport, Data, Ora -->
         <div class="row g-3">
             <div class="col-md-4">
-            <%= select_tag :sport, options_for_select([['Sport', ''], ['Calcio', 'C11'], ['Calcio a 8', 'C8'], ['Calcio a 7', 'C7'], ['Calcetto', 'C5'], ['Tennis', 'Tnn'], ['Padel', 'Pdl'], ['Pallavolo', 'PaV'], ['Basket', 'Bsk']]), class: 'form-select', aria: { label: 'Sport' } %>
+            <%= select_tag :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), class: 'form-select', aria: { label: 'Sport' } %>
             </div>
 
             <div class="col-md-4">
@@ -84,9 +84,10 @@
         </div>
 
         <!-- Pulsante Cerca -->
-        <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+        <div class="mt-3">
+            <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+        </div>
         <% end %>
-
     </div>
     <!--Immagini Slider-->
     <div class="slider-wrapper">

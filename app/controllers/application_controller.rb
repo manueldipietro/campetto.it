@@ -10,4 +10,10 @@ class ApplicationController < ActionController::Base
     def logged_in?
       !!current_user
     end
+
+    def authenticate_user!
+      unless logged_in?
+          redirect_to logReg_path, alert: "Devi accedere per visualizzare questa pagina."
+      end
+    end
 end

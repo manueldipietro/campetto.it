@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
+
+  before_action :authenticate_user!, except: [:new, :create, :accountUtente,:request_password_reset, :edit_password, :update_password]
+
   def new
     @user = User.new
   end
   
   def create
-        user_params = params.require(:user).permit(:email, :password)
-
         @user = User.new(user_params)
+        @user.confirmation_sent_at = Time.now
 
         if @user.save
           UserMailer.registration_confirmation(@user).deliver_now
@@ -18,6 +20,7 @@ class UsersController < ApplicationController
         end
   end
 
+
   def accountUtente
     @user = User.find(session[:user_id])
     Rails.logger.debug("Current User in account: #{@user.inspect}")
@@ -26,13 +29,15 @@ class UsersController < ApplicationController
   #Conferma email
   def confirm
     user = User.find_by(confirmation_token: params[:token])
-
-    if user.present? && !user.confirmed?
-      user.confirm!
+  
+    if user.present? && !user.confirmed? && user.confirmation_sent_at >= 1.hours.ago
+      user.update(confirmed_at: Time.now, confirmation_token: nil) 
       flash[:notice] = 'Il tuo account è stato confermato. Ora puoi effettuare il login.'
       redirect_to logReg_path(form: 'login')
     else
-      redirect_to root_path, alert: 'Token di conferma non valido.'
+      user&.destroy 
+      flash[:alert] = 'Token di conferma non valido o scaduto. Registrati nuovamente.'
+      redirect_to logReg_path(form: 'signup')
     end
   end
 
@@ -98,6 +103,9 @@ class UsersController < ApplicationController
   end
 
   private
+  def user_params
+    params.require(:user).permit(:email, :password)
+  end
 
   def require_logins
     unless current_user
