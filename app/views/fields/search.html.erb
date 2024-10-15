@@ -9,7 +9,7 @@
     
     <!-- NavBar -->
     <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container-fluid">
+     <div class="container-fluid">
         <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
@@ -54,54 +54,52 @@
         </div>
     </div>
     </nav>
+    <section class="mainField">
+        <h3>Campi per <%= params[:sport] %></h3>
+        <div class="fields-layout">
+            <div class="filter-column fixed">
+                <div class="filter-box">
+                    <h4>Aggiorna ricerca</h4>
+                    <%= form_with(url: search_fields_path, method: :get, local: true) do %>
+                        <div class="d-flex align-items-center mb-3">
+                        <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
+                        <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'), 'https://www.bing.com/maps', target: '_blank' %>
+                        </div>
 
+                        <div class="mb-3">
+                        <%= select_tag :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), class: 'form-select', aria: { label: 'Sport' } %>
+                        </div>
 
-    <!--Slider-->
-    <section class="slider-container">
-    <!-- Box di ricerca -->
-    <div class="search-box">
-        <h2 class="text-black title">Cerca un campo vicino a te!</h2>
-        <%= form_with(url: search_fields_path, method: :get, local: true) do %>
-        <!-- Prima riga: Indirizzo -->
-        <div class="d-flex align-items-center mb-3">
-            <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
-            <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'), 'https://www.bing.com/maps', target: '_blank' %>
-        </div>
+                        <div class="mb-3">
+                        <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' } %>
+                        </div>
 
-        <!-- Seconda riga: Sport, Data, Ora -->
-        <div class="row g-3">
-            <div class="col-md-4">
-            <%= select_tag :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), class: 'form-select', aria: { label: 'Sport' } %>
+                        <div class="mb-3">
+                        <%= time_field_tag :ora, nil, class: 'form-control', aria: { label: 'Ora' } %>
+                        </div>
+
+                        <div class="mt-3">
+                        <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+                        </div>
+                    <% end %>
+                </div>
             </div>
 
-            <div class="col-md-4">
-            <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' } %>
+            <div class="fields-container">
+                <% @fields.each do |field| %>
+                    <%= link_to(field_path(field), class: "field-card") do %>
+                    <div class="field-image">
+                        <%= image_tag field.image, class: "image" %>
+                    </div>
+                    <div class="field-info">
+                        <h2><%= field.nome %></h2>
+                        <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
+                    </div>
+                    <% end %>               
+
+                <% end %>
             </div>
-
-            <div class="col-md-4">
-            <%= time_field_tag :ora, nil, class: 'form-control', aria: { label: 'Ora' } %>
-            </div>
         </div>
-
-        <!-- Pulsante Cerca -->
-        <div class="mt-3">
-            <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-        </div>
-        <% end %>
-    </div>
-    <!--Immagini Slider-->
-    <div class="slider-wrapper">
-        <div class="slider">
-            <%= image_tag 'fotocarosel1.jpg', id: 'slide-1', alt: '' %>
-            <%= image_tag 'fotocarosel2.jpg', id: 'slide-2', alt: '' %>
-            <%= image_tag 'fotocarosel3.jpg', id: 'slide-3', alt: '' %>
-            <%= image_tag 'fotocarosel4.jpg', id: 'slide-4', alt: '' %>
-        </div>
-    </div>
-    </section>
-
-    <section class="main"> 
-    <h1>Sezione Informazioni(?)</h1>
     </section>
 
     <!-- FINE PAGINA -->
@@ -132,5 +130,5 @@
         </div>
     </section>
     </div>
-  </body>
+    </body>
 </html>

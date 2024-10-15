@@ -44,6 +44,11 @@
     <%= form.text_field :longitudine %>
   </div>
 
+  <div class="field">
+    <%= form.label :image, "Immagine del campo" %>
+    <%= form.file_field :image %>
+  </div>
+
   <div class="actions">
     <%= form.submit 'Aggiorna Campo' %>
   </div>

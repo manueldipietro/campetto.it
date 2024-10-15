@@ -14,32 +14,37 @@
 
   <div class="field">
     <%= form.label :nome %>
-    <%= form.text_field :nome %>
+    <%= form.text_field :nome, required: true %>
   </div>
 
   <div class="field">
     <%= form.label :descrizione %>
-    <%= form.text_area :descrizione %>
+    <%= form.text_area :descrizione, required: true %>
   </div>
 
   <div class="field">
     <%= form.label :sport %>
-    <%= form.text_field :sport %>
+    <%= form.select :sport, options_for_select(["Calcio","Calcetto","Calcio a 7","Calcio a 8","Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], @field.sport), { prompt: 'Sport' }, required: true %>
   </div>
 
   <div class="field">
     <%= form.label :prezzo %>
-    <%= form.number_field :prezzo %>
+    <%= form.number_field :prezzo, required: true %>
   </div>
 
   <div class="field">
     <%= form.label :latitudine %>
-    <%= form.text_field :latitudine %>
+    <%= form.text_field :latitudine, required: true %>
   </div>
 
   <div class="field">
     <%= form.label :longitudine %>
-    <%= form.text_field :longitudine %>
+    <%= form.text_field :longitudine, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image, "Immagine del campo" %>
+    <%= form.file_field :image, required: true %>
   </div>
 
   <div class="actions">
