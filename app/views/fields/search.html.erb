@@ -86,19 +86,18 @@
             </div>
 
             <div class="fields-container">
-                <% @fields.each do |field| %>
-                    <%= link_to(field_path(field), class: "field-card") do %>
-                    <div class="field-image">
-                        <%= image_tag field.image, class: "image" %>
-                    </div>
-                    <div class="field-info">
-                        <h2><%= field.nome %></h2>
-                        <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
-                    </div>
-                    <% end %>               
-
-                <% end %>
-            </div>
+  <% @fields.each do |field| %>
+    <%= link_to(field_path(field), class: "field-card") do %>
+      <div class="field-image">
+        <%= image_tag field.image, class: "image" if field.image.attached? %>
+      </div>
+      <div class="field-info">
+        <h2><%= field.nome %></h2>
+        <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
+      </div>
+    <% end %> <!-- Questo chiude il blocco link_to correttamente -->
+  <% end %> <!-- Questo chiude il ciclo each -->
+</div>
         </div>
     </section>
 

@@ -46,9 +46,24 @@ class FieldsController < ApplicationController
   end
 
   def search
-    @fields = Field.where(sport: params[:sport])
+  @fields = Field.all
+
+  # Filtra per nome del campo, se presente
+  if params[:indirizzo].present?
+    @fields = @fields.where("nome ILIKE ?", "%#{params[:indirizzo]}%")
   end
-  
+
+  # Filtra per sport, se selezionato
+  if params[:sport].present?
+    @fields = @fields.where(sport: params[:sport])
+  end
+
+  # Renderizza la view per visualizzare i risultati
+  render 'search'
+end
+
+
+ 
   private
 
   # Trova il campo in base all'id
