@@ -1,18 +1,37 @@
-<h1>Recensioni per <%= @field.nome %></h1>
+<%= stylesheet_link_tag 'reviews_index', media: 'all' %>
 
-<%= link_to 'Aggiungi una Recensione', new_field_review_path(@field), class: 'btn btn-primary' %>
+<div class="reviews-wrapper">
+  <h1 class="title">Recensioni per <%= @field.nome %></h1>
 
-<ul>
-  <% @reviews.each do |review| %>
-    <li>
-      <strong><%= review.titolo %> - <%= review.valutazione %> stelle</strong><br>
-      <%= review.testo %><br>
-      <small>Recensito da: <%= review.user.email %></small><br>
-      <%= link_to 'Modifica', edit_field_review_path(@field, review) %> |
-      <%= link_to 'Elimina', field_review_path(@field, review), method: :delete, data: { confirm: 'Sei sicuro?' } %>
-    </li>
+  <% if current_user %>
+    <%= link_to 'Aggiungi una Recensione', new_field_review_path(@field), class: 'btn btn-primary' %>
+  <% else %>
+    <p>Devi essere loggato per aggiungere una recensione. <%= link_to 'Accedi', login_path %> o <%= link_to 'Registrati', signup_path %>.</p>
   <% end %>
-</ul>
 
-<%= link_to 'Torna al Campo', field_path(@field) %>
+  <div class="reviews-container">
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <div class="review-card">
+          <div class="review-header">
+            <h2><%= review.titolo %></h2>
+            <p><strong><%= review.valutazione %> stelle</strong></p>
+          </div>
+          <div class="review-body">
+            <p><%= review.testo %></p>
+          </div>
+          <div class="review-footer">
+            <small>Recensito da: <%= review.user.email %> il <%= review.created_at.strftime('%d/%m/%Y') %></small>
+            <!-- Rimosso il div "actions" per eliminare le opzioni di modifica ed eliminazione -->
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p>Nessuna recensione disponibile per questo campo.</p>
+    <% end %>
+  </div>
+
+  <!-- Link per tornare al campo -->
+  <%= link_to 'Torna al Campo', field_path(@field), class: 'btn btn-secondary mt-3' %>
+</div>
 

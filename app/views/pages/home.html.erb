@@ -71,7 +71,8 @@
         <!-- Seconda riga: Sport, Data, Ora -->
         <div class="row g-3">
             <div class="col-md-4">
-            <%= select_tag :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), class: 'form-select', aria: { label: 'Sport' } %>
+           <%= select_tag :sport, options_for_select(["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], "Tutti"), class: 'form-select', aria: { label: 'Sport' } %>
+
             </div>
 
             <div class="col-md-4">

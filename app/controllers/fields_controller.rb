@@ -45,7 +45,7 @@ class FieldsController < ApplicationController
     redirect_to fields_path, notice: "Campo sportivo eliminato con successo."
   end
 
-  def search
+ def search
   @fields = Field.all
 
   # Filtra per nome del campo, se presente
@@ -53,8 +53,8 @@ class FieldsController < ApplicationController
     @fields = @fields.where("nome ILIKE ?", "%#{params[:indirizzo]}%")
   end
 
-  # Filtra per sport, se selezionato
-  if params[:sport].present?
+  # Filtra per sport solo se è selezionato uno sport diverso da 'Tutti'
+  if params[:sport].present? && params[:sport] != 'Tutti'
     @fields = @fields.where(sport: params[:sport])
   end
 
