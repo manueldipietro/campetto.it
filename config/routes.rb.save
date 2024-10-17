@@ -28,13 +28,5 @@ Rails.application.routes.draw do
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
   
   resources :fields  # Questo genera tutte le rotte necessarie per le azioni CRUD
-
-  #partner functionality
-    #partner signup routes
-    get 'partner_signup' => 'partners#new'
-    #partner signin router
-    
-    #partner
-
 end
 

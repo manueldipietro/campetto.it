@@ -8,6 +8,9 @@ Things you may want to cover:
 * Ruby version
 
 * System dependencies
+    PostgreSQL
+    For install PostgreSQL...
+    Inserire anche il discorso del
 
 * Configuration
 

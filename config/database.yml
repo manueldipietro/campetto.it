@@ -2,8 +2,8 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: loris01  # Il tuo nome utente Ubuntu
-  password: 08520           # Se hai impostato una password, inseriscila qui; altrimenti lascialo vuoto
+  username: administrator  # Il tuo nome utente Ubuntu
+  password: 1q2w3e          # Se hai impostato una password, inseriscila qui; altrimenti lascialo vuoto
   host: localhost     # PostgreSQL locale
 
 development:
@@ -17,5 +17,5 @@ test:
 production:
   <<: *default
   database: db_production
-  username: loris01
+  username: administrator
   password: <%= ENV['PRODUCTION_DATABASE_PASSWORD'] %>  # Puoi configurare questa variabile d'ambiente per sicurezza
