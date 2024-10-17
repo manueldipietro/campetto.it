@@ -3,6 +3,7 @@ require "test_helper"
 class PartnerTest < ActiveSupport::TestCase
   
   #The following tests were generated with the help of ChatGPT
+  
   def setup
     @partner = Partner.new(
       name: "Mario", 
