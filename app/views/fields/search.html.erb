@@ -1,134 +1,157 @@
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1">
-		<title>Campetto</title>
-	</head>
-	<body>
-    
-    <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-     <div class="container-fluid">
-        <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campetto</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+  <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
+      <!-- Resto del codice della navbar -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+          <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
             <li class="nav-item">
-                <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
+              <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mx-lg-2" href="#">Contatti</a>
+              <a class="nav-link mx-lg-2" href="#">Contatti</a>
             </li>
             <% unless current_user %>
-            <li class="nav-item">
+              <li class="nav-item">
                 <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
-            </li>
+              </li>
             <% end %>
-            </ul>
-
-            <% if current_user %>
+          </ul>
+          <% if current_user %>
             <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
-            <% else %>
+          <% else %>
             <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-            <% end %>
+          <% end %>
         </div>
-        </div>
+      </div>
 
-        <div>
+      <div>
         <% if current_user %>
-            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
-            <button class="button d-none d-lg-inline" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+          <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
+          <button class="button d-none d-lg-inline" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
         <% else %>
-            <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
-            <button class="button d-none d-lg-inline" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
+          <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
+          <button class="button d-none d-lg-inline" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
         <% end %>
-        
-        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+
+        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        </div>
+      </div>
     </div>
-    </nav>
-    <section class="mainField">
-        <h3>Campi per <%= params[:sport] %></h3>
-        <div class="fields-layout">
-            <div class="filter-column fixed">
-                <div class="filter-box">
-                    <h4>Aggiorna ricerca</h4>
-                    <%= form_with(url: search_fields_path, method: :get, local: true) do %>
-                        <div class="d-flex align-items-center mb-3">
-                        <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
-                        <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'), 'https://www.bing.com/maps', target: '_blank' %>
-                        </div>
+  </nav>
 
-                        <div class="mb-3">
-                        <%= select_tag :sport, options_for_select(["Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"]), class: 'form-select', aria: { label: 'Sport' } %>
-                        </div>
+  <!-- Contenuto principale -->
+  <div class="mainField">
+    <!-- Titolo sopra la colonna di sinistra -->
+    <h3 class="title-campi">
+      <% if params[:sport].blank? || params[:sport] == 'Tutti' %>
+        Tutti i campi
+      <% else %>
+        Campi per <%= params[:sport] %>
+      <% end %>
+    </h3>
 
-                        <div class="mb-3">
-                        <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' } %>
-                        </div>
-
-                        <div class="mb-3">
-                        <%= time_field_tag :ora, nil, class: 'form-control', aria: { label: 'Ora' } %>
-                        </div>
-
-                        <div class="mt-3">
-                        <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-                        </div>
-                    <% end %>
-                </div>
+    <div class="fields-layout">
+      <!-- Colonna filtro ricerca -->
+      <div class="filter-column">
+        <div class="filter-box">
+          <h4>Aggiorna ricerca</h4>
+          <%= form_with(url: search_fields_path, method: :get, local: true) do %>
+            <!-- Campo Indirizzo -->
+            <div class="d-flex align-items-center mb-3">
+              <%= text_field_tag :indirizzo, params[:indirizzo], class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
+              <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'),
+                          'https://www.bing.com/maps', target: '_blank' %>
             </div>
 
-            <div class="fields-container">
-                <% @fields.each do |field| %>
-                    <%= link_to(field_path(field), class: "field-card") do %>
-                    <div class="field-image">
-                        <%= image_tag field.image, class: "image" %>
-                    </div>
-                    <div class="field-info">
-                        <h2><%= field.nome %></h2>
-                        <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
-                    </div>
-                    <% end %>               
-
-                <% end %>
+            <!-- Campo Sport -->
+            <div class="mb-3">
+              <% selected_sport = params[:sport] || 'Tutti' %>
+              <%= select_tag :sport, options_for_select(
+                ["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis",
+                 "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], selected_sport),
+                 class: 'form-select', aria: { label: 'Sport' } %>
             </div>
+
+            <!-- Campo Data -->
+            <div class="mb-3">
+              <%= date_field_tag :data, params[:data], class: 'form-control', aria: { label: 'Data' } %>
+            </div>
+
+            <!-- Campo Ora -->
+            <div class="mb-3">
+              <%= time_field_tag :ora, params[:ora], class: 'form-control', aria: { label: 'Ora' } %>
+            </div>
+
+            <!-- Pulsante Cerca -->
+            <div class="mt-3">
+              <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+            </div>
+          <% end %>
         </div>
-    </section>
+      </div>
 
-    <!-- FINE PAGINA -->
-    <div class="fine__container" id="terms">
+      <!-- Contenitore dei campi -->
+      <div class="fields-container">
+        <% @fields.each do |field| %>
+          <%= link_to(field_path(field), class: "field-card") do %>
+            <div class="field-image">
+              <%= image_tag field.image, class: "image" if field.image.attached? %>
+            </div>
+            <div class="field-info">
+              <h2><%= field.nome %></h2>
+              <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="fine__container" id="terms">
     <div class="fine__links">
-        <div class="fine__link--wrapper">
+      <div class="fine__link--wrapper">
         <div class="fine__link--items">
-            <h2>About Us</h2>
-            <a href="#nostraidea">La nostra idea</a> 
-            <a href="#chisiamo">Chi siamo</a> 
-            <a href="#terms">Terms of Service</a>
+          <h2>About Us</h2>
+          <a href="#nostraidea">La nostra idea</a>
+          <a href="#chisiamo">Chi siamo</a>
+          <a href="#terms">Terms of Service</a>
         </div>
         <div class="fine__link--items">
-            <h2>Follow us </h2>
-            <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
-            <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
-            <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
-            <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
+          <h2>Follow us</h2>
+          <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
+          <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
+          <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
         </div>
-        </div>
+      </div>
     </div>
     <section class="social__media">
-        <div class="social__media--wrap">
+      <div class="social__media--wrap">
         <div class="fine__logo">
-            <a class="fine-brand me-auto" href="#">Campetto.it</a>
+          <a class="fine-brand me-auto" href="#">Campetto.it</a>
         </div>
         <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
-        </div>
+      </div>
     </section>
-    </div>
-    </body>
+  </div>
+</body>
 </html>
+

@@ -1,32 +1,42 @@
 .mainField {
-  padding: 20px;
-  min-height: 900px; 
-  margin-top: 100px; 
+  padding-top: 100px; /* Regola questo valore per aggiustare la distanza dalla navbar */
+  padding-left: 0;
 }
-  
+
+.title-campi {
+  margin-left: 25%; /* Sposta il titolo a destra per non sovrapporsi alla colonna fissa */
+  padding: 20px;
+  font-size: 2rem;
+}
+
 .fields-layout {
   display: flex;
 }
-  
+
 .filter-column {
-  width: 25%; 
+  width: 25%;
   padding: 30px;
   border-right: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-  max-height: 380px;
-  position: sticky;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background-color: #f9f9f9;
+  position: fixed;
+  top: 150px; /* Regola questo valore se necessario */
+  left: 0;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
 }
 
 .fields-container {
-  width: 70%; 
+  width: 75%;
+  margin-left: 25%; /* Compensa la larghezza della colonna fissa */
+  padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 14px;
+  gap: 20px;
   justify-items: center;
-  padding: 20px;
 }
-  
+
 .field-card {
   display: flex;
   flex-direction: column;
@@ -39,126 +49,38 @@
   transition: transform 0.2s;
   background-color: #fff;
 }
-  
+
 .field-card:hover {
   transform: translateY(-10px);
 }
-  
-.field-image {
-  height: 180px;
-  overflow: hidden;
-}
-  
+
 .field-image img {
   width: 100%;
-  height: 100%;
+  height: 180px;
   object-fit: cover;
 }
-  
+
 .field-info {
-  padding: 12px;
+  padding: 10px;
   text-align: center;
 }
-  
+
 .field-info h2 {
-  margin: 5px 0; 
-  font-size: 1.2em; 
-  color: black;
-  text-decoration: none;
-}
-  
-.field-info p {
-  margin: 2px 0; 
-  font-size: 0.9em; 
-  color: black;
-  text-decoration: none;
-}
-@media screen and (max-width: 1000px){
-  .filter-column {
-    width: 35%;
-    padding: 10px 15px;
-    border-right: 1px solid #ddd;
-  }
-  .form-control{
-    width: 65%;
-  }
-
-  .fields-container {
-    width: 70%;
-  }
-}
-
-@media screen and (max-width: 750px) {
-    .fields-layout {
-      flex-direction: column;
-    }
-  
-    .fields-container {
-      width: 100%;
-      padding: 0;
-    }
-
-    .filter-column {
-      width: 100%;
-      padding: 20px; 
-      border-right: none; 
-      border-bottom: 1px solid #ddd; 
-      margin-bottom: 10px;
-    }
-  
-    .filter-box h4 {
-      font-size: 1.5rem; 
-      text-align: center; /* Centra il titolo */
-    }
-    
-    .form-control, .form-select {
-      font-size: 0.9rem; /* Riduce la dimensione del font dei campi del modulo */
-    }
-  
-    .buttonCerca {
-      width: 100%; 
-      padding: 10px; 
-      font-size: 1rem; 
-    }
-}
-
-/*Show Campi*/
-.show-field {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 1200px; 
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.show-field .field-image {
-  width: 100vw;
-  height: 70vh;
-  margin: 0;
-  padding: 0;
-}
-
-.show-field .field-image img {
-  width: 100vw;
-  height: auto;
-  object-fit: cover;
-}
-
-.show-field .field-details {
-  text-align: center;
-}
-
-.show-field .field-details h1 {
-  margin-bottom: 15px;
-}
-
-.show-field .field-details p {
+  font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
-.show-field .back-link {
-  margin-top: 20px;
-  text-align: center;
+.buttonCerca {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.buttonCerca:hover {
+  background-color: #0056b3;
 }
 

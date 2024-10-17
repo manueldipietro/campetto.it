@@ -1,0 +1,86 @@
+.field-show-container {
+  .field-title {
+    font-family: 'Roboto', sans-serif; /* Sostituisci con il font che usi per il titolo */
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .field-description {
+    font-family: 'Roboto', sans-serif; /* Font uguale al titolo */
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .list-group-item {
+    font-family: 'Roboto', sans-serif; /* Font uguale al titolo */
+    font-size: 1rem;
+  }
+
+  /* Stili per il carousel */
+  #fieldCarousel {
+    .carousel-item {
+      max-height: 400px;
+      overflow: hidden;
+    }
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  /* Stili per i bottoni di azione */
+  .action-button {
+    border-radius: 50px; /* Arrotonda di più i bottoni */
+    padding: 12px 24px;
+    font-size: 1rem;
+    min-width: 150px;
+    transition: all 0.3s ease;
+  }
+
+  /* Pulsante Prenota in verde */
+  .btn-success.action-button {
+    background-color: #009970;
+    border-color: #28a745;
+    color: #fff;
+  }
+
+  .btn-success.action-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(33, 136, 56, 0.4);
+  }
+
+  /* Pulsante Visualizza Recensioni */
+  .btn-primary.action-button {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+
+  .btn-primary.action-button:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  }
+
+  /* Pulsante Torna alla Ricerca */
+  .btn-secondary.action-button {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+  }
+
+  .btn-secondary.action-button:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+  }
+}
+

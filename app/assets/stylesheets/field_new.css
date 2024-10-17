@@ -1,0 +1,93 @@
+/* fields_new.css: Stili solo per la pagina di creazione campo */
+.form-wrapper {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 50px auto;
+}
+
+.form-wrapper h1 {
+  text-align: center;
+  color: #009970;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background-color: #009970;
+  color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #00b383;
+}
+
+.btn-secondary {
+  background-color: #666;
+  color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+}
+
+/* Contenitore per il dropdown */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Stile del dropdown per uniformare agli altri campi */
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff; /* Colore di sfondo uniforme */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px;
+  padding-right: 40px; /* Spazio per la freccia */
+  width: 100%;
+  box-shadow: none; /* Rimuove eventuali ombre */
+}
+
+/* Aggiunta della freccetta personalizzata verso il basso */
+.custom-select::after {
+  content: '\25BC'; /* Codice Unicode per freccia verso il basso */
+  font-size: 16px;
+  color: #333; /* Colore della freccetta */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Disabilita l'interazione con la freccetta */
+}
+
+/* Rimuovere il focus glow sui select in alcuni browser */
+.custom-select:focus {
+  outline: none;
+  border-color: #666; /* Cambia il colore del bordo al focus */
+}
+
