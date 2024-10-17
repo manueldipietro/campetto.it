@@ -33,13 +33,18 @@ Rails.application.routes.draw do
   # Risorse
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
+  
   resources :fields do
-  resources :reviews, only: [:index, :new, :create, :destroy]
-end
+    resources :reviews, only: [:index, :new, :create, :destroy]
+  end
 
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create', as: 'checkout_create'
   get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+
+  # Rotte per partner
+  # Rotta per registrazione
+  get 'partner_signup', to: 'partners#new'
 end
 
