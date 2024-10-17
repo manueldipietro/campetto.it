@@ -43,17 +43,6 @@ ActiveRecord::Schema.define(version: 2024_10_14_172434) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "campos", force: :cascade do |t|
-    t.string "nome"
-    t.text "descrizione"
-    t.string "sport"
-    t.decimal "prezzo"
-    t.decimal "latitudine"
-    t.decimal "longitudine"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "fields", force: :cascade do |t|
     t.string "nome"
     t.text "descrizione"

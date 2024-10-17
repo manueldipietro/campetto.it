@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'partners/new'
   root 'pages#home'
   
   get 'logReg', to: 'pages#logReg', as: 'logReg'
@@ -49,5 +50,10 @@ Rails.application.routes.draw do
   post 'request_password_reset', to: 'users#request_password_reset'
   get 'edit_password', to: 'users#edit_password', as: 'edit_password'
   patch 'update_password', to: 'users#update_password'
+
+  #Rotte per partner
+    #Rotta per registrazione
+    get 'partner_signup' => 'partners#new'
+    
 end
 
