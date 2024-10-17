@@ -1,59 +1,50 @@
 Rails.application.routes.draw do
-  get 'partners/new'
   root 'pages#home'
-  
+
+  # Pagine statiche
   get 'logReg', to: 'pages#logReg', as: 'logReg'
 
-  # Rotte per il login
-  get 'login', to: 'sessions#new' 
-  post 'login', to: 'sessions#create' 
+  # Autenticazione
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
-
-  # Rotte per la registrazione
-  get 'signup', to: 'users#new' 
-  post 'signup', to: 'users#create' 
-
-  # Omniauth
+  get 'signup', to: 'users#new'
+  post 'signup', to: 'users#create'
   get '/auth/:provider/callback', to: 'sessions#omniauth'
-  
+
   # Conferma email
   get 'confirm_email', to: 'users#confirm_email'
-
-  # Porta l'utente al suo account
-  get 'accountUtente', to: 'users#accountUtente'
-
-  # Checkout routes
-  get 'checkout/new', to:'checkout#new', as:'new_checkout'
-  post 'checkout/create', to: 'checkout#create'
-  get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
-  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
-
-  # Ricerca campi
-  get 'search_fields', to: 'fields#search', as: 'search_fields'
-
-  # Risorse per utenti e sessioni
-  resources :users, only: [:new, :create]
-  resources :sessions, only: [:new, :create, :destroy]
-  
-  # Risorse per i campi e recensioni (recensioni nidificate)
-  resources :fields do
-    resources :reviews, except: [:show]
-  end
-
-  # Conferma email con token
   get 'confirm/:token', to: 'users#confirm', as: 'confirm_user'
 
-  # Modifica password
-  post 'modify_password', to: 'users#modify_password'
+  # Account utente
+  get 'accountUtente', to: 'users#accountUtente'
 
-  # Rotte per recupero password
+  # Modifica password
+  post 'modify_password', to: 'users#modify_password', as: 'modify_password'
+
+  # Password reset
   post 'request_password_reset', to: 'users#request_password_reset'
   get 'edit_password', to: 'users#edit_password', as: 'edit_password'
   patch 'update_password', to: 'users#update_password'
 
-  #Rotte per partner
-    #Rotta per registrazione
-    get 'partner_signup' => 'partners#new'
-    
+  # Ricerca campi
+  get 'search_fields', to: 'fields#search', as: 'search_fields'
+
+  # Risorse
+  resources :users, only: [:new, :create]
+  resources :sessions, only: [:new, :create, :destroy]
+  
+  resources :fields do
+    resources :reviews, only: [:index, :new, :create, :destroy]
+  end
+
+  # Rotte per il checkout
+  post 'checkout/create', to: 'checkout#create', as: 'checkout_create'
+  get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
+  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+
+  # Rotte per partner
+  # Rotta per registrazione
+  get 'partner_signup', to: 'partners#new'
 end
 

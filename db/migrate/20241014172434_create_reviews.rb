@@ -4,10 +4,11 @@ class CreateReviews < ActiveRecord::Migration[6.1]
       t.string :titolo
       t.integer :valutazione
       t.text :testo
-      t.references :field, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
+      t.references :field, null: false, foreign_key: true
 
       t.timestamps
     end
   end
 end
+

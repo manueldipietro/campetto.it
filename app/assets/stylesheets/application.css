@@ -16,3 +16,8 @@
  @import 'bootstrap';
  @import 'pages';
  @import 'fields';
+ 
+ .main-content {
+  padding-top: 80px; /* Regola questo valore all'altezza effettiva della tua navbar */
+}
+
