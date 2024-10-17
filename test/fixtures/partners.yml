@@ -1,17 +1,1 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  email: MyString
-  name: 
-  surname: MyString
-  gender: MyString
-  birthday: MyString
-  mobile: MyString
-
-two:
-  email: MyString
-  name: 
-  surname: MyString
-  gender: MyString
-  birthday: MyString
-  mobile: MyString
