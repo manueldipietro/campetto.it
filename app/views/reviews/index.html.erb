@@ -22,7 +22,11 @@
           </div>
           <div class="review-footer">
             <small>Recensito da: <%= review.user.email %> il <%= review.created_at.strftime('%d/%m/%Y') %></small>
-            <!-- Rimosso il div "actions" per eliminare le opzioni di modifica ed eliminazione -->
+            <% if current_user == review.user %>
+              <div class="actions">
+                <%= link_to 'Elimina', field_review_path(@field, review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger' %>
+              </div>
+            <% end %>
           </div>
         </div>
       <% end %>

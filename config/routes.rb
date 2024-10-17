@@ -34,8 +34,8 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
   resources :fields do
-    resources :reviews, only: [:index, :new, :create]
-  end
+  resources :reviews, only: [:index, :new, :create, :destroy]
+end
 
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create', as: 'checkout_create'

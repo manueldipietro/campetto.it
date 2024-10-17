@@ -2,7 +2,9 @@
   <%= stylesheet_link_tag 'checkout_success', media: 'all' %>
 <% end %>
 
-<div class="success-container">
+<% image_url = @field.image.attached? ? url_for(@field.image) : asset_path('default_background.jpg') %>
+
+<div class="success-container" style="background-image: url('<%= image_url %>');">
   <div class="success-message">
     <i class="fas fa-check-circle"></i>
     <h1>Prenotazione completata!</h1>
