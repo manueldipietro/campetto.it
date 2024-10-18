@@ -20,13 +20,13 @@
     <!-- Campo Nome -->
     <div class="form-group">
       <%= form.label :nome, "Nome del Campo", class: "form-label" %>
-      <%= form.text_field :nome, class: "form-control", placeholder: "Inserisci il nome del campo" %>
+      <%= form.text_field :nome, class: "form-control", placeholder: "Inserisci il nome del campo", required:true %>
     </div>
 
     <!-- Campo Descrizione -->
     <div class="form-group">
       <%= form.label :descrizione, "Descrizione", class: "form-label" %>
-      <%= form.text_area :descrizione, class: "form-control", placeholder: "Inserisci una descrizione" %>
+      <%= form.text_area :descrizione, class: "form-control", placeholder: "Inserisci una descrizione", required:true %>
     </div>
 
     <!-- Campo Sport -->
@@ -41,25 +41,25 @@
     <!-- Campo Prezzo -->
     <div class="form-group">
       <%= form.label :prezzo, "Prezzo (€)", class: "form-label" %>
-      <%= form.number_field :prezzo, class: "form-control", step: 0.01 %>
+      <%= form.number_field :prezzo, class: "form-control", step: 0.01, required:true %>
     </div>
 
     <!-- Campo Latitudine -->
     <div class="form-group">
       <%= form.label :latitudine, "Latitudine", class: "form-label" %>
-      <%= form.text_field :latitudine, class: "form-control", placeholder: "Inserisci la latitudine" %>
+      <%= form.text_field :latitudine, class: "form-control", placeholder: "Inserisci la latitudine", required:true %>
     </div>
 
     <!-- Campo Longitudine -->
     <div class="form-group">
       <%= form.label :longitudine, "Longitudine", class: "form-label" %>
-      <%= form.text_field :longitudine, class: "form-control", placeholder: "Inserisci la longitudine" %>
+      <%= form.text_field :longitudine, class: "form-control", placeholder: "Inserisci la longitudine", required:true %>
     </div>
 
     <!-- Campo Immagine -->
     <div class="form-group">
       <%= form.label :image, "Immagine del Campo", class: "form-label" %>
-      <%= form.file_field :image, class: "form-control" %>
+      <%= form.file_field :image, class: "form-control", required:true %>
     </div>
 
     <!-- Bottone per creare il campo -->

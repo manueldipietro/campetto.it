@@ -15,7 +15,16 @@
         <div class="review-card">
           <div class="review-header">
             <h2><%= review.titolo %></h2>
-            <p><strong><%= review.valutazione %> stelle</strong></p>
+          <p>
+            <strong>
+              <% review.valutazione.times do %>
+                <i class="fas fa-star" style="color: gold;"></i>
+              <% end %>
+              <% (5 - review.valutazione).times do %>
+                <i class="far fa-star"></i> 
+              <% end %>
+            </strong>
+          </p>
           </div>
           <div class="review-body">
             <p><%= review.testo %></p>

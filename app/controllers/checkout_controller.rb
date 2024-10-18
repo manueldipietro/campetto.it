@@ -40,7 +40,7 @@ class CheckoutController < ApplicationController
   def require_user
     unless current_user
       flash[:alert] = "Devi essere loggato per prenotare un campo."
-      redirect_to login_path
+      redirect_to logReg_path(form: 'login')
     end
   end
 end
