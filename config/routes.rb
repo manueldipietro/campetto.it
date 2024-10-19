@@ -36,12 +36,22 @@ Rails.application.routes.draw do
   
   resources :fields do
     resources :reviews, only: [:index, :new, :create, :destroy]
+    
+    resources :slots, only: [:index]
   end
 
+  resources :users do
+    member do
+      get 'bookings', to: 'bookings#index'
+    end
+  end
+  
+  resources :bookings, only: [:index, :destroy]
+
   # Rotte per il checkout
-  post 'checkout/create', to: 'checkout#create', as: 'checkout_create'
-  get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
-  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+  post 'checkout/create', to: 'checkout#create'
+  get 'checkout/success', to: 'checkout#success'
+  get 'checkout/cancel', to: 'checkout#cancel'
 
   # Rotte per partner
   # Rotta per registrazione

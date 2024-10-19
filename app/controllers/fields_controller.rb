@@ -39,31 +39,43 @@ class FieldsController < ApplicationController
     end
   end
 
-  # Elimina un campo
+  #s Elimina un campo
   def destroy
     @field.destroy
     redirect_to fields_path, notice: "Campo sportivo eliminato con successo."
   end
 
- def search
-  @fields = Field.all
+  def search
+    @fields = Field.all
 
-  # Filtra per nome del campo, se presente
-  if params[:indirizzo].present?
-    @fields = @fields.where("nome ILIKE ?", "%#{params[:indirizzo]}%")
+    # Filtra per nome del campo, se presente
+    if params[:indirizzo].present?
+      @fields = @fields.where("nome ILIKE ?", "%#{params[:indirizzo]}%")
+    end
+
+    # Filtra per sport solo se è selezionato uno sport diverso da 'Tutti'
+    if params[:sport].present? && params[:sport] != 'Tutti'
+      @fields = @fields.where(sport: params[:sport])
+    end
+
+    # Renderizza la view per visualizzare i risultati
+    render 'search'
   end
 
-  # Filtra per sport solo se è selezionato uno sport diverso da 'Tutti'
-  if params[:sport].present? && params[:sport] != 'Tutti'
-    @fields = @fields.where(sport: params[:sport])
+  def show
+    @field = Field.find(params[:id])
+
+    @selected_date = params[:date] ? Date.parse(params[:date]) : Date.today
+
+    if @selected_date < Date.today
+      @selected_date = Date.today
+    end
+
+    @slots = @field.slots.where('DATE(start_time) = ?', @selected_date)
+                         .where(booked: false)
+                         .order(:start_time)
   end
 
-  # Renderizza la view per visualizzare i risultati
-  render 'search'
-end
-
-
- 
   private
 
   # Trova il campo in base all'id
@@ -73,7 +85,7 @@ end
 
   # Parametri permessi
   def field_params
-    params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :latitudine, :longitudine, :image)
+    params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :latitudine, :longitudine, :image, :start_time, :end_time, :interval, exclude_days: [])
   end
 end
 

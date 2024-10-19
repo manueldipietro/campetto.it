@@ -2,5 +2,10 @@
 
 every 1.hour do
     runner "DeleteUnconfirmedUsersJob.perform_later"
-  end
+end
+
+every 1.day, at: '00:01 am' do
+    runner "ManageSlotsJob.perform_now"
+end
+  
   

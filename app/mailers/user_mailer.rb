@@ -12,5 +12,14 @@ class UserMailer < ApplicationMailer
       @reset_link = edit_password_url(token: params[:token], host: 'localhost:3000')
       mail(to: @user.email, subject: 'Reset della tua password')
     end
+
+    def booking_success_email(user, booking)
+      @user = user
+      @booking = booking
+      @slot = @booking.slot
+      @field = @slot.field
+  
+      mail(to: @user.email, subject: 'Prenotazione Avvenuta con Successo')
+    end
   end
   
