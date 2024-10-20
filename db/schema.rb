@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_17_193151) do
+ActiveRecord::Schema.define(version: 2024_10_14_172434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,17 +43,6 @@ ActiveRecord::Schema.define(version: 2024_10_17_193151) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "campos", force: :cascade do |t|
-    t.string "nome"
-    t.text "descrizione"
-    t.string "sport"
-    t.decimal "prezzo"
-    t.decimal "latitudine"
-    t.decimal "longitudine"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "fields", force: :cascade do |t|
     t.string "nome"
     t.text "descrizione"
@@ -65,25 +54,12 @@ ActiveRecord::Schema.define(version: 2024_10_17_193151) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "partners", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
-    t.string "surname"
-    t.string "gender"
-    t.string "birthday"
-    t.string "mobile"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest"
-    t.index ["email"], name: "index_partners_on_email", unique: true
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.string "titolo"
     t.integer "valutazione"
     t.text "testo"
-    t.bigint "field_id", null: false
     t.bigint "user_id", null: false
+    t.bigint "field_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_id"], name: "index_reviews_on_field_id"
