@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
