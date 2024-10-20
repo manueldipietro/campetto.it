@@ -47,5 +47,10 @@ Rails.application.routes.draw do
   # Rotte per partner
   # Rotta per registrazione
   get 'partner_signup', to: 'partners#new'
+
+  # Administrators' routes
+  get 'administrator_new', to: 'administrators#new'
+  resources :administrators
+
 end
 
