@@ -26,6 +26,7 @@ class AdministratorTest < ActiveSupport::TestCase
   test "name should not be too long" do
     @administrator.name = "A" * 51
     assert_not @administrator.valid?, "Administrator name should not have more than 50 characters"
+  end
 
   #Surname validation test section
   test "surname should be present" do
@@ -41,6 +42,7 @@ class AdministratorTest < ActiveSupport::TestCase
   test "surname should not be too long" do
     @administrator.surname = "A" * 51
     assert_not @administrator.valid?, "Administrator surname should not have more than 50 characters"
+  end
 
   #Email validation test section
   test "email should be present" do
@@ -51,7 +53,7 @@ class AdministratorTest < ActiveSupport::TestCase
   test "email should be unique" do
     duplicate_administrator = @administrator.dup
     @administrator.save
-    assert_not administrator.valid?, "Administrator should be invalid with a duplicate email"
+    assert_not duplicate_administrator.valid?, "Administrator should be invalid with a duplicate email"
   end
 
   test "email should have valid format" do
@@ -70,7 +72,7 @@ class AdministratorTest < ActiveSupport::TestCase
     end
   end
 
-  #Test di validazione per 'password'
+  #Password validation test section
   test "password should have a minimum length" do
     @administrator.password = @administrator.password_confirmation = "a" * 5
     assert_not @administrator.valid?, "Administrator password should have at least 6 characters"
