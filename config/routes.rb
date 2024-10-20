@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   get 'partner_signup', to: 'partners#new'
 
   # Administrators' routes
-  get 'administrator_new', to: 'administrators#new'
+  get 'administrator_sign_up', to: 'administrators#new'
   resources :administrators
 
 end
