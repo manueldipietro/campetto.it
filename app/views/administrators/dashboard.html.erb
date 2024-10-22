@@ -1,3 +1,6 @@
+
+
 BENVENUTO!
-<%= link_to "Administrators", administrator_my_profile_path %>
+<% username = (@administrator.name).titleize + ' ' + (@administrator.surname).titleize%>
+<%= link_to username, administrator_my_profile_path %>
 <%= link_to "Log out", administrator_log_out_path, method: :delete %>

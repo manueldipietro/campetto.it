@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   get       'administrator_dashboard',    to: 'administrators#dashboard'
   get       'administrator_my_profile',   to: 'administrators#myprofile'
   post      'administrator_update',       to: 'administrator#update'
-  #Mancano ancora: ripristino password, rotte per gestione elementi
+  resources :administrators, only: [:create, :update]
 
 end
 

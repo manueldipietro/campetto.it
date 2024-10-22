@@ -2,15 +2,18 @@
 
 <%= form_for(@administrator) do |f| %>
     <!--render 'shared/error_message-->
-    <!-- gestire capitalization -->
-      <%= f.label :name %>
+    <!-- gestire capitalization, con CSS mettere che le prime lettere devono essere maniusole -->
+      <%= f.label :name, "Nome:" %>
       <%= f.text_field :name, class: 'form-control', disabled: true %>
 
-      <%= f.label :surname %>
+      <%= f.label :surname, "Cognome:" %>
       <%= f.text_field :surname, class: 'form-control', disabled: true %>
 
-      <%= f.label :email %>
+      <%= f.label :email, "E-mail:" %>
       <%= f.email_field :email, class: 'form-control', disabled: true%>
+
+      <%= f.label 'Vecchia password:'%>
+      <%= f.password_field :old_password, class: 'form-control'%>
 
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>

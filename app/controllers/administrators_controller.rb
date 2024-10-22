@@ -39,8 +39,8 @@ class AdministratorsController < ApplicationController
     end
   end
 
-
   def dashboard
+    @administrator = Administrator.find(session[:administrator_id])
   end
   
   private
