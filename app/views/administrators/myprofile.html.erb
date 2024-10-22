@@ -1,0 +1,22 @@
+<h1>Il tuo profilo</h1>
+
+<%= form_for(@administrator) do |f| %>
+    <!--render 'shared/error_message-->
+    <!-- gestire capitalization -->
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', disabled: true %>
+
+      <%= f.label :surname %>
+      <%= f.text_field :surname, class: 'form-control', disabled: true %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control', disabled: true%>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+    <%= f.submit "Salva le modifiche", class: "btn btn-primary" %>
+<% end %>

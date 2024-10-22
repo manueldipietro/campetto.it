@@ -18,4 +18,5 @@ class ApplicationController < ActionController::Base
           redirect_to logReg_path, alert: "Devi accedere per visualizzare questa pagina."
       end
     end
+    
 end

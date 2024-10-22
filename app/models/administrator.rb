@@ -18,7 +18,7 @@ class Administrator < ApplicationRecord
     validates :name, presence: true, length: { minimum:2, maximum:50}
     validates :surname, presence: true, length: { minimum:2, maximum:50}
     validates :email, presence: true, length: { maximum: 255 }, format: { with: MAIL_REGEX }, uniqueness: { case_sensitive: false }
-    validates :password, length: {minimum: 6}
+    validates :password, length: {minimum: 6}, allow_blank: true
 
     # Returns the hash digest of the given string
     def Administrator.digest(string)

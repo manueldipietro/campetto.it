@@ -15,8 +15,8 @@ class SessionsController < ApplicationController
       administrator = Administrator.find_by(email: params[:session][:email].downcase)
       if administrator && administrator.authenticate(params[:session][:password])
         log_in_administrator administrator
-        params[:session]:remember_me] == '1' ? remember_administrator(administrator) : forget_administrator(administrator)
-        redirect_to administrator_dashboard_path
+        params[:session][:remember_me] == '1' ? remember_administrator(administrator) : forget_administrator(administrator)
+        redirect_back_or administrator_dashboard_path
         return
       else
         flash.now[:danger] = 'Invalid email/password combination'
