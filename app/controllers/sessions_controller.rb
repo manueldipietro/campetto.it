@@ -24,9 +24,6 @@ class SessionsController < ApplicationController
       end
     end
 
-
-
-
     user = User.find_by(email: session_params[:email_login])
   
     if user&.authenticate(session_params[:password_login])
@@ -49,6 +46,15 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    @current_route = request.path
+    
+    if @curent_route = administrator_log_in_path
+      log_out_administrator
+      redirect_to root_url
+      return
+    end
+    
+
     session[:user_id] = nil 
     redirect_to root_path
   end
