@@ -9,6 +9,24 @@ class SessionsController < ApplicationController
   end
   
   def create
+    @current_route = request.path
+    
+    if @curent_route = administrator_log_in_path
+      administrator = Administrator.find_by(email: params[:session][:email].downcase)
+      if administrator && administrator.authenticate(params[:session][:password])
+        log_in_administrator administrator
+        redirect_to administrator_dashboard_path
+        return
+      else
+        flash.now[:danger] = 'Invalid email/password combination'
+        render 'administrator_new'
+        return
+      end
+    end
+
+
+
+
     user = User.find_by(email: session_params[:email_login])
   
     if user&.authenticate(session_params[:password_login])

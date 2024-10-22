@@ -15,9 +15,14 @@ class AdministratorsController < ApplicationController
     @administrator = Administrator.new(administrator_params)
     if @administrator.save
       render json: { message: 'New administrator created sucessfully' }, status: :created
+      #flash[:success]
+      #log_in @administrator
     else
       render json: { message: 'Error during administrator creation. Invalid params' }, status: :unprocessable_entity
     end
+  end
+
+  def dashboard
   end
   
   private
