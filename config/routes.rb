@@ -49,7 +49,10 @@ Rails.application.routes.draw do
   get 'partner_signup', to: 'partners#new'
 
   # Administrators' routes
-  get 'administrator_sign_up', to: 'administrators#new'
+  get       'administrator_sign_up',  to: 'administrators#new'
+  get       'administrator_log_in',   to: 'sessions#new'
+  post      'administrator_log_in',   to: 'session#create'
+  delete    'administrator_log_out',  to: 'sessions#destroy'
   resources :administrators
 
 end

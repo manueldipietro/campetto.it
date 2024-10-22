@@ -1,6 +1,11 @@
 class SessionsController < ApplicationController
   
   def new
+    @current_route = request.path 
+    if @current_route == administrator_log_in_path
+      render 'administrator_new'
+      return
+    end
   end
   
   def create
