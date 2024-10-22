@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
       administrator = Administrator.find_by(email: params[:session][:email].downcase)
       if administrator && administrator.authenticate(params[:session][:password])
         log_in_administrator administrator
+        remember_administrator administrator
         redirect_to administrator_dashboard_path
         return
       else
@@ -49,7 +50,7 @@ class SessionsController < ApplicationController
     @current_route = request.path
     
     if @curent_route = administrator_log_in_path
-      log_out_administrator
+      log_out_administrator if logged_in_administrator?
       redirect_to root_url
       return
     end
