@@ -8,6 +8,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag 'dashboard_layout', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+
 </head>
 <body>
     <% @layout_variable_username = "TEST 123" %>
@@ -15,7 +18,7 @@
     <%= render 'layouts/header_dashboard.html.erb' %>
     
     <main id="-tp-main">
-            <div id="command-bar">
+        <div id="command-bar">
             <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi">
                 <i class="fas fa-cogs"></i>
             </button>
