@@ -1,9 +1,7 @@
 class AdministratorsController < ApplicationController
   layout 'dashboard', only: [:dashboard]
-  before_action :logged_in_administrator, only: [:edit, :update, :dashboard]
-  
-  #before_action :correct_administrator, only: [:edit, :update, :dashboard]
-
+  before_action :logged_in_administrator,   only: [:edit, :update, :dashboard, :create] #,:delete
+  before_action :root_user,                 only: [:create] #:delete
 
   #This method show the administrator page, TODO: make accessible only from owner and from other administrator with root privileges
   def show
@@ -27,6 +25,10 @@ class AdministratorsController < ApplicationController
     end
   end
 
+  #def delete
+
+  #end
+
   def myprofile
     @administrator = Administrator.find(session[:administrator_id])
   end
@@ -48,7 +50,7 @@ class AdministratorsController < ApplicationController
   
   private
     def administrator_params
-      params.require(:administrator).permit(:name, :surname, :email, :password, :password_confimartion)
+      params.require(:administrator).permit(:name, :surname, :email, :password, :password_confimartion, :root)
     end
 
     def administrator_update_params
@@ -64,10 +66,9 @@ class AdministratorsController < ApplicationController
       end
     end
     
-    # Confirms the correct administrator
-    #def correct_administrator
-    #  @administrator = Administrator.find(params[:id])
-    #  redirect_to(root_url) unless current_administrator?(@administrator)
-    #end
+    # Confirms a root administrator
+    def root_administrator
+      redirect_to(administrator_dashboard_url) unless current_user.admin?
+    end
 
 end
