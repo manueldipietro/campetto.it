@@ -1,6 +1,9 @@
 class AdministratorsController < ApplicationController
+  layout 'dashboard', only: [:dashboard]
   before_action :logged_in_administrator, only: [:edit, :update, :dashboard]
+  
   #before_action :correct_administrator, only: [:edit, :update, :dashboard]
+
 
   #This method show the administrator page, TODO: make accessible only from owner and from other administrator with root privileges
   def show

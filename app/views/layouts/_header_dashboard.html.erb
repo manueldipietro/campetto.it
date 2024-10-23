@@ -1,0 +1,29 @@
+<header id="-tp-header">
+    <div id="-tp-header-wrap">
+        <div id="-tp-header-heading">
+            <!-- Logo e Titolo a Sinistra -->
+            <a id="-tp-header-heading-a" href="https://campetto.it">
+                <div id="-tp-header-heading-a-logo">
+                    <img src="asset/logo.png" alt="Logo sito web Campetto.it">
+                </div>
+                <div id="-tp-header-heading-a-title">Campetto.it</div>
+            </a>                
+            <!-- Sezione Utente e Logout a Destra -->
+            <div id="-tp-header-heading-ctr">
+                <!-- Sezione Utente con Icona e Nome -->
+                <div id="manual-account">
+                    <i class="fas fa-user-circle"></i>
+                    <span><%= @layout_variable_username %></span>
+                </div>        
+                <!-- Pulsante Logout -->
+                <a id="-tp-header-heading-ctr-log-out" class="btn btn-primary" href="/administrator_log-out.php" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <!-- Pulsante Menu per Mobile -->
+                <!--<a id="-tp-header-heading-ctr-menubtn" class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#-tp-header-heading-mobctr" aria-controls="-tp-header-heading-mobctr" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </a>-->    
+            </div>
+        </div>
+    </div>
+</header>
