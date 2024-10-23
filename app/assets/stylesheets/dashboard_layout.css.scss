@@ -1,13 +1,26 @@
 @import 'bootstrap';
 
 /* Definizione colori */
-$green1 : rgb(0, 153, 112);
+$green1 : rgb(0, 152, 112);
 $white : rgb(255, 255, 255);
 $black : rgb(0, 0, 0);
-$primary-green: rgb(0, 153, 112);
+
+$primary-green: rgb(0, 152, 112);
 $white: #ffffff;
 $black: #000000;
 
+body {
+    margin: 0;
+    min-height: 100vh;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto 1fr auto;
+    background-color: #f4f4f4;
+    overflow: hidden;
+    font-family: var(--bs-body-font-family); /* Utilizzo del font predefinito di Bootstrap */
+    font-weight: 500;
+}
 
 /* Header (barra in alto) - più grande e leggermente ovale */
 #-tp-header {
@@ -237,6 +250,34 @@ $black: #000000;
     }
 }
 
+/* Footer (riquadro in basso) */
+#-tp-footer {
+    background-color: $primary-green; /* Verde in RGB */
+    color: $white;
+    text-align: center;
+    border-top: 2px solid darken($primary-green, 10%);
+    padding: 20px;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+    font-family: var(--bs-body-font-family); /* Font predefinito Bootstrap */
+    font-weight: 400;
+
+    a, a:visited {
+        color: lighten($white, 20%);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    a:hover, a:active {
+        color: lighten($white, 40%);
+        text-decoration: underline;
+    }
+
+    p {
+        font-size: 13px;
+        margin: 5px 0;
+    }
+}
+
 #-tp-main {
     overflow-y: auto; /* Abilita lo scrolling verticale all'interno del main */
 }
@@ -248,16 +289,10 @@ $black: #000000;
     font-weight: 600;
     text-decoration: none;
 }
-
 /* Mixin per aggiungere opacità ai colori */
 @mixin add-opacity($color, $opacity){
     $red: red($color);
     $green: green($color);
     $blue: blue($color);
     background-color: rgba($red, $green, $blue, $opacity);
-}
-
-.dashborad-container{
-    min-height: 70vh;
-    margin-top: 15vh;
 }

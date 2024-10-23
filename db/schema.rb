@@ -82,25 +82,12 @@ ActiveRecord::Schema.define(version: 2024_10_23_110906) do
     t.string "indirizzo"
   end
 
-  create_table "partners", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
-    t.string "surname"
-    t.string "gender"
-    t.string "birthday"
-    t.string "mobile"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest"
-    t.index ["email"], name: "index_partners_on_email", unique: true
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.string "titolo"
     t.integer "valutazione"
     t.text "testo"
-    t.bigint "field_id", null: false
     t.bigint "user_id", null: false
+    t.bigint "field_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_id"], name: "index_reviews_on_field_id"
@@ -122,15 +109,11 @@ ActiveRecord::Schema.define(version: 2024_10_23_110906) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.string "uid"
     t.string "provider"
     t.datetime "confirmed_at"
     t.string "confirmation_token"
     t.datetime "confirmation_sent_at"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

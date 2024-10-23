@@ -2,9 +2,10 @@
     <div id="-tp-header-wrap">
         <div id="-tp-header-heading">
             <!-- Logo e Titolo a Sinistra -->
-            <a id="-tp-header-heading-a" href="https://campetto.it">
+            <%= link_to root_url, id: "-tp-header-heading-a" do%>
                 <div id="-tp-header-heading-a-title">Campetto.it</div>
-            </a>                
+            <% end %>
+
             <!-- Sezione Utente e Logout a Destra -->
             <div id="-tp-header-heading-ctr">
                 <!-- Sezione Utente con Icona e Nome -->
@@ -13,9 +14,9 @@
                     <span><%= @layout_variable_username %></span>
                 </div>        
                 <!-- Pulsante Logout -->
-                <a id="-tp-header-heading-ctr-log-out" class="btn btn-primary" href="/administrator_log_out" title="Logout">
+                <%= link_to "/administrator_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %>
                     <i class="fas fa-sign-out-alt"></i>
-                </a>
+                <% end %>
                 <!-- Pulsante Menu per Mobile -->
                 <!--<a id="-tp-header-heading-ctr-menubtn" class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#-tp-header-heading-mobctr" aria-controls="-tp-header-heading-mobctr" title="Menu">
                     <i class="fas fa-bars"></i>
