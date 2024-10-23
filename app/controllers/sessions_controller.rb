@@ -12,9 +12,10 @@ class SessionsController < ApplicationController
     @current_route = request.path
     
     if @current_route == administrator_log_in_path
-      administrator = Administrator.find_by(email: params[:session][:email_login].downcase)
-      if administrator && administrator.authenticate(params[:session][:password_login])
+      administrator = Administrator.find_by(email: params[:session][:email].downcase)
+      if administrator && administrator.authenticate(params[:session][:password])
         log_in_administrator administrator
+        params[:session][:remember_me] == '1' ? remember_administrator(administrator) : forget_administrator(administrator)
         redirect_back_or administrator_dashboard_path
         return
       else
@@ -50,10 +51,11 @@ class SessionsController < ApplicationController
     
     if @current_route == administrator_log_out_path
       log_out_administrator if logged_in_administrator?
-      redirect_to root_path
+      redirect_to root_url
       return
     end
     
+
     session[:user_id] = nil 
     redirect_to root_path
   end
@@ -76,4 +78,3 @@ class SessionsController < ApplicationController
     params.require(:session).permit(:email_login, :password_login)
   end
 end
-
