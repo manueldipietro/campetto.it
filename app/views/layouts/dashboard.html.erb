@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    
+    <title><%=yield(:title)%> | Campetto.it</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'dashboard_layout', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+</head>
+<body>
+    <% @layout_variable_username = "TEST 123" %>
+
+    <%= render 'layouts/header_dashboard.html.erb'%>
+    <div class= 'dashborad-container'>
+    <main id="-tp-main">
+        <div id="command-bar">
+            <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi">
+                <i class="fas fa-cogs"></i>
+            </button>
+            <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione Prenotazioni">
+                <i class="fas fa-calendar-alt"></i>
+            </button>
+            <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione Campi">
+                <i class="fas fa-futbol"></i>
+            </button>
+            <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione Recensioni">
+                <i class="fas fa-star"></i>
+            </button>
+            <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione Segnalazioni">
+                <i class="fas fa-file-alt"></i>
+            </button>
+            <button class="btn btn-primary dashboard-control" data-target="#users-manager" title="Gestione Utenti">
+                <i class="fas fa-users"></i>
+            </button>    
+        </div>
+
+        <%= yield %>
+    </main>
+    </div>
+    <%= render 'layouts/footer_dashboard.html.erb' %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+</body>
+</html>

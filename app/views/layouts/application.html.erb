@@ -66,6 +66,7 @@
       </div>
     </nav>
 
+
     <!-- Main content -->
     <% unless current_page?(root_path) %>
       <div class="main-content">
@@ -84,9 +85,8 @@
     </script>
     
     <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home')|| current_page?(controller: 'fields', action: 'search') %>
-    <%= javascript_pack_tag 'logReg' if current_page?(controller: 'pages', action: 'logReg') || current_page?(controller: 'users', action: 'accountUtente')%>
+    <%= javascript_pack_tag 'logReg'%>
     <%= javascript_pack_tag 'accountUtente' if current_page?(controller: 'users', action: 'accountUtente')%>
-    
   </body>
 </html>
 

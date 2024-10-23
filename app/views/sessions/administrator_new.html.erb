@@ -1,0 +1,35 @@
+<h1>Autenticazione amministratore</h1>
+
+<!-- FORM LOGIN -->
+        <div id="form__login" class="form__login visible">
+            <div class="form__box login">
+                <div class="form__content">
+                    <h2>ACCEDI</h2>
+                    <%= form_with(url: administrator_log_in_path,method: :post, scope: :session) do |f| %>
+                        <div class="input__field">
+                            <%= f.email_field :email_login, id: "email_login", required: true, class: "form-control" %>
+                            <label for="email_login">Email</label>
+                        </div>
+                        
+                        <div class="input__field">
+                            <%= f.password_field :password_login, id: "password_login", required: true, class: "form-control" %>
+                            <label for="password_login">Password</label>
+                            <i id="occhioLogin" class="fa-solid fa-eye mostra__pass" onclick="mostraPasswordLogin()"></i>
+                        </div>
+                        <% if flash[:notice] %>
+                            <div class="alert alert-success">
+                                <%= flash[:notice] %>
+                            </div>
+                        <% end %>
+                        <% if flash[:alert] %>
+                            <div class="alert alert-danger alert-small">
+                                <%= flash[:alert] %>
+                            </div>
+                        <% end %>
+
+                        <%= f.submit "Login", class: "buttonCerca", id: "login-btn" %>
+
+                    <% end %>
+                </div>
+            </div>
+        </div>

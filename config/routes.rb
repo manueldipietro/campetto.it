@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
@@ -58,6 +59,16 @@ Rails.application.routes.draw do
   get 'partner_signup', to: 'partners#new'
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'
+  
+  # Administrators' routes
+  get       'administrator_sign_up',      to: 'administrators#new'
+  get       'administrator_log_in',       to: 'sessions#new'
+  post      'administrator_log_in',       to: 'sessions#create'
+  delete    'administrator_log_out',      to: 'sessions#destroy'
+  get       'administrator_dashboard',    to: 'administrators#dashboard'
+  get       'administrator_my_profile',   to: 'administrators#myprofile'
+  post      'administrator_update',       to: 'administrator#update'
+  resources :administrators, only: [:create, :update]
 
 end
 
