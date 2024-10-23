@@ -68,26 +68,82 @@
   border-radius: 4px;
   font-size: 16px;
   padding: 10px;
-  padding-right: 40px; /* Spazio per la freccia */
+  padding-right: 40px; 
   width: 100%;
-  box-shadow: none; /* Rimuove eventuali ombre */
+  box-shadow: none; 
 }
 
 /* Aggiunta della freccetta personalizzata verso il basso */
 .custom-select::after {
-  content: '\25BC'; /* Codice Unicode per freccia verso il basso */
+  content: '\25BC'; 
   font-size: 16px;
-  color: #333; /* Colore della freccetta */
+  color: #333;
   position: absolute;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
-  pointer-events: none; /* Disabilita l'interazione con la freccetta */
+  pointer-events: none; 
 }
 
 /* Rimuovere il focus glow sui select in alcuni browser */
 .custom-select:focus {
   outline: none;
-  border-color: #666; /* Cambia il colore del bordo al focus */
+  border-color: #666; 
 }
+
+
+/* Stile per le etichette */
+.form-group label {
+  font-weight: 500; /* Grassetto per le etichette */
+  margin-bottom: 0.5rem; /* Spaziatura sotto l'etichetta */
+  display: block; /* Mostra l'etichetta come blocco per il corretto allineamento */
+}
+
+/* Stile per i campi di input */
+input[type="text"],
+input[type="number"],
+input[type="datetime"],
+select {
+  width: 100%; /* Larghezza completa */
+  padding: 0.5rem; /* Padding interno */
+  border: 1px solid #ccc; /* Bordo grigio chiaro */
+  border-radius: 5px; /* Angoli arrotondati */
+  transition: border-color 0.3s; /* Transizione per il cambio di colore */
+}
+
+/* Cambia colore del bordo al focus */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="datetime"]:focus,
+select:focus {
+  border-color: #007bff; /* Colore blu al focus */
+  outline: none; /* Rimuovi il contorno di default */
+}
+
+
+/* Stile per i selettori multipli */
+.field-group {
+  margin-top: 1rem; /* Margine sopra il selettore dei giorni da escludere */
+}
+
+.time-select-container {
+  display: flex;
+  align-items: center;
+}
+
+.time-select {
+  width: auto;
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+  align-items: right;
+}
+
+.time-select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
 

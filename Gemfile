@@ -69,5 +69,6 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'whenever', require: false
 
+gem 'leaflet-rails'
 
-
+gem 'geocoder'

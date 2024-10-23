@@ -7,124 +7,125 @@
 	</head>
 	<body>
 
-<div class="container field-show-container mt-5">
-  <div class="row">
-    <!-- Immagine del campo -->
-    <% if @field.image.attached? %>
-      <div class="col-md-7">
-        <div id="fieldCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <%= image_tag @field.image, class: "d-block w-100" %>
+  <div class="container field-show-container mt-5">
+    <div class="row">
+      <!-- Immagine del campo -->
+      <% if @field.image.attached? %>
+        <div class="col-md-7">
+          <div id="fieldCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <%= image_tag @field.image, class: "d-block w-100" %>
+              </div>
             </div>
+            <!-- Controlli del carousel -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#fieldCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Precedente</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#fieldCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Successivo</span>
+            </button>
           </div>
-          <!-- Controlli del carousel -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#fieldCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Precedente</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#fieldCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Successivo</span>
-          </button>
         </div>
-      </div>
-    <% end %>
-
-    <!-- Informazioni sul campo -->
-    <div class="col-md-5">
-      <h1 class="field-title"><%= @field.nome %></h1>
-      <hr>
-      <p class="field-description"><%= @field.descrizione %></p>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Sport:</strong> <%= @field.sport %></li>
-        <li class="list-group-item"><strong>Prezzo:</strong> €<%= @field.prezzo %></li>
-        <li class="list-group-item">
-          <strong>Posizione:</strong> <%= @field.latitudine %>, <%= @field.longitudine %>
-          <br>
-          <%= link_to 'Visualizza sulla mappa', "https://www.google.com/maps/search/?api=1&query=#{@field.latitudine},#{@field.longitudine}", target: '_blank', class: 'btn btn-link p-0' %>
-        </li>
-      </ul>
-      <h1>Prenota un campo</h1>
-
-      <!-- Pulsanti di azione -->
-      <div class="mt-4 d-flex justify-content-center">
-
-        <!-- Pulsante Visualizza Recensioni -->
-        <%= link_to 'Visualizza Recensioni', field_reviews_path(@field), class: "btn btn-primary action-button" %>
-      </div>
-
-      <!-- Pulsante Torna alla Ricerca centrato -->
-      <div class="mt-3 text-center">
-        <%= link_to 'Torna alla Ricerca', search_fields_path, class: "btn btn-secondary action-button" %>
-      </div>
-    </div>
-
-    <div class="day-navigation">
-      <%# Bottone per il giorno precedente (disabilitato se è il giorno corrente) %>
-      <% if @selected_date > Date.today %>
-        <%= link_to 'Giorno precedente', field_path(@field, date: @selected_date - 1), class: 'prev-day' %>
-      <% else %>
-        <button disabled class="prev-day disabled">Giorno precedente</button>
       <% end %>
 
-      <!-- Bottone per il giorno successivo -->
-      <%= link_to 'Giorno successivo', field_path(@field, date: @selected_date + 1), class: 'next-day' %>
-    </div>
-    
-    <%= form_with url: field_path(@field), method: :get, local: true do %>
-      <label for="date">Seleziona una data:</label>
-      <input type="date" name="date" value="<%= @selected_date %>" min="<%= Date.today %>">
-      <button type="submit">Visualizza</button>
-    <% end %>
+      <!-- Informazioni sul campo -->
+      <div class="col-md-5">
+        <h1 class="field-title"><%= @field.nome %></h1>
+        <hr>
+        <p class="field-description"><%= @field.descrizione %></p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Sport:</strong> <%= @field.sport %></li>
+          <li class="list-group-item"><strong>Prezzo:</strong> €<%= @field.prezzo %></li>
+          <li class="list-group-item">
+            <strong>Posizione:</strong> <%= @field.indirizzo%>
+            <br>
+            <%= link_to 'Visualizza sulla mappa', "https://www.google.com/maps/search/?api=1&query=#{@field.latitudine},#{@field.longitudine}", target: '_blank', class: 'btn btn-link p-0' %>
+          </li>
+        </ul>
+        <h1>Prenota un campo</h1>
 
-    <h2>Slot disponibili per il <%= @selected_date.strftime("%d %B %Y") %>:</h2>
+        <!-- Pulsanti di azione -->
+        <div class="mt-4 d-flex justify-content-center">
 
-
-    <div class="slot-container">
-      <% @field.slots.where(booked: false, start_time: @selected_date.beginning_of_day..@selected_date.end_of_day).each do |slot| %>
-        <div class="slot-card">
-          <p>
-            <strong><%= slot.start_time.strftime('%d/%m/%Y %H:%M') %> - <%= slot.end_time.strftime('%H:%M') %></strong>
-          </p>
-          <%= link_to 'Prenota', checkout_create_path(slot_id: slot.id), method: :post, class: 'btn btn-primary' %>
+          <!-- Pulsante Visualizza Recensioni -->
+          <%= link_to 'Visualizza Recensioni', field_reviews_path(@field), class: "btn btn-primary action-button" %>
         </div>
+
+        <!-- Pulsante Torna alla Ricerca centrato -->
+        <div class="mt-3 text-center">
+          <%= link_to 'Torna alla Ricerca', search_fields_path, class: "btn btn-secondary action-button" %>
+        </div>
+      </div>
+
+      <div class="day-navigation">
+        <% if @selected_date > Date.today %>
+          <%= link_to 'Giorno precedente', field_path(@field, date: @selected_date - 1), class: 'prev-day' %>
+        <% else %>
+          <button disabled class="prev-day disabled">Giorno precedente</button>
+        <% end %>
+
+        <!-- Bottone per il giorno successivo -->
+        <%= link_to 'Giorno successivo', field_path(@field, date: @selected_date + 1), class: 'next-day' %>
+      </div>
+      
+      <%= form_with url: field_path(@field), method: :get, local: true do %>
+        <label for="date">Seleziona una data:</label>
+        <%= date_field_tag :data, nil, aria: { label: 'Data' }, min: Date.today, style: 'border-radius: 5px; height: 35px; width: 50%;' %>
+        <button type="submit">Visualizza</button>
+      <% end %>
+
+      
+      <h2>Slot disponibili per il <%= @selected_date.strftime("%d %B %Y") %>:</h2>
+
+      <div class="slot-container">
+        <% @field.slots.where(booked: false, start_time: @selected_date.beginning_of_day..@selected_date.end_of_day).each do |slot| %>
+          <% if @selected_date.to_date != Date.today || slot.start_time >= Time.now %>
+            <div class="slot-card">
+              <p>
+                <strong><%= slot.start_time.strftime('%d/%m/%Y %H:%M') %> - <%= slot.end_time.strftime('%H:%M') %></strong>
+              </p>
+              <%= link_to 'Prenota', checkout_create_path(slot_id: slot.id), method: :post, class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% if @field.slots.where(booked: false, start_time: @selected_date.beginning_of_day..@selected_date.end_of_day).none? %>
+        <p>Nessuno slot disponibile per questa data.</p>
       <% end %>
     </div>
 
-    <% if @field.slots.where(booked: false, start_time: @selected_date.beginning_of_day..@selected_date.end_of_day).none? %>
-      <p>Nessuno slot disponibile per questa data.</p>
-    <% end %>
   </div>
-
-</div>
-<!-- FINE PAGINA -->
-<div class="fine__container" id="terms">
-  <div class="fine__links">
-        <div class="fine__link--wrapper">
-        <div class="fine__link--items">
-            <h2>About Us</h2>
-            <a href="#nostraidea">La nostra idea</a> 
-            <a href="#chisiamo">Chi siamo</a> 
-            <a href="#terms">Terms of Service</a>
-        </div>
-        <div class="fine__link--items">
-            <h2>Follow us </h2>
-            <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
-            <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
-            <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
-            <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
-        </div>
-        </div>
+  <!-- FINE PAGINA -->
+  <div class="fine__container" id="terms">
+    <div class="fine__links">
+          <div class="fine__link--wrapper">
+          <div class="fine__link--items">
+              <h2>About Us</h2>
+              <a href="#nostraidea">La nostra idea</a> 
+              <a href="#chisiamo">Chi siamo</a> 
+              <a href="#terms">Terms of Service</a>
+          </div>
+          <div class="fine__link--items">
+              <h2>Follow us </h2>
+              <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
+              <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
+              <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
+              <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
+          </div>
+          </div>
+    </div>
+    <section class="social__media">
+          <div class="social__media--wrap">
+          <div class="fine__logo">
+              <a class="fine-brand me-auto" href="#">Campetto.it</a>
+          </div>
+          <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
+          </div>
+    </section>
   </div>
-  <section class="social__media">
-        <div class="social__media--wrap">
-        <div class="fine__logo">
-            <a class="fine-brand me-auto" href="#">Campetto.it</a>
-        </div>
-        <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
-        </div>
-  </section>
-</div>
-</body>
+  </body>
 </html>

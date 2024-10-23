@@ -62,33 +62,33 @@
     <div class="search-box">
         <h2 class="text-black title">Cerca un campo vicino a te!</h2>
         <%= form_with(url: search_fields_path, method: :get, local: true) do %>
-        <!-- Prima riga: Indirizzo -->
-        <div class="d-flex align-items-center mb-3">
-            <%= text_field_tag :indirizzo, nil, class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
-            <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'), 'https://www.bing.com/maps', target: '_blank' %>
-        </div>
-
-        <!-- Seconda riga: Sport, Data, Ora -->
-        <div class="row g-3">
-            <div class="col-md-4">
-           <%= select_tag :sport, options_for_select(["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], "Tutti"), class: 'form-select', aria: { label: 'Sport' } %>
-
+            <!-- Prima riga: Indirizzo -->
+            <div class="d-flex align-items-center mb-3">
+                <%= text_field_tag :indirizzo, nil,placeholder:"Indirizzo", id: 'indirizzo',class: 'form-control',required: true%>
+                <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
+                <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
+                
+                <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
+                <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
+                <% end %>
             </div>
 
-            <div class="col-md-4">
-            <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' } %>
+            <!-- Seconda riga: Sport, Data-->
+            <div class="row g-3">
+            <div class="col-md-6">
+                <%= select_tag :sport, options_for_select(["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], "Tutti"), class: 'form-select', aria: { label: 'Sport' } %>
             </div>
 
-            <div class="col-md-4">
-            <%= time_field_tag :ora, nil, class: 'form-control', aria: { label: 'Ora' } %>
+            <div class="col-md-6">
+                <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
             </div>
-        </div>
+            </div>
 
-        <!-- Pulsante Cerca -->
-        <div class="mt-3">
-            <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-        </div>
-        <% end %>
+            <!-- Pulsante Cerca -->
+            <div class="mt-3">
+                <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+            </div>
+            <% end %>
     </div>
     <!--Immagini Slider-->
     <div class="slider-wrapper">

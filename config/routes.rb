@@ -56,5 +56,8 @@ Rails.application.routes.draw do
   # Rotte per partner
   # Rotta per registrazione
   get 'partner_signup', to: 'partners#new'
+
+  get 'reverse_geocode', to: 'fields#reverse_geocode'
+
 end
 

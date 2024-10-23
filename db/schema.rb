@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_19_125043) do
+ActiveRecord::Schema.define(version: 2024_10_22_152644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2024_10_19_125043) do
     t.datetime "end_time"
     t.integer "interval"
     t.string "exclude_days"
+    t.string "indirizzo"
   end
 
   create_table "partners", force: :cascade do |t|

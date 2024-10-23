@@ -83,7 +83,7 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     
-    <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home') %>
+    <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home')|| current_page?(controller: 'fields', action: 'search') %>
     <%= javascript_pack_tag 'logReg' if current_page?(controller: 'pages', action: 'logReg') || current_page?(controller: 'users', action: 'accountUtente')%>
     <%= javascript_pack_tag 'accountUtente' if current_page?(controller: 'users', action: 'accountUtente')%>
     
