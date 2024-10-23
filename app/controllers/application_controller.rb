@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   
     protect_from_forgery with: :exception
 
+    include SessionsHelper
+
     def current_user
         @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
     end
@@ -16,4 +18,5 @@ class ApplicationController < ActionController::Base
           redirect_to logReg_path, alert: "Devi accedere per visualizzare questa pagina."
       end
     end
+    
 end

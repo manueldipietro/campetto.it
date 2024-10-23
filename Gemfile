@@ -69,5 +69,4 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'whenever', require: false
 
-
-
+gem 'bootstrap', '~> 5.2', '>= 5.2.3'

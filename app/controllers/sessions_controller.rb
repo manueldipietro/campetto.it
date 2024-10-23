@@ -1,9 +1,30 @@
 class SessionsController < ApplicationController
   
   def new
+    @current_route = request.path 
+    if @current_route == administrator_log_in_path
+      render 'administrator_new'
+      return
+    end
   end
   
   def create
+    @current_route = request.path
+    
+    if @curent_route = administrator_log_in_path
+      administrator = Administrator.find_by(email: params[:session][:email].downcase)
+      if administrator && administrator.authenticate(params[:session][:password])
+        log_in_administrator administrator
+        params[:session][:remember_me] == '1' ? remember_administrator(administrator) : forget_administrator(administrator)
+        redirect_back_or administrator_dashboard_path
+        return
+      else
+        flash.now[:danger] = 'Invalid email/password combination'
+        render 'administrator_new'
+        return
+      end
+    end
+
     user = User.find_by(email: session_params[:email_login])
   
     if user&.authenticate(session_params[:password_login])
@@ -26,6 +47,15 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    @current_route = request.path
+    
+    if @curent_route = administrator_log_in_path
+      log_out_administrator if logged_in_administrator?
+      redirect_to root_url
+      return
+    end
+    
+
     session[:user_id] = nil 
     redirect_to root_path
   end
