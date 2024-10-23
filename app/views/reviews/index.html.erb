@@ -4,7 +4,7 @@
   <h1 class="title">Recensioni per <%= @field.nome %></h1>
 
   <% if current_user %>
-    <%= link_to 'Aggiungi una Recensione', new_field_review_path(@field), class: 'btn btn-primary' %>
+    <%= link_to 'Aggiungi una Recensione', new_field_review_path(@field), class: 'btn btn-primary',style:'margin-bottom:10px' %>
   <% else %>
     <p>Devi essere loggato per aggiungere una recensione. <%= link_to 'Accedi', login_path %> o <%= link_to 'Registrati', signup_path %>.</p>
   <% end %>
@@ -15,7 +15,16 @@
         <div class="review-card">
           <div class="review-header">
             <h2><%= review.titolo %></h2>
-            <p><strong><%= review.valutazione %> stelle</strong></p>
+          <p>
+            <strong>
+              <% review.valutazione.times do %>
+                <i class="fas fa-star" style="color: gold;"></i>
+              <% end %>
+              <% (5 - review.valutazione).times do %>
+                <i class="far fa-star"></i> 
+              <% end %>
+            </strong>
+          </p>
           </div>
           <div class="review-body">
             <p><%= review.testo %></p>

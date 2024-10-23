@@ -1,7 +1,6 @@
 class AdministratorsController < ApplicationController
   layout 'dashboard', only: [:dashboard]
-  before_action :logged_in_administrator,   only: [:edit, :update, :dashboard, :create] #,:delete
-  before_action :root_user,                 only: [:create] #:delete
+  before_action :logged_in_administrator,   only: [:edit, :update, :dashboard] #,:delete
 
   #This method show the administrator page, TODO: make accessible only from owner and from other administrator with root privileges
   def show
@@ -17,17 +16,13 @@ class AdministratorsController < ApplicationController
   def create
     @administrator = Administrator.new(administrator_params)
     if @administrator.save
-      render json: { message: 'New administrator created sucessfully' }, status: :created
       #flash[:success]
       #log_in @administrator
+      redirect_to administrator_log_in_path
     else
       render json: { message: 'Error during administrator creation. Invalid params' }, status: :unprocessable_entity
     end
   end
-
-  #def delete
-
-  #end
 
   def myprofile
     @administrator = Administrator.find(session[:administrator_id])

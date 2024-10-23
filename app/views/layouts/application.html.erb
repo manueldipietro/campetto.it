@@ -66,22 +66,26 @@
       </div>
     </nav>
 
+
     <!-- Main content -->
-    <div class="main-content">
+    <% unless current_page?(root_path) %>
+      <div class="main-content">
+        <!-- Content goes here -->
+      </div>
+    <% end %>
+
     <%= yield %>
 
     <% flash.each do |type, message| %>
       <div id="flash-message" class="flash <%= type %>" style="display: none;"><%= message %></div>
     <% end %>
-    </div>
-
     <!-- Inclusione del JavaScript di Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     
-    <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home') %>
-    <%= javascript_pack_tag 'logReg' if current_page?(controller: 'pages', action: 'logReg') || current_page?(controller: 'users', action: 'accountUtente')%>
+    <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home')|| current_page?(controller: 'fields', action: 'search') %>
+    <%= javascript_pack_tag 'logReg'%>
     <%= javascript_pack_tag 'accountUtente' if current_page?(controller: 'users', action: 'accountUtente')%>
   </body>
 </html>

@@ -16,3 +16,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     setInterval(autoScroll, 4500);
 });
+
+document.getElementById('get-location-btn').addEventListener('click', function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        
+        document.getElementById('latitudine').value = lat;
+        document.getElementById('longitudine').value = lon;
+        
+
+        fetch(`/reverse_geocode?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.address) {
+                document.getElementById('indirizzo').value = data.address; 
+            } else {
+                alert("Indirizzo non trovato");
+            }
+            })
+            .catch(error => console.error('Errore nel geocoding:', error));
+        });
+    } else {
+        alert("Geolocalizzazione non supportata dal browser.");
+    }
+});

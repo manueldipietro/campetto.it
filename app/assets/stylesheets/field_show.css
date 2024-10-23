@@ -1,20 +1,20 @@
 .field-show-container {
   .field-title {
-    font-family: 'Roboto', sans-serif; /* Sostituisci con il font che usi per il titolo */
+    font-family: 'Roboto', sans-serif;
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 20px;
   }
 
   .field-description {
-    font-family: 'Roboto', sans-serif; /* Font uguale al titolo */
+    font-family: 'Roboto', sans-serif; 
     font-size: 1rem;
     margin-bottom: 20px;
     line-height: 1.5;
   }
 
   .list-group-item {
-    font-family: 'Roboto', sans-serif; /* Font uguale al titolo */
+    font-family: 'Roboto', sans-serif; 
     font-size: 1rem;
   }
 
@@ -84,3 +84,68 @@
   }
 }
 
+.day-navigation {
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.day-navigation .prev-day,
+.day-navigation .next-day {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.day-navigation .prev-day.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.day-navigation .next-day {
+  background-color: #28a745;
+}
+
+.day-navigation button.disabled {
+  background-color: #ccc;
+}
+
+.slot-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Spaziatura tra le card */
+  justify-content: space-between; /* Centra le card nella riga */
+}
+
+.slot-card {
+  background-color: #f9f9f9; /* Colore di sfondo della card */
+  border: 1px solid #ddd; /* Bordo della card */
+  border-radius: 8px; /* Angoli arrotondati */
+  padding: 16px; /* Padding interno della card */
+  width: calc(33% - 16px); /* Larghezza della card per tre colonne */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra della card */
+  text-align: center; /* Allineamento del testo */
+}
+
+.slot-card p {
+  margin: 0; /* Rimuovi margini dai paragrafi */
+}
+
+.slot-card .btn {
+  margin-top: 10px; /* Margine superiore per il pulsante */
+}
+
+@media (max-width: 768px) {
+  .slot-card {
+    width: calc(50% - 16px); /* Due colonne su schermi più piccoli */
+  }
+}
+
+@media (max-width: 480px) {
+  .slot-card {
+    width: 100%; /* Una colonna su schermi molto piccoli */
+  }
+}

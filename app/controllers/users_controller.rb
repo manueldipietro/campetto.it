@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!, except: [:new, :create, :accountUtente,:request_password_reset, :edit_password, :update_password]
+  before_action :authenticate_user!, except: [:new, :create,:confirm, :accountUtente,:request_password_reset, :edit_password, :update_password]
 
   def new
     @user = User.new

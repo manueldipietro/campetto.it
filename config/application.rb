@@ -12,6 +12,9 @@ module Myapp
     config.load_defaults 6.1
     config.action_controller.default_protect_from_forgery = true
 
+
+    config.time_zone = 'Europe/Rome' # Imposta il tuo fuso orario
+    config.active_record.default_timezone = :local 
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

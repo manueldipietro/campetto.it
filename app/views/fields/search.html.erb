@@ -75,9 +75,13 @@
           <%= form_with(url: search_fields_path, method: :get, local: true) do %>
             <!-- Campo Indirizzo -->
             <div class="d-flex align-items-center mb-3">
-              <%= text_field_tag :indirizzo, params[:indirizzo], class: 'form-control', placeholder: 'Indirizzo', aria: { label: 'Indirizzo' } %>
-              <%= link_to image_tag('bingmaps.jpg', id: 'mapsjpg', alt: '', class: 'img-fluid ms-2'),
-                          'https://www.bing.com/maps', target: '_blank' %>
+                <%= text_field_tag :indirizzo, nil, id: 'indirizzo',placeholder:'Indirizzo',class: 'form-control',required:true %>
+                <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
+                <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
+                
+                <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
+                <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
+                <% end %>
             </div>
 
             <!-- Campo Sport -->
@@ -91,12 +95,7 @@
 
             <!-- Campo Data -->
             <div class="mb-3">
-              <%= date_field_tag :data, params[:data], class: 'form-control', aria: { label: 'Data' } %>
-            </div>
-
-            <!-- Campo Ora -->
-            <div class="mb-3">
-              <%= time_field_tag :ora, params[:ora], class: 'form-control', aria: { label: 'Ora' } %>
+              <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
             </div>
 
             <!-- Pulsante Cerca -->
@@ -110,7 +109,7 @@
       <!-- Contenitore dei campi -->
       <div class="fields-container">
         <% @fields.each do |field| %>
-          <%= link_to(field_path(field), class: "field-card") do %>
+          <%= link_to(field_path(field, date: @selected_date), class: "field-card") do %>
             <div class="field-image">
               <%= image_tag field.image, class: "image" if field.image.attached? %>
             </div>

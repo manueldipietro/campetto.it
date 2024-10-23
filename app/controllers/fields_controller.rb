@@ -7,20 +7,29 @@ class FieldsController < ApplicationController
     @fields = Field.all
   end
 
-  # Mostra un singolo campo
-  def show
-  end
-
   # Form per creare un nuovo campo
   def new
     @field = Field.new
   end
 
-  # Crea un nuovo campo
   def create
+    address = params[:field][:indirizzo]
+    results = Geocoder.search(address)
+
+    if results.any?
+      coordinates = results.first.coordinates
+      params[:field][:latitudine] = coordinates[0]
+      params[:field][:longitudine] = coordinates[1]
+    else
+      flash[:alert] = "Coordinate non trovate. Assicurati che l'indirizzo sia corretto."
+      @field = Field.new(field_params)
+      render :new and return
+    end
+
     @field = Field.new(field_params)
+
     if @field.save
-      redirect_to @field, notice: "Campo sportivo creato con successo."
+      redirect_to @field, notice: 'Campo creato con successo.'
     else
       render :new
     end
@@ -45,25 +54,61 @@ class FieldsController < ApplicationController
     redirect_to fields_path, notice: "Campo sportivo eliminato con successo."
   end
 
- def search
-  @fields = Field.all
+  def search
+    indirizzo = params[:indirizzo]
+    sport = params[:sport]
+    data = params[:data] 
 
-  # Filtra per nome del campo, se presente
-  if params[:indirizzo].present?
-    @fields = @fields.where("nome ILIKE ?", "%#{params[:indirizzo]}%")
+    if indirizzo.present?
+      results = Geocoder.search(indirizzo)
+      
+      if results.any?
+        coordinates = results.first.coordinates 
+        lat = coordinates[0]
+        lon = coordinates[1]
+  
+        @fields = Field.near([lat, lon], 20) 
+
+        @fields = @fields.where(sport: sport) unless sport == "Tutti"
+        
+      else
+        flash[:alert] = "Indirizzo non valido. Per favore riprova."
+        @fields = Field.none
+      end
+    else
+      @fields = Field.none
+    end
+    @selected_date = data.present? ? Date.parse(data) : Date.today
+    render 'search'
+  end
+  
+
+  def show
+    @field = Field.find(params[:id])
+
+    @selected_date = params[:date] ? Date.parse(params[:date]) : Date.today
+
+    if @selected_date < Date.today
+      @selected_date = Date.today
+    end
+
+    @slots = @field.slots.where('DATE(start_time) = ?', @selected_date)
+                         .where(booked: false)
+                         .order(:start_time)
   end
 
-  # Filtra per sport solo se è selezionato uno sport diverso da 'Tutti'
-  if params[:sport].present? && params[:sport] != 'Tutti'
-    @fields = @fields.where(sport: params[:sport])
+  def reverse_geocode
+    lat = params[:lat].to_f
+    lon = params[:lon].to_f
+    results = Geocoder.search([lat, lon])
+
+    if results.any?
+      render json: { address: results.first.address }
+    else
+      render json: { error: 'Indirizzo non trovato' }, status: 404
+    end
   end
 
-  # Renderizza la view per visualizzare i risultati
-  render 'search'
-end
-
-
- 
   private
 
   # Trova il campo in base all'id
@@ -73,7 +118,7 @@ end
 
   # Parametri permessi
   def field_params
-    params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :latitudine, :longitudine, :image)
+    params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :indirizzo, :image, :start_time, :end_time, :interval, exclude_days: [])
   end
 end
 

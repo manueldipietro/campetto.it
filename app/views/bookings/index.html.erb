@@ -1,0 +1,30 @@
+<h1>Le tue prenotazioni</h1>
+
+<% if @bookings.empty? %>
+  <p>Non hai prenotazioni.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Slot</th>
+        <th>Data e ora</th>
+        <th>Azione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @bookings.each do |booking| %>
+        <tr>
+          <td><%= booking.slot.field.nome %></td>
+          <td><%= booking.slot.start_time.strftime('%d/%m/%Y %H:%M') %></td>
+          <td>
+            <% if booking.slot.start_time > 24.hours.from_now %>
+              <%= link_to 'Annulla', booking_path(booking), method: :delete, data: { confirm: 'Sei sicuro di voler annullare questa prenotazione?' } %>
+            <% else %>
+              Annullamento non disponibile
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
