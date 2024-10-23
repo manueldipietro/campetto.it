@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   def create
     @current_route = request.path
     
-    if @curent_route = administrator_log_in_path
+    if @current_route == administrator_log_in_path
       administrator = Administrator.find_by(email: params[:session][:email].downcase)
       if administrator && administrator.authenticate(params[:session][:password])
         log_in_administrator administrator
@@ -49,7 +49,7 @@ class SessionsController < ApplicationController
   def destroy
     @current_route = request.path
     
-    if @curent_route = administrator_log_in_path
+    if @current_route == administrator_log_out_path
       log_out_administrator if logged_in_administrator?
       redirect_to root_url
       return
