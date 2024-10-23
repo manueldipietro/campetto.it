@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     @current_route = request.path
     
     if @current_route == administrator_log_in_path
-      administrator = Administrator.find_by(email: params[:session][:email].downcase)
+      administrator = Administrator.find_by(email: params[:session][:email])
       if administrator && administrator.authenticate(params[:session][:password])
         log_in_administrator administrator
         params[:session][:remember_me] == '1' ? remember_administrator(administrator) : forget_administrator(administrator)
