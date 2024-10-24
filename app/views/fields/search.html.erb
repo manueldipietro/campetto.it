@@ -7,54 +7,55 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
 </head>
 <body>
-  <!-- NavBar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container-fluid">
-      <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
-      <!-- Resto del codice della navbar -->
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mx-lg-2" href="#">Contatti</a>
-            </li>
-            <% unless current_user %>
-              <li class="nav-item">
-                <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
-              </li>
-            <% end %>
-          </ul>
-          <% if current_user %>
-            <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
-          <% else %>
-            <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-          <% end %>
-        </div>
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-fluid">
+    <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
+    
+    <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-
-      <div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-lg-2" href="#">Contatti</a>
+          </li>
+          <% unless current_user %>
+          <li class="nav-item">
+            <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
+          </li>
+          <% end %>
+        </ul>
         <% if current_user %>
-          <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
-          <button class="button d-none d-lg-inline" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+          <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
         <% else %>
-          <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
-          <button class="button d-none d-lg-inline" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
+          <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
         <% end %>
-
-        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
       </div>
     </div>
-  </nav>
+
+    <!-- Buttons -->
+    <div class="navbar-buttons d-flex align-items-center">
+      <% if current_user %>
+        <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
+        <button class="button" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+      <% else %>
+        <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
+        <button class="button" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
+      <% end %>
+    </div>
+  </div>
+</nav>
+
 
   <!-- Contenuto principale -->
   <div class="mainField">
@@ -75,27 +76,38 @@
           <%= form_with(url: search_fields_path, method: :get, local: true) do %>
             <!-- Campo Indirizzo -->
             <div class="d-flex align-items-center mb-3">
-                <%= text_field_tag :indirizzo, nil, id: 'indirizzo',placeholder:'Indirizzo',class: 'form-control',required:true %>
-                <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
-                <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
-                
-                <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
-                <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
-                <% end %>
+              <%= text_field_tag :indirizzo, @selected_indirizzo, id: 'indirizzo', placeholder: 'Indirizzo', class: 'form-control' %>
+              <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
+              <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
+              
+              <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
+              <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
+              <% end %>
+            </div>
+
+            <!-- Campo Città -->
+            <div class="mb-3">
+              <label for="citta">Cerca in una città specifica</label>
+              <%= text_field_tag :citta, @selected_citta, id: 'citta', placeholder: "Inserisci una città", class: 'form-control' %>
             </div>
 
             <!-- Campo Sport -->
             <div class="mb-3">
-              <% selected_sport = params[:sport] || 'Tutti' %>
               <%= select_tag :sport, options_for_select(
                 ["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis",
-                 "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], selected_sport),
+                 "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], @selected_sport),
                  class: 'form-select', aria: { label: 'Sport' } %>
             </div>
 
             <!-- Campo Data -->
             <div class="mb-3">
-              <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
+              <%= date_field_tag :data, @selected_date, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
+            </div>
+
+            <!-- Campo Raggio di ricerca -->
+            <div class="mb-3">
+              <label for="raggio">Raggio di ricerca (in km)</label>
+              <%= select_tag :raggio, options_for_select([5, 10, 20, 50], @selected_raggio), class: 'form-select' %>
             </div>
 
             <!-- Pulsante Cerca -->
@@ -116,6 +128,7 @@
             <div class="field-info">
               <h2><%= field.nome %></h2>
               <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
+              <p><strong>Indirizzo:</strong> <%= field.indirizzo %></p> <!-- Aggiunta della via/indirizzo -->
             </div>
           <% end %>
         <% end %>
@@ -151,6 +164,58 @@
       </div>
     </section>
   </div>
+
+  <!-- Script JavaScript per disabilitare il campo indirizzo quando si inserisce una città -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cityField = document.getElementById('citta'); 
+    const addressField = document.getElementById('indirizzo');
+    const getLocationBtn = document.getElementById('get-location-btn'); // Il pulsante di geolocalizzazione
+
+    // Funzione per disabilitare il campo città se l'indirizzo è presente
+    function disableCityIfAddress() {
+        if (addressField.value.trim() !== '') {
+            cityField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
+            cityField.disabled = true;
+        } else {
+            cityField.disabled = false;
+        }
+    }
+
+    // Quando viene cambiato il campo città
+    cityField.addEventListener('input', function() {
+        if (cityField.value.trim() !== '') {
+            addressField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
+            addressField.disabled = true;
+        } else {
+            addressField.disabled = false;
+        }
+    });
+
+    // Quando viene cambiato il campo indirizzo
+    addressField.addEventListener('input', disableCityIfAddress);
+
+    // Quando viene cliccato il pulsante per la geolocalizzazione
+    getLocationBtn.addEventListener('click', function() {
+        // Esegui la logica di geolocalizzazione qui (ipotizzando che ci sia un altro script che riempie il campo indirizzo)
+        // Dopo che il campo indirizzo è stato riempito, chiama la funzione per disabilitare il campo città
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('latitudine').value = lat;
+            document.getElementById('longitudine').value = lon;
+
+            // Simulazione di compilazione automatica dell'indirizzo dalla geolocalizzazione (sostituisci con la tua logica)
+            addressField.value = 'Indirizzo simulato tramite geolocalizzazione';
+            
+            // Disabilita il campo città
+            disableCityIfAddress();
+        });
+    });
+});
+</script>
+
+
 </body>
 </html>
 
