@@ -1,5 +1,5 @@
 .mainField {
-  padding-top: 80px; 
+  padding-top: 80px;
   min-height: 700px;
   padding-left: 0;
 }
@@ -23,7 +23,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   background-color: #f9f9f9;
   position: fixed;
-  top: 150px; 
+  top: 150px;
   left: 0;
   max-height: calc(100vh - 150px);
   overflow-y: auto;
@@ -35,7 +35,7 @@
   margin-left: 26%; /* Compensa la larghezza della colonna fissa */
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Utilizza una griglia fluida */
   gap: 20px;
   justify-items: center;
 }
@@ -43,8 +43,8 @@
 .field-card {
   display: flex;
   flex-direction: column;
-  width: 255px; /* Nuova larghezza */
-  height: 238px; /* Nuova altezza */
+  width: 100%; /* Imposta larghezza al 100% per seguire la griglia */
+  max-width: 260px; /* Imposta una larghezza massima */
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -62,15 +62,19 @@
   height: 180px;
   object-fit: cover;
 }
-
 .field-info {
-  padding: 9px;
+  padding: 10px;
   text-align: center;
 }
 
 .field-info h2 {
   font-size: 1.3rem;
   margin-bottom: 10px;
+}
+
+.field-info p {
+  margin-bottom: 5px; /* Riduce lo spazio tra le righe */
+  font-size: 1rem;
 }
 
 .buttonCerca {
@@ -86,16 +90,19 @@
 .buttonCerca:hover {
   background-color: #0056b3;
 }
+
 @media screen and (max-width: 1050px) {
   .filter-column {
     width: 30%;
   }
+
   .fields-container {
     width: 70%;
     margin-left: 30%;
   }
+
   .title-campi {
-    margin-left: 30%; /* Sposta il titolo a destra per non sovrapporsi alla colonna fissa */
+    margin-left: 30%;
     padding: 20px;
     font-size: 2rem;
   }
@@ -103,27 +110,30 @@
 
 @media screen and (max-width: 850px) {
   .mainField {
-    padding-top: 50px; 
+    padding-top: 50px;
   }
 
   .fields-layout {
-    display: block; 
+    display: block;
   }
 
   .filter-column {
     width: 85%;
-    position: relative; 
+    position: relative;
     top: 0;
     left: 0;
-    border-right: none; 
-    border-bottom: 1px solid #ddd; 
-    max-height: none; 
-    margin-bottom: 20px; 
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    max-height: none;
+    margin-bottom: 20px;
     margin: 0 auto;
   }
 
   .fields-container {
     width: 100%;
-    margin-left: 0; 
+    margin-left: 0;
   }
 }
+
+
+
