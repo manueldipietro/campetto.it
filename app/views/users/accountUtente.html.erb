@@ -75,7 +75,7 @@
           <ul>
             <li><a href="<%= bookings_path %>">Prenotazioni</a></li>
             <li><a href="#">Recensioni</a></li>
-            <li><a href="#">Segnalazioni</a></li>
+            <li><a href="<%= reports_user_path(current_user) %>">Segnalazioni</a></li>
             <li><a href="#">Edita Profilo</a></li>
             <li><a href="#" id="changePassw">Cambia Password</a></li>
             <li><a href="#">Elimina Profilo</a></li>
@@ -85,6 +85,56 @@
       <div id="blur-background" class="blur-background"></div>
       <div id="form__changepassword" class="form__password">
         <!-- Codice per cambiare password rimane lo stesso -->
+        <div class="form__box login">
+          <span class="close-btn">&times;</span>
+          <div class="form__content">
+            <h2>Cambia password</h2>
+                    <%= form_with url: modify_password_path, method: :post, remote: true, id: "changePasswordForm",onsubmit: "return validatePassw()" do |f| %>
+                          <div class="input__field">
+                            <%= f.password_field :password_login, id: "password_login", required: true, class: "form-control" %>
+                            <label for="password_login">Password Corrente</label>
+                            <i id="occhioLogin" class="fa-solid fa-eye mostra__pass" onclick="mostraPasswordLogin()"></i>
+                          </div>
+
+                          <div class="input__field">
+                            <%= f.password_field :password, id: "signup_password", onkeyup: "checkPassword()", required: true, class: "form-control" %>
+                            <label for="signup_password">Nuova password</label>
+                            <i id="occhioReg" class="fa-solid fa-eye mostra__pass" onclick="mostraPassword()"></i>
+
+                            <!-- Lista dei requisiti della password -->
+                            <div class="pass__checklist">
+                                <h4 class="titolo_check">La password deve:</h4>
+                                <ul class="checklist">
+                                    <li id="lunghezza" class="condizione">Essere lunga almeno 8 caratteri.</li>
+                                    <li id="maiuscole" class="condizione">Avere almeno una maiuscola.</li>
+                                    <li id="numeri" class="condizione">Avere almeno un numero.</li>
+                                    <li id="speciale" class="condizione">Avere almeno un carattere speciale.</li>
+                                </ul>
+                            </div>
+                          </div>
+
+                          <div class="input__field">
+                            <%= f.password_field :conferma_password, id: "conferma_password", required: true, class: "form-control" %>
+                            <label for="conferma_password">Conferma nuova password</label>
+                            <i id="occhioConf" class="fa-solid fa-eye mostra__pass" onclick="mostraPasswordConf()"></i>
+                          </div>
+                          <% if flash[:notice] %>
+                              <div class="alert alert-success">
+                                  <%= flash[:notice] %>
+                              </div>
+                          <% end %>
+                          <% if flash[:alert] %>
+                              <div class="alert alert-danger alert-small">
+                                  <%= flash[:alert] %>
+                              </div>
+                          <% end %>
+                          <div>
+                            <%= f.submit "Cambia Password",class:'buttonCerca' %>
+                          </div>
+                    <% end %>                   
+                    <div id="error_msg_reset" style="color: red;"></div>
+                </div>                 
+        </div>
       </div>
     </section>
 

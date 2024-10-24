@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create] do
     member do
       get 'bookings', to: 'bookings#index'
+      get 'reports', to: 'reports#user_index' # Collega la route all'azione user_index
     end
   end
 
@@ -53,7 +54,7 @@ Rails.application.routes.draw do
     resources :reports, only: [:create]
   end
 
-  resources :reports do
+  resources :reports, only: [:index] do
     member do
       patch :accept
       patch :reject

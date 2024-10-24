@@ -12,7 +12,7 @@ $black: #000000;
 body {
     margin: 0;
     min-height: 100vh;
-    height: 100vh;
+    height: 110vh;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: auto 1fr auto;
@@ -297,21 +297,31 @@ body {
     background-color: rgba($red, $green, $blue, $opacity);
 }
 
-.cardreview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Spazio tra le card */
-  }
-  
-.cardreview {
-    border: 1px solid #ccc;
+.cardreport-container {
+    max-height: 540px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.cardreport {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 20px;
-    width: calc(33.333% - 40px); /* 3 card per riga, con margini */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
 }
-  
+
 .actions {
-    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
 }
+
+.btn {
+    margin-top: 5px;
+    width: 100%;
+}
+
   
