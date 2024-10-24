@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
@@ -34,19 +33,15 @@ Rails.application.routes.draw do
   # Risorse
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
-  
   resources :fields do
     resources :reviews, only: [:index, :new, :create, :destroy]
-    
     resources :slots, only: [:index]
   end
-
   resources :users do
     member do
       get 'bookings', to: 'bookings#index'
     end
   end
-  
   resources :bookings, only: [:index, :destroy]
 
   # Rotte per il checkout
@@ -55,7 +50,6 @@ Rails.application.routes.draw do
   get 'checkout/cancel', to: 'checkout#cancel'
 
   # Rotte per partner
-  # Rotta per registrazione
   get 'partner_signup', to: 'partners#new'
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'
@@ -67,8 +61,11 @@ Rails.application.routes.draw do
   delete    'administrator_log_out',      to: 'sessions#destroy'
   get       'administrator_dashboard',    to: 'administrators#dashboard'
   get       'administrator_my_profile',   to: 'administrators#myprofile'
-  post      'administrator_update',       to: 'administrator#update'
+  post      'administrator_update',       to: 'administrators#update'
   resources :administrators, only: [:create, :update]
+  
+  get 'user_reviews', to: 'reviews#user_index', as: 'user_reviews'
+
 
 end
 
