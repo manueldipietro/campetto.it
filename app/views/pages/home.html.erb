@@ -15,7 +15,7 @@
         <%= form_with(url: search_fields_path, method: :get, local: true) do %>
             <!-- Prima riga: Indirizzo -->
             <div class="d-flex align-items-center mb-3">
-                <%= text_field_tag :indirizzo, nil,placeholder:"Indirizzo", id: 'indirizzo',class: 'form-control',required: true%>
+                <%= text_field_tag :indirizzo, nil,placeholder:"Indirizzo", id: 'indirizzo',class: 'form-control'%>
                 <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
                 <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
                 
