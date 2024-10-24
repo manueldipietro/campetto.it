@@ -32,23 +32,34 @@ Rails.application.routes.draw do
   get 'search_fields', to: 'fields#search', as: 'search_fields'
 
   # Risorse
-  resources :users, only: [:new, :create]
-  resources :sessions, only: [:new, :create, :destroy]
-  
-  resources :fields do
-    resources :reviews, only: [:index, :new, :create, :destroy]
-    
-    resources :slots, only: [:index]
-  end
-
-  resources :users do
+  resources :users, only: [:new, :create] do
     member do
       get 'bookings', to: 'bookings#index'
     end
   end
-  
-  resources :bookings, only: [:index, :destroy]
 
+  resources :sessions, only: [:new, :create, :destroy]
+
+  resources :fields do
+    resources :reviews, only: [:index, :new, :create, :destroy]
+    resources :slots, only: [:index]
+  end
+
+  resources :bookings, only: [:index, :destroy] do
+    resources :reports, only: [:create]
+  end
+
+  resources :reviews do
+    resources :reports, only: [:create]
+  end
+
+  resources :reports do
+    member do
+      patch :accept
+      patch :reject
+    end
+  end
+    
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success'

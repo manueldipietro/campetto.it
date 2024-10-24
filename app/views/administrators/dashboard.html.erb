@@ -11,8 +11,25 @@
 
     <div id="sportcenter-show">
     </div>
-
+    
     <!-- Qui ci va il modal per il form dell'aggiunta dei >-->
+    <h1>Reports Dashboard</h1>
+    <div class="cardreview-container">
+        <% @reports.select { |report| report.status == 'pending' }.each do |report| %>
+            <div class="cardreview">
+            <h2>ID: <%= report.id %></h2>
+            <p>Reporter: <%= report.reporter.class.name %>: <%= report.reporter.id %></p>
+            <p>Email: <%= report.reporter.email %></p>
+            <p>Type: <%= report.reportable_type %></p>
+            <p>Status: <%= report.status %></p>
+            <p>Details: <%= report.details %></p>
+            <div class="actions">
+                <%= button_to 'Accetta', accept_report_path(report), method: :patch, class: 'btn btn-success' %>
+                <%= button_to 'Rifiuta', reject_report_path(report), method: :patch, class: 'btn btn-danger' %>
+            </div>
+            </div>
+        <% end %>
+    </div>
 
 </div>
 

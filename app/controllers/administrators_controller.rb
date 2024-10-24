@@ -41,6 +41,7 @@ class AdministratorsController < ApplicationController
 
   def dashboard
     @administrator = Administrator.find(session[:administrator_id])
+    @reports = Report.all
   end
   
   private

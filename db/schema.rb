@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_23_110906) do
+ActiveRecord::Schema.define(version: 2024_10_24_121959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,12 +82,38 @@ ActiveRecord::Schema.define(version: 2024_10_23_110906) do
     t.string "indirizzo"
   end
 
+  create_table "partners", force: :cascade do |t|
+    t.string "email"
+    t.string "name"
+    t.string "surname"
+    t.string "gender"
+    t.string "birthday"
+    t.string "mobile"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "password_digest"
+    t.index ["email"], name: "index_partners_on_email", unique: true
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "reportable_type"
+    t.bigint "reportable_id"
+    t.string "reporter_type"
+    t.bigint "reporter_id"
+    t.integer "status", default: 0
+    t.text "details"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id"
+    t.index ["reporter_type", "reporter_id"], name: "index_reports_on_reporter_type_and_reporter_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "titolo"
     t.integer "valutazione"
     t.text "testo"
-    t.bigint "user_id", null: false
     t.bigint "field_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_id"], name: "index_reviews_on_field_id"
@@ -109,11 +135,15 @@ ActiveRecord::Schema.define(version: 2024_10_23_110906) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.string "uid"
     t.string "provider"
     t.datetime "confirmed_at"
     t.string "confirmation_token"
     t.datetime "confirmation_sent_at"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
