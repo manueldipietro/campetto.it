@@ -136,84 +136,52 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="fine__container" id="terms">
-    <div class="fine__links">
-      <div class="fine__link--wrapper">
-        <div class="fine__link--items">
-          <h2>About Us</h2>
-          <a href="#nostraidea">La nostra idea</a>
-          <a href="#chisiamo">Chi siamo</a>
-          <a href="#terms">Terms of Service</a>
-        </div>
-        <div class="fine__link--items">
-          <h2>Follow us</h2>
-          <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
-          <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
-          <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
-          <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
-        </div>
-      </div>
-    </div>
-    <section class="social__media">
-      <div class="social__media--wrap">
-        <div class="fine__logo">
-          <a class="fine-brand me-auto" href="#">Campetto.it</a>
-        </div>
-        <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
-      </div>
-    </section>
-  </div>
-
   <!-- Script JavaScript per disabilitare il campo indirizzo quando si inserisce una città -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const cityField = document.getElementById('citta'); 
-    const addressField = document.getElementById('indirizzo');
-    const getLocationBtn = document.getElementById('get-location-btn'); // Il pulsante di geolocalizzazione
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cityField = document.getElementById('citta'); 
+        const addressField = document.getElementById('indirizzo');
+        const getLocationBtn = document.getElementById('get-location-btn'); 
 
-    // Funzione per disabilitare il campo città se l'indirizzo è presente
-    function disableCityIfAddress() {
-        if (addressField.value.trim() !== '') {
-            cityField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
-            cityField.disabled = true;
-        } else {
-            cityField.disabled = false;
+        // Funzione per disabilitare il campo città se l'indirizzo è presente
+        function disableCityIfAddress() {
+            if (addressField.value.trim() !== '') {
+                cityField.value = ''; 
+                cityField.disabled = true;
+            } else {
+                cityField.disabled = false;
+            }
         }
-    }
 
-    // Quando viene cambiato il campo città
-    cityField.addEventListener('input', function() {
-        if (cityField.value.trim() !== '') {
-            addressField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
-            addressField.disabled = true;
-        } else {
-            addressField.disabled = false;
-        }
-    });
+        // Quando viene cambiato il campo città
+        cityField.addEventListener('input', function() {
+            if (cityField.value.trim() !== '') {
+                addressField.value = ''; 
+                addressField.disabled = true;
+            } else {
+                addressField.disabled = false;
+            }
+        });
 
-    // Quando viene cambiato il campo indirizzo
-    addressField.addEventListener('input', disableCityIfAddress);
+        // Quando viene cambiato il campo indirizzo
+        addressField.addEventListener('input', disableCityIfAddress);
 
-    // Quando viene cliccato il pulsante per la geolocalizzazione
-    getLocationBtn.addEventListener('click', function() {
-        // Esegui la logica di geolocalizzazione qui (ipotizzando che ci sia un altro script che riempie il campo indirizzo)
-        // Dopo che il campo indirizzo è stato riempito, chiama la funzione per disabilitare il campo città
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('latitudine').value = lat;
-            document.getElementById('longitudine').value = lon;
+        // Quando viene cliccato il pulsante per la geolocalizzazione
+        getLocationBtn.addEventListener('click', function() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                document.getElementById('latitudine').value = lat;
+                document.getElementById('longitudine').value = lon;
 
-            // Simulazione di compilazione automatica dell'indirizzo dalla geolocalizzazione (sostituisci con la tua logica)
-            addressField.value = 'Indirizzo simulato tramite geolocalizzazione';
-            
-            // Disabilita il campo città
-            disableCityIfAddress();
+                addressField.value = 'Indirizzo simulato tramite geolocalizzazione';
+                
+                // Disabilita il campo città
+                disableCityIfAddress();
+            });
         });
     });
-});
-</script>
+  </script>
 
 
 </body>
