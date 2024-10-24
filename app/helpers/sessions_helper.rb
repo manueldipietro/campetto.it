@@ -23,7 +23,7 @@ module SessionsHelper
             @current_administrator ||= Administrator.find_by(id: administrator_id)
         elsif (administrator_id = cookies.signed[:administrator_id])
             administrator = Administrator.find_by(id: administrator_id)
-            if administrator && administrator.authenticated?(:remember_administrator, cookies[:administrator_remember_token])
+            if administrator && administrator.authenticated?(cookies[:administrator_remember_token])
                 log_in_administrator administrator
                 @current_administrator = administrator
             end
