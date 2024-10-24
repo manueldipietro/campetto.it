@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   resources :fields do
     get 'reviews', to: 'reviews#field_reviews', as: :field_reviews
     resources :slots, only: [:index]
-     resources :reviews, only: [:new, :create]
+     resources :reviews, only: [:index,:new, :create]
   end
   
    resources :reviews, only: [:destroy]

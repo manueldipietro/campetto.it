@@ -7,6 +7,7 @@ class ReviewsController < ApplicationController
 
   # Visualizza tutte le recensioni per un campo specifico
   def field_reviews
+  @field = Field.find(params[:field_id])
     @reviews = @field.reviews.order(created_at: :desc)
   end
 
