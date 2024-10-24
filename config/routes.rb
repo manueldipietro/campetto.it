@@ -33,10 +33,15 @@ Rails.application.routes.draw do
   # Risorse
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
+  
   resources :fields do
-    resources :reviews, only: [:index, :new, :create, :destroy]
+    get 'reviews', to: 'reviews#field_reviews', as: :field_reviews
     resources :slots, only: [:index]
+     resources :reviews, only: [:new, :create]
   end
+  
+   resources :reviews, only: [:destroy]
+   
   resources :users do
     member do
       get 'bookings', to: 'bookings#index'
@@ -65,6 +70,11 @@ Rails.application.routes.draw do
   resources :administrators, only: [:create, :update]
   
   get 'user_reviews', to: 'reviews#user_index', as: 'user_reviews'
+  
+
+  # Dashboard amministrativa
+  get 'admin_dashboard', to: 'administrators#dashboard', as: 'admin_dashboard'
+
 
 
 end

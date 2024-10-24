@@ -41,6 +41,7 @@ class AdministratorsController < ApplicationController
 
   def dashboard
     @administrator = Administrator.find(session[:administrator_id])
+    @reviews = Review.all.order(created_at: :desc)
   end
   
   private

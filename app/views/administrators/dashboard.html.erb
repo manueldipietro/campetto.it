@@ -45,11 +45,26 @@
     </h2>
 </div>
 
-<div style="display: none" id="review-manager" class="work-area">
-    <h2 class="work-area-heading">
-        <i class="fas fa-cogs"></i> Gestione recensioni
-    </h2>
+<div id="review-manager" class="work-area">
+  <h2 class="work-area-heading">
+    <i class="fas fa-cogs"></i> Gestione recensioni
+  </h2>
+  <div class="reviews-list">
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <div class="review-entry">
+          <p>Recensione di: <%= review.user.email %></p>
+          <p>Testo: <%= review.testo %></p>
+          <p>Data: <%= review.created_at.strftime("%d/%m/%Y") %></p>
+          <%= button_to 'Elimina', review_path(review), method: :delete, class: 'btn btn-danger', data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' } %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>Nessuna recensione disponibile.</p>
+    <% end %>
+  </div>
 </div>
+
 
 <div style="display: none" id="report-manager" class="work-area">
     <h2 class="work-area-heading">

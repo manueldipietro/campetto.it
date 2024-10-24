@@ -40,7 +40,7 @@
             </div>
             <% if review.user == current_user %>
               <div class="review-actions">
-                <%= link_to 'Elimina', field_review_path(review.field, review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger' %>
+                <%= link_to 'Elimina', field_reviews_path(review.field, review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger' %>
               </div>
             <% end %>
           </div>

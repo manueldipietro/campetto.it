@@ -1,11 +1,12 @@
 class ReviewsController < ApplicationController
-  before_action :set_field, only: [:index, :new, :create, :destroy]
+  before_action :set_field, only: [:field_reviews, :new, :create]
   before_action :require_user
   before_action :set_review, only: [:destroy]
   before_action :authorize_user, only: [:destroy]
+  before_action :admin_only, only: [:destroy]
 
   # Visualizza tutte le recensioni per un campo specifico
-  def index
+  def field_reviews
     @reviews = @field.reviews.order(created_at: :desc)
   end
 
@@ -31,9 +32,11 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @review.destroy
-    flash[:success] = "Recensione eliminata con successo."
-    redirect_to field_reviews_path(@field)
+    if @review.destroy
+      redirect_back(fallback_location: admin_dashboard_path, notice: 'Recensione eliminata con successo.')
+    else
+      redirect_back(fallback_location: admin_dashboard_path, alert: 'Impossibile eliminare la recensione.')
+    end
   end
 
   private
@@ -47,7 +50,9 @@ class ReviewsController < ApplicationController
   end
 
   def authorize_user
-    redirect_to root_path, alert: "Non sei autorizzato a eliminare questa recensione." unless @review.user == current_user
+    unless current_user.admin? || @review.user == current_user
+      redirect_to root_path, alert: "Non sei autorizzato a eliminare questa recensione."
+    end
   end
 
   def review_params
@@ -56,6 +61,10 @@ class ReviewsController < ApplicationController
 
   def require_user
     redirect_to login_path, alert: "Devi essere loggato per eseguire questa azione." unless current_user
+  end
+
+  def admin_only
+    redirect_to root_path, alert: "Accesso non autorizzato." unless current_user.admin?
   end
 end
 
