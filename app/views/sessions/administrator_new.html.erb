@@ -1,18 +1,36 @@
-<h1>Autenticazione amministratore</h1>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Campetto</title>
+    <%= stylesheet_link_tag 'administrator_login', media: 'all' %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+</head>
+<body>
+    <div class="admin-login-container">
+        <h1>Autenticazione amministratore</h1>
+        
+        <%= form_for(:session, url: administrator_log_in_path, html: { class: 'admin-login-form' }) do |f| %>
+            <% if flash[:alert] %>
+                <div class="error"><%= flash[:alert] %></div>
+            <% end %>
 
-<%= form_for(:session, url: administrator_log_in_path) do |f| %>
+            <%= f.label :email %>
+            <%= f.email_field :email, class: 'form-control' %>
 
-    <%= f.label :email %>
-    <%= f.email_field :email, class: 'form-control' %>
+            <%= f.label :password %>
+            <%= f.password_field :password, class: 'form-control' %>
+            
+            <div class="remember-me">
+                <%= f.check_box :remember_me %>
+                <span>Ricordami</span>
+            </div>
 
-    <%= f.label :password %>
-    <%= f.password_field :password, class: 'form-control' %>
-    
-    <%= f.label :remember_me, class: "checkbox inline" do %>
-        <%= f.check_box :remember_me %>
-        <span>Ricordami</span>
-    <% end %>
+            <%= f.submit "Log in", class: "btn-primary" %>
+        <% end %>
+    </div>
+</body>
+</html>
 
-    <%= f.submit "Log in", class: "btn btn-primary" %>
-
-<% end %>

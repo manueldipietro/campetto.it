@@ -1,20 +1,28 @@
+/* fields_controller.css: Stili aggiornati per la pagina di ricerca dei campi */
+
+/* Container principale */
 .mainField {
   padding-top: 80px;
   min-height: 700px;
   padding-left: 0;
 }
 
+/* Titolo della pagina */
 .title-campi {
   margin-left: 26%; /* Sposta il titolo a destra per non sovrapporsi alla colonna fissa */
   padding: 20px;
   font-size: 2rem;
+  color: #333; /* Colore del testo */
+  text-align: center; /* Centra il testo */
 }
 
+/* Layout delle sezioni */
 .fields-layout {
   display: flex;
   flex-wrap: wrap;
 }
 
+/* Colonna dei filtri */
 .filter-column {
   width: 25%;
   padding: 30px;
@@ -30,6 +38,7 @@
   margin-left: 10px;
 }
 
+/* Contenitore dei campi */
 .fields-container {
   width: 75%;
   margin-left: 26%; /* Compensa la larghezza della colonna fissa */
@@ -40,6 +49,7 @@
   justify-items: center;
 }
 
+/* Riquadro singolo del campo */
 .field-card {
   display: flex;
   flex-direction: column;
@@ -47,50 +57,75 @@
   max-width: 260px; /* Imposta una larghezza massima */
   border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombra più morbida */
   overflow: hidden;
-  transition: transform 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s; /* Transizione più fluida */
   background-color: #fff;
 }
 
+/* Effetto al passaggio del mouse */
 .field-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Immagine del campo */
 .field-image img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
+
+/* Informazioni del campo */
 .field-info {
-  padding: 10px;
-  text-align: center;
+  padding: 15px; /* Padding aumentato per più respiro */
+  text-align: left; /* Allinea il testo a sinistra */
 }
 
+/* Titolo del campo */
 .field-info h2 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin-bottom: 10px;
+  color: #007bff; /* Colore distintivo per il nome del campo */
+  font-weight: 600;
 }
 
+/* Paragrafi delle informazioni */
 .field-info p {
-  margin-bottom: 5px; /* Riduce lo spazio tra le righe */
+  margin-bottom: 8px; /* Aumenta la spaziatura tra le righe */
   font-size: 1rem;
+  color: #555; /* Colore del testo più scuro per leggibilità */
 }
 
+/* Stilizzazione delle etichette */
+.field-info p strong {
+  font-weight: 600;
+  color: #333; /* Colore delle etichette */
+}
+
+/* Pulsante di ricerca */
 .buttonCerca {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 12px;
+  background-color: #009870; /* Nuovo colore del pulsante */
   border: none;
   color: #fff;
   font-size: 1rem;
-  border-radius: 5px;
+  border-radius: 20px; /* Aumentato per più arrotondamento */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: inherit; /* Mantiene il font ereditato, simile a 'Tutti i campi' */
+  font-weight: bold; /* Opzionale: rende il testo del pulsante più evidente */
 }
 
 .buttonCerca:hover {
-  background-color: #0056b3;
+  background-color: #007f5e; /* Colore leggermente più scuro al passaggio del mouse */
+  transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
 }
 
+/* Responsive Design */
+
+/* Per schermi medi */
 @media screen and (max-width: 1050px) {
   .filter-column {
     width: 30%;
@@ -108,6 +143,7 @@
   }
 }
 
+/* Per schermi piccoli */
 @media screen and (max-width: 850px) {
   .mainField {
     padding-top: 50px;
@@ -132,6 +168,11 @@
   .fields-container {
     width: 100%;
     margin-left: 0;
+  }
+
+  .title-campi {
+    margin-left: 0;
+    text-align: center;
   }
 }
 /* Stile del contenitore principale */
@@ -379,5 +420,18 @@ h1 {
 }
 
 
+/* Aggiunta di stili per migliorare l'aspetto delle informazioni */
+.field-info p {
+  display: flex;
+  align-items: center;
+}
 
+.field-info p strong {
+  width: 100px; /* Larghezza fissa per le etichette */
+  display: inline-block;
+}
+
+.field-info p span {
+  flex: 1;
+}
 

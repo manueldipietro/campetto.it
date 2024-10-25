@@ -246,6 +246,31 @@
 
 /*Footer*/
 /* Stili per il footer */
+.admin-login {
+    position: relative; /* Necessario per posizionare il link assolutamente all'interno */
+}
+.admin-login-link {
+    top: 20px; /* Regola la distanza dal bordo superiore del footer */
+    left: 5px; /* Regola la distanza dal bordo sinistro del footer */
+    background-color: #009870; /* Colore di sfondo del pulsante */
+    color: #fff; /* Colore del testo */
+    padding: 10px 25px; /* Spaziatura interna per un aspetto rettangolare */
+    border: none; /* Rimuove il bordo predefinito */
+    border-radius: 8px; /* Arrotondamento moderato */
+    font-size: 16px; /* Dimensione del font simile a 'Tutti i campi' */
+    font-weight: 600; /* Peso del font */
+    text-decoration: none; /* Rimuove la sottolineatura */
+    display: inline-block;
+    transition: background-color 0.3s, transform 0.3s; /* Transizioni fluide */
+    cursor: pointer; /* Cambia il cursore al passaggio */
+}
+
+.admin-login-link:hover {
+    background-color: #007f5e; /* Colore di sfondo al passaggio del mouse */
+    transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
+    text-decoration: none; /* Mantiene la rimozione della sottolineatura */
+}
+
 .fine__container {
   background-color: #009970;
   padding: 2rem;
