@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Campetto</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
+  
 </head>
 <body>
   <!-- Navbar -->
@@ -115,8 +116,8 @@
       </div>
       <div class="field-info">
         <h2><%= field.nome %></h2>
-        <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
-        <p><strong>Indirizzo:</strong> <%= field.via %>, <%= field.cap %> <%= field.citta %></p>
+        <p><strong>Prezzo:</strong> <span>€<%= field.prezzo %></span></p>
+        <p><strong>Indirizzo:</strong> <span><%= field.via %>, <%= field.cap %> <%= field.citta %></span></p>
         <p><strong>Distanza:</strong>
   <% if field.distance %>
     <%= field.distance.round(2) %> km
