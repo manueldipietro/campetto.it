@@ -82,6 +82,20 @@ ActiveRecord::Schema.define(version: 2024_10_25_000106) do
     t.string "indirizzo"
   end
 
+  create_table "partners", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "gender"
+    t.date "birthdate"
+    t.string "mobile"
+    t.string "email"
+    t.string "password_digest"
+    t.string "remember_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_partners_on_email", unique: true
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "titolo"
     t.integer "valutazione"

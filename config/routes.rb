@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'partners/new'
+  get 'new/Partners'
+  get 'new/new'
+  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
