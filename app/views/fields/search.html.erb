@@ -7,56 +7,6 @@
   <%= stylesheet_link_tag 'application', media: 'all' %>
 </head>
 <body>
-  <!-- Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top">
-  <div class="container-fluid">
-    <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
-    
-    <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-lg-2" href="#">Contatti</a>
-          </li>
-          <% unless current_user %>
-          <li class="nav-item">
-            <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
-          </li>
-          <% end %>
-        </ul>
-        <% if current_user %>
-          <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
-        <% else %>
-          <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-        <% end %>
-      </div>
-    </div>
-
-    <!-- Buttons -->
-    <div class="navbar-buttons d-flex align-items-center">
-      <% if current_user %>
-        <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
-        <button class="button" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
-      <% else %>
-        <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
-        <button class="button" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-      <% end %>
-    </div>
-  </div>
-</nav>
-
-
   <!-- Contenuto principale -->
   <div class="mainField">
     <!-- Titolo sopra la colonna di sinistra -->
@@ -107,7 +57,7 @@
             <!-- Campo Raggio di ricerca -->
             <div class="mb-3">
               <label for="raggio">Raggio di ricerca (in km)</label>
-              <%= select_tag :raggio, options_for_select([5, 10, 20, 50], @selected_raggio), class: 'form-select' %>
+              <%= select_tag :raggio, options_for_select([10, 20, 50,], @selected_raggio), class: 'form-select' %>
             </div>
 
             <!-- Pulsante Cerca -->
@@ -136,84 +86,52 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="fine__container" id="terms">
-    <div class="fine__links">
-      <div class="fine__link--wrapper">
-        <div class="fine__link--items">
-          <h2>About Us</h2>
-          <a href="#nostraidea">La nostra idea</a>
-          <a href="#chisiamo">Chi siamo</a>
-          <a href="#terms">Terms of Service</a>
-        </div>
-        <div class="fine__link--items">
-          <h2>Follow us</h2>
-          <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
-          <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
-          <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
-          <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
-        </div>
-      </div>
-    </div>
-    <section class="social__media">
-      <div class="social__media--wrap">
-        <div class="fine__logo">
-          <a class="fine-brand me-auto" href="#">Campetto.it</a>
-        </div>
-        <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
-      </div>
-    </section>
-  </div>
-
   <!-- Script JavaScript per disabilitare il campo indirizzo quando si inserisce una città -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const cityField = document.getElementById('citta'); 
-    const addressField = document.getElementById('indirizzo');
-    const getLocationBtn = document.getElementById('get-location-btn'); // Il pulsante di geolocalizzazione
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cityField = document.getElementById('citta'); 
+        const addressField = document.getElementById('indirizzo');
+        const getLocationBtn = document.getElementById('get-location-btn'); 
 
-    // Funzione per disabilitare il campo città se l'indirizzo è presente
-    function disableCityIfAddress() {
-        if (addressField.value.trim() !== '') {
-            cityField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
-            cityField.disabled = true;
-        } else {
-            cityField.disabled = false;
+        // Funzione per disabilitare il campo città se l'indirizzo è presente
+        function disableCityIfAddress() {
+            if (addressField.value.trim() !== '') {
+                cityField.value = ''; 
+                cityField.disabled = true;
+            } else {
+                cityField.disabled = false;
+            }
         }
-    }
 
-    // Quando viene cambiato il campo città
-    cityField.addEventListener('input', function() {
-        if (cityField.value.trim() !== '') {
-            addressField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
-            addressField.disabled = true;
-        } else {
-            addressField.disabled = false;
-        }
-    });
+        // Quando viene cambiato il campo città
+        cityField.addEventListener('input', function() {
+            if (cityField.value.trim() !== '') {
+                addressField.value = ''; 
+                addressField.disabled = true;
+            } else {
+                addressField.disabled = false;
+            }
+        });
 
-    // Quando viene cambiato il campo indirizzo
-    addressField.addEventListener('input', disableCityIfAddress);
+        // Quando viene cambiato il campo indirizzo
+        addressField.addEventListener('input', disableCityIfAddress);
 
-    // Quando viene cliccato il pulsante per la geolocalizzazione
-    getLocationBtn.addEventListener('click', function() {
-        // Esegui la logica di geolocalizzazione qui (ipotizzando che ci sia un altro script che riempie il campo indirizzo)
-        // Dopo che il campo indirizzo è stato riempito, chiama la funzione per disabilitare il campo città
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('latitudine').value = lat;
-            document.getElementById('longitudine').value = lon;
+        // Quando viene cliccato il pulsante per la geolocalizzazione
+        getLocationBtn.addEventListener('click', function() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                document.getElementById('latitudine').value = lat;
+                document.getElementById('longitudine').value = lon;
 
-            // Simulazione di compilazione automatica dell'indirizzo dalla geolocalizzazione (sostituisci con la tua logica)
-            addressField.value = 'Indirizzo simulato tramite geolocalizzazione';
-            
-            // Disabilita il campo città
-            disableCityIfAddress();
+                addressField.value = 'Indirizzo simulato tramite geolocalizzazione';
+                
+                // Disabilita il campo città
+                disableCityIfAddress();
+            });
         });
     });
-});
-</script>
+  </script>
 
 
 </body>

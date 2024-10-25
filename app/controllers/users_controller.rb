@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
         if @user.save
           UserMailer.registration_confirmation(@user).deliver_now
-          flash[:notice] = "Registraione avvenuta con successo, ora conferma via email"
+          flash[:notice] = "Registrazione avvenuta con successo, ora conferma via email"
           redirect_to logReg_path(form: 'login')
         else
             flash[:alert] = "Email già registrata, usane un'altra."
@@ -49,11 +49,9 @@ class UsersController < ApplicationController
 end
   
 
- def accountUtente
-  @user = current_user
-  Rails.logger.debug("Current User in account: #{@user.inspect}")
-end
-
+  def accountUtente
+    @user = current_user
+  end
   
   #Conferma email
   def confirm
@@ -64,11 +62,11 @@ end
       flash[:notice] = 'Il tuo account è stato confermato. Ora puoi effettuare il login.'
       redirect_to logReg_path(form: 'login')
     else
-      user&.destroy 
       flash[:alert] = 'Token di conferma non valido o scaduto. Registrati nuovamente.'
       redirect_to logReg_path(form: 'signup')
     end
   end
+  
 
   #Modifica Password da accountUtente
   def modify_password

@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'partners/new'
-  get 'new/Partners'
-  get 'new/new'
-  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
@@ -34,27 +30,42 @@ Rails.application.routes.draw do
   # Ricerca campi
   get 'search_fields', to: 'fields#search', as: 'search_fields'
 
-  # Risorse
-  resources :users, only: [:new, :create]
+  # Rotte per `users`
+  resources :users, only: [:new, :create, :edit, :update, :destroy] do
+    member do
+      get 'accountUtente', to: 'users#accountUtente', as: 'accountUtente'
+      get 'bookings', to: 'bookings#index'
+      get 'reviews', to: 'reviews#user_index'
+      get 'reports', to: 'reports#user_index'
+    end
+  end
+
+  # Rotte per `sessions`
   resources :sessions, only: [:new, :create, :destroy]
-  
+
+  # Rotte per `fields`
   resources :fields do
     get 'reviews', to: 'reviews#field_reviews', as: :field_reviews
     resources :slots, only: [:index]
-     resources :reviews, only: [:index,:new, :create]
+    resources :reviews, only: [:index, :new, :create]
   end
-  
-   resources :reviews, only: [:destroy]
-   
-  resources :users, only: [:new, :create, :edit, :update, :destroy] do
-     member do
-    get 'accountUtente', to: 'users#accountUtente', as: 'accountUtente'
-    get 'bookings', to: 'bookings#index'
-    get 'reviews', to: 'reviews#user_index', as: 'reviews'
-  end
-end
-  resources :bookings, only: [:index, :destroy]
 
+  # Rimuovi la duplicazione delle risorse `reviews` per evitare conflitti
+  resources :reviews, only: [:destroy]
+
+  # Rotte per `bookings`
+  resources :bookings, only: [:index, :destroy] do
+    resources :reports, only: [:create]
+  end
+
+  # Rotte per `reports`
+  resources :reports, only: [:index] do
+    member do
+      patch :accept
+      patch :reject
+    end
+  end
+    
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success'
@@ -81,8 +92,6 @@ end
 
   # Dashboard amministrativa
   get 'admin_dashboard', to: 'administrators#dashboard', as: 'admin_dashboard'
-
-
 
 end
 
