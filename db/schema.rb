@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_23_110906) do
+ActiveRecord::Schema.define(version: 2024_10_24_202912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,20 @@ ActiveRecord::Schema.define(version: 2024_10_23_110906) do
     t.integer "interval"
     t.string "exclude_days"
     t.string "indirizzo"
+  end
+
+  create_table "partners", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "gender"
+    t.date "birthdate"
+    t.string "mobile"
+    t.string "email"
+    t.string "password_digest"
+    t.string "remember_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_partners_on_email", unique: true
   end
 
   create_table "reviews", force: :cascade do |t|
