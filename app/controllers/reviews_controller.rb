@@ -1,11 +1,17 @@
 class ReviewsController < ApplicationController
-  before_action :set_field
-  before_action :require_user, only: [:new, :create, :destroy]
+  before_action :set_field, only: [:index, :new, :create, :destroy]
+  before_action :require_user
   before_action :set_review, only: [:destroy]
   before_action :authorize_user, only: [:destroy]
 
+  # Visualizza tutte le recensioni per un campo specifico
   def index
     @reviews = @field.reviews.order(created_at: :desc)
+  end
+
+  # Visualizza tutte le recensioni dell'utente corrente
+  def user_index
+    @reviews = Review.where(user: current_user).includes(:field).order(created_at: :desc)
   end
 
   def new
@@ -33,18 +39,15 @@ class ReviewsController < ApplicationController
   private
 
   def set_field
-    @field = Field.find(params[:field_id])
+    @field = Field.find(params[:field_id]) if params[:field_id]
   end
 
   def set_review
-    @review = @field.reviews.find(params[:id])
+    @review = Review.find(params[:id])
   end
 
   def authorize_user
-    unless @review.user == current_user
-      flash[:alert] = "Non sei autorizzato a eliminare questa recensione."
-      redirect_to field_reviews_path(@field)
-    end
+    redirect_to root_path, alert: "Non sei autorizzato a eliminare questa recensione." unless @review.user == current_user
   end
 
   def review_params
@@ -52,10 +55,7 @@ class ReviewsController < ApplicationController
   end
 
   def require_user
-    unless current_user
-      flash[:alert] = "Devi essere loggato per eseguire questa azione."
-      redirect_to login_path
-    end
+    redirect_to login_path, alert: "Devi essere loggato per eseguire questa azione." unless current_user
   end
 end
 
