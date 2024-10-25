@@ -30,29 +30,34 @@ Rails.application.routes.draw do
   # Ricerca campi
   get 'search_fields', to: 'fields#search', as: 'search_fields'
 
-  # Risorse
-  resources :users, only: [:new, :create] do
+  # Rotte per `users`
+  resources :users, only: [:new, :create, :edit, :update, :destroy] do
     member do
+      get 'accountUtente', to: 'users#accountUtente', as: 'accountUtente'
       get 'bookings', to: 'bookings#index'
-      get 'reports', to: 'reports#user_index'
+      get 'reviews', to: 'reviews#user_index'
     end
   end
 
+  # Rotte per `sessions`
   resources :sessions, only: [:new, :create, :destroy]
 
+  # Rotte per `fields`
   resources :fields do
-    resources :reviews, only: [:index, :new, :create, :destroy]
+    get 'reviews', to: 'reviews#field_reviews', as: :field_reviews
     resources :slots, only: [:index]
+    resources :reviews, only: [:index, :new, :create]
   end
 
+  # Rimuovi la duplicazione delle risorse `reviews` per evitare conflitti
+  resources :reviews, only: [:destroy]
+
+  # Rotte per `bookings`
   resources :bookings, only: [:index, :destroy] do
     resources :reports, only: [:create]
   end
 
-  resources :reviews do
-    resources :reports, only: [:create]
-  end
-
+  # Rotte per `reports`
   resources :reports, only: [:index] do
     member do
       patch :accept
@@ -63,7 +68,11 @@ Rails.application.routes.draw do
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success'
-  get 'checkout/cancel', to: 'checkout#cancel'
+  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+
+
+  # Rotte per partner
+  get 'partner_signup', to: 'partners#new'
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'
   
@@ -74,8 +83,16 @@ Rails.application.routes.draw do
   delete    'administrator_log_out',      to: 'sessions#destroy'
   get       'administrator_dashboard',    to: 'administrators#dashboard'
   get       'administrator_my_profile',   to: 'administrators#myprofile'
-  post      'administrator_update',       to: 'administrator#update'
+  post      'administrator_update',       to: 'administrators#update'
   resources :administrators, only: [:create, :update]
+  
+  get 'user_reviews', to: 'reviews#user_index', as: 'user_reviews'
+  
+
+  # Dashboard amministrativa
+  get 'admin_dashboard', to: 'administrators#dashboard', as: 'admin_dashboard'
+
+
 
 end
 

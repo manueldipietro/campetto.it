@@ -1,11 +1,19 @@
 class ReviewsController < ApplicationController
-  before_action :set_field
-  before_action :require_user, only: [:new, :create, :destroy]
+  before_action :set_field, only: [:field_reviews, :new, :create]
+  before_action :require_user, except: [:field_reviews, :index, :show]
   before_action :set_review, only: [:destroy]
   before_action :authorize_user, only: [:destroy]
+  before_action :admin_only, only: [:destroy]
 
-  def index
+  # Visualizza tutte le recensioni per un campo specifico
+  def field_reviews
+  @field = Field.find(params[:field_id])
     @reviews = @field.reviews.order(created_at: :desc)
+  end
+
+  # Visualizza tutte le recensioni dell'utente corrente
+  def user_index
+    @reviews = Review.where(user: current_user).includes(:field).order(created_at: :desc)
   end
 
   def new
@@ -25,25 +33,26 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @review.destroy
-    flash[:success] = "Recensione eliminata con successo."
-    redirect_to field_reviews_path(@field)
+    if @review.destroy
+      redirect_back(fallback_location: admin_dashboard_path, notice: 'Recensione eliminata con successo.')
+    else
+      redirect_back(fallback_location: admin_dashboard_path, alert: 'Impossibile eliminare la recensione.')
+    end
   end
 
   private
 
   def set_field
-    @field = Field.find(params[:field_id])
+    @field = Field.find(params[:field_id]) if params[:field_id]
   end
 
   def set_review
-    @review = @field.reviews.find(params[:id])
+    @review = Review.find(params[:id])
   end
 
   def authorize_user
-    unless @review.user == current_user
-      flash[:alert] = "Non sei autorizzato a eliminare questa recensione."
-      redirect_to field_reviews_path(@field)
+    unless current_user.admin? || @review.user == current_user
+      redirect_to root_path, alert: "Non sei autorizzato a eliminare questa recensione."
     end
   end
 
@@ -52,10 +61,11 @@ class ReviewsController < ApplicationController
   end
 
   def require_user
-    unless current_user
-      flash[:alert] = "Devi essere loggato per eseguire questa azione."
-      redirect_to login_path
-    end
+    redirect_to login_path, alert: "Devi essere loggato per eseguire questa azione." unless current_user
+  end
+
+  def admin_only
+    redirect_to root_path, alert: "Accesso non autorizzato." unless current_user.admin?
   end
 end
 

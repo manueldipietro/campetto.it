@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   # Validazioni per l'email
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password, presence: true, length: { minimum: 6 }, on: :create, allow_nil: true
 
   before_create :generate_confirmation_token
 

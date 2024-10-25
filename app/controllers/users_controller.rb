@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-
-  before_action :authenticate_user!, except: [:new, :create, :confirm,:request_password_reset, :edit_password, :update_password]
+ before_action :authenticate_user!, except: [:new, :create, :confirm, :request_password_reset, :edit_password, :update_password]
+  before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def new
     @user = User.new
@@ -19,6 +20,34 @@ class UsersController < ApplicationController
             redirect_to logReg_path(form: 'signup')
         end
   end
+
+ def edit
+    # @user è già impostato da set_user
+  end
+  
+  def update
+    if params[:user][:password].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
+    if @user.update(user_params)
+      flash[:notice] = "Profilo aggiornato con successo."
+      redirect_to accountUtente_user_path(@user)
+    else
+      flash[:alert] = "Errore durante l'aggiornamento del profilo."
+      render :edit
+    end
+  end
+
+ def destroy
+  @user.destroy
+  # Disconnetti l'utente dopo l'eliminazione dell'account
+  session[:user_id] = nil
+  flash[:notice] = "Il tuo account è stato eliminato."
+  redirect_to root_path
+end
+  
 
   def accountUtente
     @user = current_user
@@ -101,8 +130,20 @@ class UsersController < ApplicationController
   end
 
   private
+  
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def correct_user
+    unless @user == current_user
+      flash[:alert] = "Non sei autorizzato ad accedere a questa sezione."
+      redirect_to root_path
+    end
+  end
+
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :password_confirmation, :nome, :cognome)
   end
 
   def require_logins

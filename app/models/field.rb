@@ -2,6 +2,7 @@ class Field < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_one_attached :image
   has_many :slots, dependent: :destroy
+  belongs_to :sports_center
 
   after_create :create_slots
 
