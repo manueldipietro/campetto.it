@@ -4,7 +4,7 @@
 
 <% image_url = @field.image.attached? ? url_for(@field.image) : asset_path('default_background.jpg') %>
 
-<div class="success-container" style="background-image: url('<%= image_url %>');">
+<div class="success-container" data-image-url="<%= image_url %>">
   <div class="success-message">
     <i class="fas fa-check-circle"></i>
     <h1>Prenotazione completata!</h1>
@@ -14,4 +14,11 @@
     <%= link_to 'Torna alla Home', root_path, class: 'btn btn-secondary action-button' %>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var container = document.querySelector('.success-container');
+    var imageUrl = container.getAttribute('data-image-url');
+    container.style.backgroundImage = 'url(' + imageUrl + ')';
+  });
+</script>
 

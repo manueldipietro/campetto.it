@@ -129,6 +129,7 @@ class FieldsController < ApplicationController
  def show
   @field = Field.find(params[:id])
   
+  
   # Controlla se il parametro :date è presente e valido, altrimenti usa la data odierna
   begin
     @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
