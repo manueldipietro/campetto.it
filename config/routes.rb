@@ -54,7 +54,8 @@ end
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success'
-  get 'checkout/cancel', to: 'checkout#cancel'
+  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+
 
   # Rotte per partner
   get 'partner_signup', to: 'partners#new'
