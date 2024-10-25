@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_25_131204) do
+ActiveRecord::Schema.define(version: 2024_10_25_140124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,13 @@ ActiveRecord::Schema.define(version: 2024_10_25_131204) do
     t.index ["email"], name: "index_partners_on_email", unique: true
   end
 
+  create_table "partners_sports_centers", id: false, force: :cascade do |t|
+    t.bigint "partner_id", null: false
+    t.bigint "sports_center_id", null: false
+    t.index ["partner_id", "sports_center_id"], name: "index_partners_sports_centers_on_partner_and_center"
+    t.index ["sports_center_id", "partner_id"], name: "index_sports_centers_on_center_and_partner"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "titolo"
     t.integer "valutazione"
@@ -127,6 +134,8 @@ ActiveRecord::Schema.define(version: 2024_10_25_131204) do
     t.string "phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "owner_id"
+    t.index ["owner_id"], name: "index_sports_centers_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
