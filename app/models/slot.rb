@@ -1,6 +1,6 @@
 class Slot < ApplicationRecord
   belongs_to :field
-  has_one :booking
+ has_many :bookings, dependent: :destroy
 
   scope :expired, -> { where('end_time < ?', Time.now) }
 
@@ -8,7 +8,8 @@ class Slot < ApplicationRecord
     start_time = field.start_time
     end_time = field.end_time
     interval = field.interval.minutes
-    exclude_days = field.exclude_days.split(',').map(&:to_i)
+   exclude_days = field.exclude_days.map(&:to_i)
+
   
   
     (1..(4.months / 1.day)).each do |day_offset|

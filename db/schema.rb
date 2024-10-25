@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_25_131204) do
+ActiveRecord::Schema.define(version: 2024_10_25_181149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,9 @@ ActiveRecord::Schema.define(version: 2024_10_25_131204) do
     t.integer "interval"
     t.string "exclude_days"
     t.string "indirizzo"
+    t.string "via"
+    t.string "citta"
+    t.string "cap"
   end
 
   create_table "partners", force: :cascade do |t|

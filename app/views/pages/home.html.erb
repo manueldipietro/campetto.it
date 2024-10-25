@@ -11,35 +11,35 @@
     <section class="slider-container">
         <!-- Box di ricerca -->
         <div class="search-box">
-            <h2 class="text-black title">Cerca un campo vicino a te!</h2>
-            <%= form_with(url: search_fields_path, method: :get, local: true) do %>
-                <!-- Prima riga: Indirizzo -->
-                <div class="d-flex align-items-center mb-3">
-                    <%= text_field_tag :indirizzo, nil, placeholder: "Indirizzo", id: 'indirizzo', class: 'form-control', required: true %>
-                    <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
-                    <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
+  <h2 class="text-black title">Cerca un campo vicino a te!</h2>
+  <%= form_with(url: search_fields_path, method: :get, local: true) do %>
+    <!-- Campo Indirizzo -->
+    <div class="d-flex align-items-center mb-3">
+      <%= text_field_tag :indirizzo, nil, placeholder: "Inserisci un indirizzo o una città", id: 'indirizzo', class: 'form-control', required: true %>
+      <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
+      <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
 
-                    <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
-                        <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom: 15px;' %>
-                    <% end %>
-                </div>
+      <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
+        <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom: 15px;' %>
+      <% end %>
+    </div>
 
-                <!-- Seconda riga: Sport, Data-->
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <%= select_tag :sport, options_for_select(["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], "Tutti"), class: 'form-select', aria: { label: 'Sport' } %>
-                    </div>
-                    <div class="col-md-6">
-                        <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
-                    </div>
-                </div>
+    <!-- Campo Sport -->
+    <div class="mb-3">
+      <%= select_tag :sport, options_for_select(["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis", "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], "Tutti"), class: 'form-select', aria: { label: 'Sport' } %>
+    </div>
 
-                <!-- Pulsante Cerca -->
-                <div class="mt-3">
-                    <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-                </div>
-            <% end %>
-        </div>
+    <!-- Campo Data -->
+    <div class="mb-3">
+      <%= date_field_tag :data, nil, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
+    </div>
+
+    <!-- Pulsante Cerca -->
+    <div class="mt-3">
+      <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+    </div>
+  <% end %>
+</div>
 
         <!--Immagini Slider-->
         <div class="slider-wrapper">
@@ -81,6 +81,39 @@
             </div>
         </section>
     </div>
+    
+   <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const getLocationBtn = document.getElementById('get-location-btn');
+  const addressField = document.getElementById('indirizzo');
+
+  getLocationBtn.addEventListener('click', function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        document.getElementById('latitudine').value = lat;
+        document.getElementById('longitudine').value = lon;
+
+        // Usa il reverse geocoding per ottenere un indirizzo leggibile
+        fetch(`/reverse_geocode?lat=${lat}&lon=${lon}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.address) {
+              addressField.value = data.address;
+            } else {
+              addressField.value = "Posizione rilevata";
+            }
+          });
+      }, function(error) {
+        alert('Impossibile ottenere la posizione. Per favore, controlla le impostazioni del tuo browser.');
+      });
+    } else {
+      alert('Geolocalizzazione non supportata dal tuo browser.');
+    }
+  });
+});
+</script>
 </body>
 </html>
 

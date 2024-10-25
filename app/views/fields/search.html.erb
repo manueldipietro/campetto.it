@@ -72,67 +72,63 @@
       <!-- Colonna filtro ricerca -->
       <div class="filter-column">
         <div class="filter-box">
-          <h4>Aggiorna ricerca</h4>
-          <%= form_with(url: search_fields_path, method: :get, local: true) do %>
-            <!-- Campo Indirizzo -->
-            <div class="d-flex align-items-center mb-3">
-              <%= text_field_tag :indirizzo, @selected_indirizzo, id: 'indirizzo', placeholder: 'Indirizzo', class: 'form-control' %>
-              <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
-              <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
-              
-              <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
-              <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
-              <% end %>
-            </div>
+  <h4>Aggiorna ricerca</h4>
+  <%= form_with(url: search_fields_path, method: :get, local: true) do %>
+    <!-- Campo Indirizzo -->
+    <div class="d-flex align-items-center mb-3">
+      <%= text_field_tag :indirizzo, @selected_indirizzo, id: 'indirizzo', placeholder: 'Inserisci un indirizzo o una città', class: 'form-control', required: true %>
+      <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
+      <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
 
-            <!-- Campo Città -->
-            <div class="mb-3">
-              <label for="citta">Cerca in una città specifica</label>
-              <%= text_field_tag :citta, @selected_citta, id: 'citta', placeholder: "Inserisci una città", class: 'form-control' %>
-            </div>
+      <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
+        <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
+      <% end %>
+    </div>
 
-            <!-- Campo Sport -->
-            <div class="mb-3">
-              <%= select_tag :sport, options_for_select(
-                ["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis",
-                 "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], @selected_sport),
-                 class: 'form-select', aria: { label: 'Sport' } %>
-            </div>
+    <!-- Campo Sport -->
+    <div class="mb-3">
+      <%= select_tag :sport, options_for_select(
+        ["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis",
+         "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], @selected_sport),
+         class: 'form-select', aria: { label: 'Sport' } %>
+    </div>
 
-            <!-- Campo Data -->
-            <div class="mb-3">
-              <%= date_field_tag :data, @selected_date, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
-            </div>
+    <!-- Campo Data -->
+    <div class="mb-3">
+      <%= date_field_tag :data, @selected_date, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
+    </div>
 
-            <!-- Campo Raggio di ricerca -->
-            <div class="mb-3">
-              <label for="raggio">Raggio di ricerca (in km)</label>
-              <%= select_tag :raggio, options_for_select([5, 10, 20, 50], @selected_raggio), class: 'form-select' %>
-            </div>
-
-            <!-- Pulsante Cerca -->
-            <div class="mt-3">
-              <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-            </div>
-          <% end %>
-        </div>
+    <!-- Pulsante Cerca -->
+    <div class="mt-3">
+      <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
+    </div>
+  <% end %>
+</div>
       </div>
 
       <!-- Contenitore dei campi -->
       <div class="fields-container">
-        <% @fields.each do |field| %>
-          <%= link_to(field_path(field, date: @selected_date), class: "field-card") do %>
-            <div class="field-image">
-              <%= image_tag field.image, class: "image" if field.image.attached? %>
-            </div>
-            <div class="field-info">
-              <h2><%= field.nome %></h2>
-              <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
-              <p><strong>Indirizzo:</strong> <%= field.indirizzo %></p> <!-- Aggiunta della via/indirizzo -->
-            </div>
-          <% end %>
-        <% end %>
+  <% @fields.each do |field| %>
+    <%= link_to(field_path(field, date: @selected_date), class: "field-card") do %>
+      <div class="field-image">
+        <%= image_tag field.image, class: "image" if field.image.attached? %>
       </div>
+      <div class="field-info">
+        <h2><%= field.nome %></h2>
+        <p><strong>Prezzo:</strong> €<%= field.prezzo %></p>
+        <p><strong>Indirizzo:</strong> <%= field.via %>, <%= field.cap %> <%= field.citta %></p>
+        <p><strong>Distanza:</strong>
+  <% if field.distance %>
+    <%= field.distance.round(2) %> km
+  <% else %>
+    Distanza non disponibile
+  <% end %>
+</p>
+
+      </div>
+    <% end %>
+  <% end %>
+</div>
     </div>
   </div>
 
@@ -165,53 +161,36 @@
     </section>
   </div>
 
-  <!-- Script JavaScript per disabilitare il campo indirizzo quando si inserisce una città -->
-<script>
+    <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const cityField = document.getElementById('citta'); 
-    const addressField = document.getElementById('indirizzo');
-    const getLocationBtn = document.getElementById('get-location-btn'); // Il pulsante di geolocalizzazione
+  const getLocationBtn = document.getElementById('get-location-btn');
+  const addressField = document.getElementById('indirizzo');
 
-    // Funzione per disabilitare il campo città se l'indirizzo è presente
-    function disableCityIfAddress() {
-        if (addressField.value.trim() !== '') {
-            cityField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
-            cityField.disabled = true;
-        } else {
-            cityField.disabled = false;
-        }
+  getLocationBtn.addEventListener('click', function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        document.getElementById('latitudine').value = lat;
+        document.getElementById('longitudine').value = lon;
+
+        // Usa il reverse geocoding per ottenere un indirizzo leggibile
+        fetch(`/reverse_geocode?lat=${lat}&lon=${lon}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.address) {
+              addressField.value = data.address;
+            } else {
+              addressField.value = "Posizione rilevata";
+            }
+          });
+      }, function(error) {
+        alert('Impossibile ottenere la posizione. Per favore, controlla le impostazioni del tuo browser.');
+      });
+    } else {
+      alert('Geolocalizzazione non supportata dal tuo browser.');
     }
-
-    // Quando viene cambiato il campo città
-    cityField.addEventListener('input', function() {
-        if (cityField.value.trim() !== '') {
-            addressField.value = ''; // Non svuotare se vuoi mantenere il valore precedente
-            addressField.disabled = true;
-        } else {
-            addressField.disabled = false;
-        }
-    });
-
-    // Quando viene cambiato il campo indirizzo
-    addressField.addEventListener('input', disableCityIfAddress);
-
-    // Quando viene cliccato il pulsante per la geolocalizzazione
-    getLocationBtn.addEventListener('click', function() {
-        // Esegui la logica di geolocalizzazione qui (ipotizzando che ci sia un altro script che riempie il campo indirizzo)
-        // Dopo che il campo indirizzo è stato riempito, chiama la funzione per disabilitare il campo città
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('latitudine').value = lat;
-            document.getElementById('longitudine').value = lon;
-
-            // Simulazione di compilazione automatica dell'indirizzo dalla geolocalizzazione (sostituisci con la tua logica)
-            addressField.value = 'Indirizzo simulato tramite geolocalizzazione';
-            
-            // Disabilita il campo città
-            disableCityIfAddress();
-        });
-    });
+  });
 });
 </script>
 
