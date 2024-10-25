@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_field, only: [:field_reviews, :new, :create]
-  before_action :require_user
+  before_action :require_user, except: [:field_reviews, :index, :show]
   before_action :set_review, only: [:destroy]
   before_action :authorize_user, only: [:destroy]
   before_action :admin_only, only: [:destroy]
