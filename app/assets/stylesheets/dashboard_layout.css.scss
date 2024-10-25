@@ -12,7 +12,7 @@ $black: #000000;
 body {
     margin: 0;
     min-height: 100vh;
-    height: 100vh;
+    height: 110vh;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: auto 1fr auto;
@@ -347,3 +347,32 @@ body {
     $blue: blue($color);
     background-color: rgba($red, $green, $blue, $opacity);
 }
+
+.cardreport-container {
+    max-height: 540px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.cardreport {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    margin-top: 5px;
+    width: 100%;
+}
+
+  

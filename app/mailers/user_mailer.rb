@@ -21,5 +21,11 @@ class UserMailer < ApplicationMailer
   
       mail(to: @user.email, subject: 'Prenotazione Avvenuta con Successo')
     end
+    
+    def notification
+      @report = params[:report]
+      @reporter = @report.reporter
+      mail(to: @reporter.email, subject: 'Aggiornamento sulla tua segnalazione')
+    end
   end
   

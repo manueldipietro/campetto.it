@@ -70,7 +70,24 @@
     <h2 class="work-area-heading">
         <i class="fas fa-cogs"></i> Gestione segnalazioni
     </h2>
+
+    <div class="cardreport-container">
+        <% @reports.select { |report| report.status == 'pending' }.each do |report| %>
+            <div class="cardreport">
+                <h3>ID: <%= report.id %></h3>
+                <p>Reporter: <%= report.reporter.class.name %>: <%= report.reporter.id %></p>
+                <p>Email: <%= report.reporter.email %></p>
+                <p>Type: <%= report.reportable_type %> | Status: <%= report.status %></p>
+                <p>Details: <%= report.details %></p>
+                <div class="actions">
+                    <%= button_to 'Accetta', accept_report_path(report), method: :patch, class: 'btn btn-success' %>
+                    <%= button_to 'Rifiuta', reject_report_path(report), method: :patch, class: 'btn btn-danger' %>
+                </div>
+            </div>
+        <% end %>
+    </div>
 </div>
+
 
 <div style="display: none" id="user-manager" class="work-area">
     <h2 class="work-area-heading">

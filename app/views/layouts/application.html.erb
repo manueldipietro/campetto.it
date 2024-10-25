@@ -26,57 +26,57 @@
 
   <body>
     <!-- Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top">
-  <div class="container-fluid">
-    <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
-    
-    <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
+        
+        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link mx-lg-2" href="#">Contatti</a>
-          </li>
-          <% unless current_user %>
-          <li class="nav-item">
-            <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
-          </li>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mx-lg-2" href="#">Contatti</a>
+              </li>
+              <% unless current_user %>
+              <li class="nav-item">
+                <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
+              </li>
+              <% end %>
+            </ul>
+            <% if current_user %>
+              <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+            <% else %>
+              <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="navbar-buttons d-flex align-items-center">
+          <% if current_user %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
+            <button class="button" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
+          <% else %>
+            <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
+            <button class="button" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
           <% end %>
-        </ul>
-        <% if current_user %>
-          <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
-        <% else %>
-          <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-        <% end %>
+        </div>
       </div>
-    </div>
-
-    <!-- Buttons -->
-    <div class="navbar-buttons d-flex align-items-center">
-      <% if current_user %>
-        <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
-        <button class="button" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
-      <% else %>
-        <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
-        <button class="button" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-      <% end %>
-    </div>
-  </div>
-</nav>
+    </nav>
 
 
     <!-- Main content -->
-    <% unless current_page?(root_path) %>
+    <% unless current_page?(root_path) || current_page?(accountUtente_path) %>
       <div class="main-content">
         <!-- Content goes here -->
       </div>
@@ -97,6 +97,35 @@
     <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home') || current_page?(controller: 'fields', action: 'search') %>
     <%= javascript_pack_tag 'logReg' %>
     <%= javascript_pack_tag 'accountUtente' if current_page?(controller: 'users', action: 'accountUtente') %>
+    <!-- Fine pagina -->
+    <div class="fine__container" id="terms">
+        <div class="fine__links">
+            <div class="fine__link--wrapper">
+                <div class="fine__link--items">
+                    <h2>About Us</h2>
+                    <a href="#nostraidea">La nostra idea</a>
+                    <a href="#chisiamo">Chi siamo</a>
+                    <a href="#terms">Terms of Service</a>
+                </div>
+                <div class="fine__link--items">
+                    <h2>Follow us </h2>
+                    <a href="https://www.facebook.com" target="_blank">Facebook <i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com" target="_blank">Instagram <i class="fa fa-instagram"></i></a>
+                    <a href="https://www.twitter.com" target="_blank">Twitter <i class="fa fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com" target="_blank">LinkedIn <i class="fa fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <section class="social__media">
+            <div class="social__media--wrap">
+                <div class="fine__logo">
+                    <a class="fine-brand me-auto" href="#">Campetto.it</a>
+                </div>
+                <p class="website__rights">© Campetto.it 2024. All rights reserved</p>
+            </div>
+        </section>
+    </div>
   </body>
 </html>
 
