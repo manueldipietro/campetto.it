@@ -42,11 +42,13 @@ Rails.application.routes.draw do
   
    resources :reviews, only: [:destroy]
    
-  resources :users do
-    member do
-      get 'bookings', to: 'bookings#index'
-    end
+  resources :users, only: [:new, :create, :edit, :update, :destroy] do
+     member do
+    get 'accountUtente', to: 'users#accountUtente', as: 'accountUtente'
+    get 'bookings', to: 'bookings#index'
+    get 'reviews', to: 'reviews#user_index', as: 'reviews'
   end
+end
   resources :bookings, only: [:index, :destroy]
 
   # Rotte per il checkout
