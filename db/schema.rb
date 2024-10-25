@@ -82,19 +82,6 @@ ActiveRecord::Schema.define(version: 2024_10_24_121959) do
     t.string "indirizzo"
   end
 
-  create_table "partners", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
-    t.string "surname"
-    t.string "gender"
-    t.string "birthday"
-    t.string "mobile"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest"
-    t.index ["email"], name: "index_partners_on_email", unique: true
-  end
-
   create_table "reports", force: :cascade do |t|
     t.string "reportable_type"
     t.bigint "reportable_id"
