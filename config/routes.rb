@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get 'accountUtente', to: 'users#accountUtente', as: 'accountUtente'
       get 'bookings', to: 'bookings#index'
       get 'reviews', to: 'reviews#user_index'
+      get 'reports', to: 'reports#user_index'
     end
   end
 
@@ -91,8 +92,6 @@ Rails.application.routes.draw do
 
   # Dashboard amministrativa
   get 'admin_dashboard', to: 'administrators#dashboard', as: 'admin_dashboard'
-
-
 
 end
 

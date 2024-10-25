@@ -78,9 +78,8 @@
             <li><a href="<%= reports_user_path(current_user) %>">Segnalazioni</a></li>
             <li><%= link_to 'Edita Profilo', edit_user_path(@user) %></li>
             <li><a href="#" id="changePassw">Cambia Password</a></li>
-             <li>
-      <%= link_to 'Elimina Profilo', user_path(@user), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare il tuo profilo?' }, class: 'delete-profile-link' %>
-    </li>
+            <li><%= link_to 'Elimina Profilo', user_path(@user), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare il tuo profilo?' }, class: 'delete-profile-link' %>
+            </li>
           </ul>
         </div>
       </div>
