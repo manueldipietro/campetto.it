@@ -26,13 +26,6 @@ class SessionsController < ApplicationController
     end
 
     user = User.find_by(email: session_params[:email_login])
-    Rails.logger.debug("Attempting to find user with email: #{session_params[:email_login]}")
-
-    if user.nil?
-      flash[:alert] = "Email non trovata."
-      redirect_to logReg_path(form: 'login')
-      return
-    end
   
     if user&.authenticate(session_params[:password_login])
       if user.confirmed_at?

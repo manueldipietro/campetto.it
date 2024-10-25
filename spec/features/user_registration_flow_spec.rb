@@ -28,8 +28,9 @@ RSpec.feature "User Registration and Login Flow", type: :feature do
       visit logReg_path(form: 'login')
       fill_in "email_login", with: "test@example.com"
       fill_in "password_login", with: "Password1!"
-      click_button "Login"
-    
+      click_button "Login",id: "login-btn"
+      
+      puts current_path
       # Verifica che si sia effettuato il login correttamente
       expect(page).to have_current_path(accountUtente_path)
 
