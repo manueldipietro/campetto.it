@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
     end
 
     def user_index
-      @reports = current_user.reports 
+      @reports = Report.where(reporter: current_user)
       render 'index' 
     end
 

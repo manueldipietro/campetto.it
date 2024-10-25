@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
@@ -35,7 +34,7 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create] do
     member do
       get 'bookings', to: 'bookings#index'
-      get 'reports', to: 'reports#user_index' # Collega la route all'azione user_index
+      get 'reports', to: 'reports#user_index'
     end
   end
 
@@ -65,10 +64,6 @@ Rails.application.routes.draw do
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success'
   get 'checkout/cancel', to: 'checkout#cancel'
-
-  # Rotte per partner
-  # Rotta per registrazione
-  get 'partner_signup', to: 'partners#new'
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'
   

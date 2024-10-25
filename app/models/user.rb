@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :reviews, dependent: :destroy
   has_many :bookings, dependent: :destroy
-  has_many :reports, as: :reporter
+  has_many :reports, as: :reporter, dependent: :destroy
 
   # Validazioni per l'email
   validates :email, presence: true, uniqueness: true
