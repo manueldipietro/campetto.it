@@ -5,7 +5,7 @@ class CreateSportsCenters < ActiveRecord::Migration[6.1]
       t.string :vat_number
       t.string :campany_name
       t.string :iban
-      t.String :email
+      t.string :email
       t.string :phone
 
       t.timestamps
