@@ -12,6 +12,17 @@
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container-fluid">
         <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
+
+        <!-- Button Logout -->
+        <div class="d-lg-none d-flex align-items-center">
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2' %>
+        </div>
+
+        <!-- Toggle Button per Offcanvas Menu -->
+        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
@@ -32,28 +43,15 @@
               <% end %>
             </ul>
 
-            <% if current_user %>
               <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
-            <% else %>
-              <button class="button w-100 d-lg-none mt-3" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-            <% end %>
           </div>
         </div>
 
         <!-- Pulsanti account e logout accanto -->
         <div class="navbar-buttons d-flex align-items-center">
-          <% if current_user %>
-            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2' %>
-            <button class="button" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
-          <% else %>
-            <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
-            <button class="button" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
-          <% end %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2 d-none d-lg-block' %>
+            <button class="button d-none d-lg-block" id="accountBtn" onclick="window.location='<%= root_path %>'">Prenota</button>
         </div>
-
-        <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
       </div>
     </nav>
 
@@ -65,6 +63,8 @@
             <h1>Ciao <%= @user.email %>!</h1>
             <p>Benvenuto nella tua dashboard.</p>
             <p><strong>Email:</strong> <%= @user.email %></p>
+            <p><strong>Nome:</strong> <%= @user.nome %></p>
+            <p><strong>Cognome:</strong> <%= @user.cognome %></p>
             <!-- Aggiungi altre informazioni personali -->
           <% else %>
             <p>Non riesco a trovare l'utente. Potresti non essere loggato.</p>

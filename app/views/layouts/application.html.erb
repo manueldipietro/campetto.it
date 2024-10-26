@@ -25,15 +25,28 @@
   </head>
 
   <body>
+    <% unless current_page?(accountUtente_path) %>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
-      <div class="container-fluid">
+      <div class="container-fluid d-flex justify-content-between ">
+        <!-- Brand -->
         <%= link_to "Campetto.it", root_path, class: "navbar-brand" %>
-        
+
+        <!-- Button Accedi/Logou -->
+        <div class="d-lg-none d-flex align-items-center justify-content-start">
+          <% if current_user %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2' %>
+          <% else %>
+            <button class="buttonlogin me-2" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
+          <% end %>
+        </div>
+
+        <!-- Toggle Button per Offcanvas Menu -->
         <button class="navbar-toggler ps-2 pe-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
+        <!-- Offcanvas Menu -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Campetto.it</h5>
@@ -53,6 +66,7 @@
               </li>
               <% end %>
             </ul>
+            <!-- Bottoni MioAccount o Registrati per mobile -->
             <% if current_user %>
               <button class="button w-100 d-lg-none mt-3" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
             <% else %>
@@ -61,18 +75,19 @@
           </div>
         </div>
 
-        <!-- Buttons -->
-        <div class="navbar-buttons d-flex align-items-center">
+        <!-- Buttons per Desktop -->
+        <div class="navbar-buttons d-none d-lg-flex align-items-center">
           <% if current_user %>
-            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin' %>
+            <%= button_to 'Logout', logout_path, method: :delete, class: 'buttonlogin me-2' %>
             <button class="button" id="accountBtn" onclick="window.location='<%= accountUtente_path %>'">MioAccount</button>
           <% else %>
-            <button class="buttonlogin" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
+            <button class="buttonlogin me-2" id="loginBtn" onclick="window.location='<%= logReg_path(form: 'login') %>'">Accedi</button>
             <button class="button" id="signupBtn" onclick="window.location='<%= logReg_path(form: 'signup') %>'">Registrati</button>
           <% end %>
         </div>
       </div>
     </nav>
+    <% end %>
 
 
     <!-- Main content -->
@@ -97,6 +112,8 @@
     <%= javascript_pack_tag 'home' if current_page?(controller: 'pages', action: 'home') || current_page?(controller: 'fields', action: 'search') %>
     <%= javascript_pack_tag 'logReg' %>
     <%= javascript_pack_tag 'accountUtente' if current_page?(controller: 'users', action: 'accountUtente') %>
+
+    <% unless current_page?(root_path) %>
     <!-- Fine pagina -->
     <div class="fine__container" id="terms">
         <div class="fine__links">
@@ -126,6 +143,7 @@
             </div>
         </section>
     </div>
+    <% end %>
   </body>
 </html>
 

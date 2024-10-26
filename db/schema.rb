@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2024_10_25_181149) do
+ActiveRecord::Schema.define(version: 2024_10_25_155645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,14 +80,8 @@ ActiveRecord::Schema.define(version: 2024_10_25_181149) do
     t.integer "interval"
     t.string "exclude_days"
     t.string "indirizzo"
-<<<<<<< HEAD
-    t.string "via"
-    t.string "citta"
-    t.string "cap"
-=======
     t.bigint "sports_center_id"
     t.index ["sports_center_id"], name: "index_fields_on_sports_center_id"
->>>>>>> master
   end
 
   create_table "partners", force: :cascade do |t|

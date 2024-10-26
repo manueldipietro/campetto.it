@@ -23,40 +23,6 @@
       <!-- Colonna filtro ricerca -->
       <div class="filter-column">
         <div class="filter-box">
-<<<<<<< HEAD
-  <h4>Aggiorna ricerca</h4>
-  <%= form_with(url: search_fields_path, method: :get, local: true) do %>
-    <!-- Campo Indirizzo -->
-    <div class="d-flex align-items-center mb-3">
-      <%= text_field_tag :indirizzo, @selected_indirizzo, id: 'indirizzo', placeholder: 'Inserisci un indirizzo o una città', class: 'form-control', required: true %>
-      <%= hidden_field_tag :latitudine, nil, id: 'latitudine' %>
-      <%= hidden_field_tag :longitudine, nil, id: 'longitudine' %>
-
-      <%= button_tag type: 'button', id: 'get-location-btn', class: 'btn' do %>
-        <%= image_tag 'pinmap.png', alt: 'Pin', style: 'width: 25px; height: auto; margin-bottom:15px;' %>
-      <% end %>
-    </div>
-
-    <!-- Campo Sport -->
-    <div class="mb-3">
-      <%= select_tag :sport, options_for_select(
-        ["Tutti", "Calcio", "Calcetto", "Calcio a 7", "Calcio a 8", "Calcio-Tennis",
-         "Basket", "Tennis", "Pallavolo", "Padel", "Rugby"], @selected_sport),
-         class: 'form-select', aria: { label: 'Sport' } %>
-    </div>
-
-    <!-- Campo Data -->
-    <div class="mb-3">
-      <%= date_field_tag :data, @selected_date, class: 'form-control', aria: { label: 'Data' }, min: Date.today %>
-    </div>
-
-    <!-- Pulsante Cerca -->
-    <div class="mt-3">
-      <%= submit_tag 'Cerca', class: 'buttonCerca', id: 'cercacampiBtn' %>
-    </div>
-  <% end %>
-</div>
-=======
           <h4>Aggiorna ricerca</h4>
           <%= form_with(url: search_fields_path, method: :get, local: true) do %>
             <!-- Campo Indirizzo -->
@@ -101,7 +67,6 @@
             </div>
           <% end %>
         </div>
->>>>>>> master
       </div>
 
       <!-- Contenitore dei campi -->

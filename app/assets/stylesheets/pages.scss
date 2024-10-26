@@ -6,12 +6,15 @@
     padding: 0.5rem;
     border-radius: 15px;
     z-index: 10;
+    margin-top: 5px;
+    margin: 5px auto; /* Centra la navbar orizzontalmente */
+    width: 99%; 
 }
 
 /* Per posizionare tutti i pulsanti orizzontalmente */
 .navbar .navbar-buttons {
     display: flex;
-    align-items: center;
+    margin-left: 100px;
     gap: 15px; /* Spazio tra i pulsanti */
 }
 
@@ -96,7 +99,7 @@
 @media (max-width: 768px) {
     .navbar {
         padding: 0.5rem;
-        height: auto;
+        height: 70px;
     }
 
     .navbar-brand {
@@ -694,9 +697,9 @@ form .input__field label{
 
 .mainAccount {
     padding: 20px;
-    margin-top: 100px; 
+    margin-top: 50px; 
     position: relative; 
-    height: 70vh;
+    height: 60vh;
     background-color: rgb(253, 255, 252);
 }
   
@@ -717,25 +720,25 @@ form .input__field label{
     max-width: 100%;
   }
   
-  .user-menu {
+.user-menu {
     flex: 1; 
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 8px;
     max-width: 100%;
-  }
+}
   
-  .user-menu ul {
+.user-menu ul {
     list-style-type: none;
     padding: 0;
-  }
+}
   
-  .user-menu ul li {
+.user-menu ul li {
     margin-bottom: 10px;
-  }
+}
   
-  .user-menu ul li a {
+.user-menu ul li a {
     text-decoration: none;
     color: #333;
     display: block;
@@ -743,30 +746,31 @@ form .input__field label{
     border-radius: 4px;
     background-color: #fff;
     transition: background-color 0.3s ease;
-  }
+}
   
-  .user-menu ul li a:hover {
+.user-menu ul li a:hover {
     background-color: #e0e0e0;
-  }
+}
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .mainAccount{
-        height: 80vh;
+        margin-top: 30px;
+        height: 120vh;
     }
     .container {
         flex-direction: column;
         padding: 10px; 
-      }
+    }
     
-      .user-info, .user-menu {
+    .user-info, .user-menu {
         flex: 100%;
         padding-right: 0; 
         max-width: 100%;
-      }
+    }
     
-      .user-menu {
+    .user-menu {
         margin-top: 20px; 
-      }
+    }
 }
 
 .blur-background {
