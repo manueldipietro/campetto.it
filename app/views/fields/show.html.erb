@@ -43,7 +43,7 @@
           <li class="list-group-item"><strong>Sport:</strong> <%= @field.sport %></li>
           <li class="list-group-item"><strong>Prezzo:</strong> €<%= @field.prezzo %></li>
           <li class="list-group-item">
-            <strong>Posizione:</strong> <%= @field.indirizzo %>
+            <strong>Indirizzo:</strong> <span><%= @field.via %>, <%= @field.cap %> <%= @field.citta %>
           </li>
         </ul>
 
@@ -52,7 +52,8 @@
           <!-- Pulsante Visualizza Recensioni -->
           <%= link_to 'Visualizza Recensioni', field_reviews_path(@field), class: "btn btn-primary action-button mb-2" %>
           <!-- Pulsante Torna alla Ricerca -->
-          <%= link_to 'Torna alla Ricerca', search_fields_path, class: "btn btn-secondary action-button" %>
+          <%= link_to 'Torna alla Ricerca', search_fields_path(clear: true), class: "btn btn-secondary action-button" %>
+
         </div>
       </div>
     </div> <!-- Fine di .row -->
@@ -105,4 +106,3 @@
 
 </body>
 </html>
-

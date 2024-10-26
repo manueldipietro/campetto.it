@@ -81,14 +81,11 @@ ActiveRecord::Schema.define(version: 2024_10_25_181149) do
     t.integer "interval"
     t.string "exclude_days"
     t.string "indirizzo"
-<<<<<<< HEAD
     t.string "via"
     t.string "citta"
     t.string "cap"
-=======
     t.bigint "sports_center_id"
     t.index ["sports_center_id"], name: "index_fields_on_sports_center_id"
->>>>>>> master
   end
 
   create_table "partners", force: :cascade do |t|
