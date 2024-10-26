@@ -46,6 +46,7 @@ def search
   sport = params[:sport]
   data = params[:data]
   raggio = 30 # Raggio di ricerca di default in km
+  
 
   # Controllo della presenza dell'indirizzo o delle coordinate
   if indirizzo.blank? && params[:latitudine].blank? && params[:longitudine].blank?
@@ -70,6 +71,7 @@ def search
       render 'search' and return
     end
   end
+  
 
   # Filtro per sport se selezionato
   @fields = Field.all

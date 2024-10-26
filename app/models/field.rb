@@ -2,12 +2,13 @@ class Field < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_one_attached :image
   has_many :slots, dependent: :destroy
-  belongs_to :sports_center
+  belongs_to :sports_center,optional: true 
 
   after_create :create_slots
 
   # Configurazione della geocodifica
   geocoded_by :full_address, latitude: :latitudine, longitude: :longitudine
+  after_validation :geocode, if: :address_changed?
 
   # Esegui la geocodifica solo se uno dei campi dell'indirizzo è cambiato
   after_validation :geocode_and_handle_errors, if: :address_changed?
