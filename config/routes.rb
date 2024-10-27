@@ -59,7 +59,17 @@ Rails.application.routes.draw do
 
   # Rotte per partner
   # Rotta per registrazione
-  get 'partner_signup', to: 'partners#new'
+  get     'partner_sign_up',              to: 'partners#new'
+  get     'partner_log_in',               to: 'sessions#new'
+  post    'partner_log_in',               to: 'sessions#create'
+  delete  'administrator_log_out',        to: 'sessions#destroy'  
+  get     'partner_dashboard',            to: 'partners#dashboard'
+
+
+  resources :partners, only: [:create]
+
+
+
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'
   

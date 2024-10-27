@@ -1,0 +1,19 @@
+<%= form_for(:session, url: partner_log_in_path) do |f| %>
+    
+    <%= f.label :email, "E-mail:"%>
+    <%= f.email_field :email, class: "form-control" %>
+
+    <%= f.label :password, "Password:" %>
+    <%= f.password_field :password, class: "form-control" %>
+
+    <%= f.label :remember_me, class: "checkbox inline" do %>
+        <%= f.check_box :remember_me %>
+        <span>Ricordami</span>
+    <% end %>
+
+    <%= f.submit "Accedi", class: "btn btn-primary" %>
+<% end %>
+
+<div>
+    <p>Vuoi prenotare un campo? <%= link_to "Accesso clienti", logReg_path(form: 'login') %></p>
+</div>

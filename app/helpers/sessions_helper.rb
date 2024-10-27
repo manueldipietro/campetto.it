@@ -5,11 +5,23 @@ module SessionsHelper
         session[:administrator_id] = administrator.id
     end
 
+    #Logs in the giver partner
+    def log_in_partner(partner)
+        session[:partner_id] = partner.id
+    end
+
     # Remembers an administrator in a persistent session
     def remember_administrator(administrator)
         administrator.remember
         cookies.permanent.signed[:administrator_id] = administrator.id
         cookies.permanent[:administrator_remember_token] = administrator.remember_token
+    end
+
+    # Remembers a partner in a persistent session
+    def rememeber_partner(partner)
+        partner.remember
+        cookies.permanent.signed[:partner_id] = partner.id
+        cookies.permanent.signed[:partner_remember_token] = user.remember_token
     end
 
     # Returns true if the given administrator is the current admnistrator
@@ -29,11 +41,30 @@ module SessionsHelper
             end
         end
     end
-     
-    # Returns true if the user is logged in, false otherwise
+    
+    # Returns the current logged-in partner (if any)
+    def current_partner
+        if (partner_id = session[:partner_id])
+            @current_partner ||= Partner.find_by(id: partner_id)
+        elsif (partner_id = cookies.signed[:partner_id])
+            partner = Partner.find_by(id: partner_id)
+            if partner && partner.authenticated?(cookies[:partner_remember_token])
+                log_in_partner partner
+                @current_partner = partner
+            end
+        end
+    end
+
+    # Returns true if the administrator is logged in, false otherwise
     def logged_in_administrator?
         !current_administrator.nil?
     end
+
+    # Returns true if the partner is logged in, false otherwise
+    def logged_in_partner?
+        !current_partner.nil?
+    end
+
 
     # Forgets a persistent session
     def forget_administrator(administrator)
@@ -42,11 +73,25 @@ module SessionsHelper
         cookies.delete(:administrator_remember_token)
     end
 
+    # Forgets a persistent session
+    def forget_partner(partner)
+        partner.forget
+        cookies.delete(:partner_id)
+        cookies.delete(:partner_remember_token)
+    end
+
     # Logs out the current administrator
     def log_out_administrator
         forget_administrator(current_administrator)
         session.delete(:administrator_id)
         @current_administrator = nil
+    end
+
+    #Logs out the current partner
+    def log_out_partner
+        forget_parter(current_partner)
+        session.delete(:partner_id)
+        @current_partner = nil
     end
 
     # Redirects to stored location (or to the default)
