@@ -15,39 +15,78 @@
 
 </head>
 <body>
-    <% @layout_variable_username = "TEST 123" %>
+    <% if yield(:role) == 'Administrator'%>
+        <% 
+            @layout_variable_username = @administrator.name + ' ' + @administrator.surname
+            @layout_variable_username = @layout_variable_username.split.map(&:capitalize).join(' ')
+        %>
+    <% elsif yield(:role) == 'Partner' %>
+        <% 
+            @layout_variable_username = @partner.name + ' ' + @partner.surname 
+            @layout_variable_username = @layout_variable_username.split.map(&:capitalize).join(' ')
+        %>
+    <% end %>
 
     <%= render 'layouts/header_dashboard.html.erb'%>
     <main id="-tp-main">
         <div id="command-bar">
-            <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi">
-                <i class="fas fa-cogs"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione Campi">
-                <i class="fas fa-futbol"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#slot-manager" title="Gestione Slot">
-                <i class="fas fa-futbol"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione Prenotazioni">
-                <i class="fas fa-calendar-alt"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione Recensioni">
-                <i class="fas fa-star"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione Segnalazioni">
-                <i class="fas fa-file-alt"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#users-manager" title="Gestione Utenti">
-                <i class="fas fa-users"></i>
-            </button>
-            <button class="btn btn-primary dashboard-control" data-target="#partner-manager" title="Gestione Partner">
-                <i class="fas fa-users"></i>
-            </button>    
-            <button class="btn btn-primary dashboard-control" data-target="#administrator-manager" title="Gestione Amministratori">
-                <i class="fas fa-users"></i>
-            </button>    
-   
+            <%  if yield(:role) == 'Administrator'%>
+                <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi">
+                    <i class="fas fa-cogs"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione Campi">
+                    <i class="fas fa-futbol"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#slot-manager" title="Gestione Slot">
+                    <i class="fas fa-futbol"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione Prenotazioni">
+                    <i class="fas fa-calendar-alt"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione Recensioni">
+                    <i class="fas fa-star"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione Segnalazioni">
+                    <i class="fas fa-file-alt"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#users-manager" title="Gestione Utenti">
+                    <i class="fas fa-users"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#partner-manager" title="Gestione Partner">
+                    <i class="fas fa-users"></i>
+                </button>    
+                <button class="btn btn-primary dashboard-control" data-target="#administrator-manager" title="Gestione Amministratori">
+                    <i class="fas fa-users"></i>
+                </button>    
+            <% end %>
+            <%  if yield(:role) == 'Partner'%>
+            <!--
+                Gestione centro sportivo: -> Mostra i dati del centro sportivo
+                Gestione campi sportivi: -> Mostra i dati dei campi sportivi
+                Gestione prenotazioni: -> Mostra le prenotazioni (eventualmente filtrate per campo, data e ora)
+                Gestione recensioni: -> Mostra le recensioni (eventualmente filtrate per campo, ed ordinate per...)
+                Gestione segnalazioni: 
+                Gestioni utenti delegati: -> Usa un indexes
+            -->
+                <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione centro sportivo">
+                    <i class="fas fa-cogs"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione campi sportivi">
+                    <i class="fas fa-futbol"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione prenotazioni">
+                    <i class="fas fa-calendar-alt"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione recensioni">
+                    <i class="fas fa-star"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione segnalazioni">
+                    <i class="fas fa-file-alt"></i>
+                </button>
+                <button class="btn btn-primary dashboard-control" data-target="#users-manager" title="Gestione delegati">
+                    <i class="fas fa-users"></i>
+                </button>
+            <% end %>
         </div>
         <%= yield %>
     </main>

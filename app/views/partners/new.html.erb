@@ -1,2 +1,29 @@
-<h1>Partners#new</h1>
-<p>Find me in app/views/partners/new.html.erb</p>
+<%= form_for(@partner) do |f| %>
+    <!--#render 'shared/error_messages'-->
+
+    <%= f.label :name, "Nome:*" %>
+    <%= f.text_field :name, class: 'form-control' %>
+
+    <%= f.label :surname, "Cognome:*" %>
+    <%= f.text_field :surname, class: 'form-control' %>
+
+    <%= f.label :gender, "Genere:" %>
+    <%= f.select :gender, options_for_select([['Maschio', 'm'], ['Femmina', 'f'], ['Non specificato', 'u']], selected: 'u'), class: 'form-control' %>
+
+    <%= f.label :birthdate, "Data di nascita:*" %>
+    <%= f.date_select :birthdate, start_year: Date.today.year - 100, end_year: Date.today.year - 18, default: Date.new(2000, 1, 1), order: [:day, :month, :year], class: 'form-control'%>
+
+    <%= f.label :mobile, "Cellulare:*" %>
+    <%= f.telephone_field :mobile, pattern: "\\+?[0-9]{10,15}", required: true, class: 'form-control' %>
+
+    <%= f.label :email, "Email:*" %>
+    <%= f.email_field :email, required: true, class: 'form-control' %>
+
+    <%= f.label :password, "Password:*" %>
+    <%= f.password_field :password, required: true, class: 'form-control' %>
+
+    <%= f.label :password_confirmation, "Conferma Password:*" %>
+    <%= f.password_field :password_confirmation, required: true, class: 'form-control' %>
+
+    <%= f.submit "Registrati", class: "btn btn-primary" %>
+<% end %>
