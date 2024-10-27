@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'partners/new'
-  get 'new/Partners'
-  get 'new/new'
-  get 'administrators/new'
   root 'pages#home'
 
   # Pagine statiche
@@ -62,13 +58,11 @@ Rails.application.routes.draw do
   get     'partner_sign_up',              to: 'partners#new'
   get     'partner_log_in',               to: 'sessions#new'
   post    'partner_log_in',               to: 'sessions#create'
-  delete  'partner_log_out',        to: 'sessions#destroy'  
+  delete  'partner_log_out',              to: 'sessions#destroy'  
   get     'partner_dashboard',            to: 'partners#dashboard'
-
-
-  resources :partners, only: [:create]
-  resources :partner_activations, only: [:edit]
-
+  resources :partners,                    only: [:create]
+  resources :partner_activations,         only: [:edit]
+  resources :partner_password_resets,     only: [:new, :create, :edit, :update]
 
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'

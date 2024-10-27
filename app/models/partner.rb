@@ -1,5 +1,5 @@
 class Partner < ApplicationRecord
-    attr_accessor   :remember_token, :activation_token
+    attr_accessor   :remember_token, :activation_token, :reset_token
     before_save     :downcase_beforesave
     before_create   :create_activation_digest
     
@@ -55,6 +55,23 @@ class Partner < ApplicationRecord
 
     def username
         "#{self.name} #{self.surname}".split.map(&:capitalize).join(' ')
+    end
+
+    # Sets the password reset atributes
+    def create_reset_digest
+        self.reset_token = Partner.new_token
+        update_attribute(:reset_digest, Partner.digest(reset_token))
+        update_attribute(:reset_sent_at, Time.zone.now)
+    end
+
+    # Sends password reset email
+    def send_password_reset_email
+        PartnerMailer.password_reset(self).deliver_now 
+    end
+
+    # Returns true if a password reset has expired
+    def password_reset_expired?
+        reset_sent_at < 2.hours.ago
     end
 
     private

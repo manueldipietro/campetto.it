@@ -12,8 +12,7 @@ class PartnerMailer < ApplicationMailer
   #   en.partner_mailer.password_reset.subject
   #
   def password_reset(partner)
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+    @partner = partner
+    mail to: partner.email, subject: "Reset della password"
   end
 end
