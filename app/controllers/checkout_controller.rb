@@ -63,23 +63,23 @@ class CheckoutController < ApplicationController
     render 'success'
   end
   
- def cancel
-  if params[:slot_id]
-    @slot = Slot.find_by(id: params[:slot_id])
-    if @slot
-      @field = @slot.field
+  def cancel
+    if params[:slot_id]
+      @slot = Slot.find_by(id: params[:slot_id])
+      if @slot
+        @field = @slot.field
+      else
+        @field = nil
+      end
     else
       @field = nil
     end
-  else
-    @field = nil
-  end
 
-  unless @field
-    flash[:alert] = "Informazioni sul campo non disponibili."
-    redirect_to root_path and return
+    unless @field
+      flash[:alert] = "Informazioni sul campo non disponibili."
+      redirect_to root_path and return
+    end
   end
-end
 
 
 

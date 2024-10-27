@@ -29,7 +29,8 @@ class SessionsController < ApplicationController
   
     if user&.authenticate(session_params[:password_login])
       if user.confirmed_at?
-        session[:user_id] = user.id
+        session[:user_id] = user.id 
+        flash[:notice] = "Accesso effettuato con successo."
         redirect_to accountUtente_path
       else
         flash[:alert] = "Devi confermare il tuo account prima di accedere."
@@ -38,10 +39,9 @@ class SessionsController < ApplicationController
     else
       flash[:alert] = "Email o password errati."
       redirect_to logReg_path(form: 'login')
-    end
+    end    
   end
   
-
   def welcome
     @user = User.find(session[:user_id])
   end

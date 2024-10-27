@@ -10,7 +10,7 @@
     <h1>Prenotazione completata!</h1>
     <p>Grazie per aver prenotato <strong><%= @field.nome %></strong>.</p>
     <p>Ti aspettiamo sul campo il giorno della tua prenotazione.</p>
-    <%= link_to 'Visualizza le tue prenotazioni', accountUtente_path, class: 'btn btn-success action-button me-2' %>
+    <%= link_to 'Visualizza le tue prenotazioni', bookings_path, class: 'btn btn-success action-button me-2' %>
     <%= link_to 'Torna alla Home', root_path, class: 'btn btn-secondary action-button' %>
   </div>
 </div>
