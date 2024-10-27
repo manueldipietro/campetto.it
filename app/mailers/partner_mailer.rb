@@ -1,7 +1,7 @@
 class PartnerMailer < ApplicationMailer
   default from: "partner-no-reply@campetto.it"
 
-  def account_activation
+  def account_activation(partner)
     @partner = partner
     mail to: partner.email, subject: "Attivazione account"
   end
@@ -11,7 +11,7 @@ class PartnerMailer < ApplicationMailer
   #
   #   en.partner_mailer.password_reset.subject
   #
-  def password_reset
+  def password_reset(partner)
     @greeting = "Hi"
 
     mail to: "to@example.org"

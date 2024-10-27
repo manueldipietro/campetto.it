@@ -53,6 +53,10 @@ class Partner < ApplicationRecord
         PartnerMailer.account_activation(self).deliver_now
     end
 
+    def username
+        "#{self.name} #{self.surname}".split.map(&:capitalize).join(' ')
+    end
+
     private
         def must_be_at_least_18_years_old
             if birthdate.present? && birthdate > 18.years.ago
