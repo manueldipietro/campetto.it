@@ -92,6 +92,8 @@ class Partner < ApplicationRecord
                     errors.add(:base, "You cannot be both the owner and operator of the same SportsCenter.")
                 end
             end
+        end
+
         def downcase_beforesave
             self.name = name.downcase
             self.surname = surname.downcase
