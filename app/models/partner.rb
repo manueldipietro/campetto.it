@@ -1,11 +1,7 @@
 class Partner < ApplicationRecord
-    attr_accessor :remember_token
-    
-    before_save{
-        self.name = name.downcase
-        self.surname = surname.downcase
-        self.email = email.downcase
-    }
+    attr_accessor   :remember_token, :activation_token
+    before_save     :downcase_beforesave
+    before_create   :create_activation_digest
     
     MAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+\.[a-z]{2,}\z/i
     GENDER_REGEX = /\A[mfu]\z/i
@@ -36,8 +32,10 @@ class Partner < ApplicationRecord
     end
 
     # Returns true if the given token matches the digest
-    def authenticated?(remember_token)
-        BCrypt:Password.new(remember_digest).is_password?(remember_token)
+    def authenticated?(attribute, token)
+        digest = send("#{attribute}_digest")
+        return false if digest.nil?
+        BCrypt::Password.new(digest).is_password?(token)
     end
 
     # Forgets a partner
@@ -45,11 +43,32 @@ class Partner < ApplicationRecord
         update_attribute(:remember_digest, nil)
     end
 
+    # Activates an account
+    def activate
+        update_attribute(:activated, true)
+        update_attribute(:activated_at, Time.zone.now)
+    end
+
+    def send_activation_email
+        PartnerMailer.account_activation(self).deliver_now
+    end
+
     private
         def must_be_at_least_18_years_old
             if birthdate.present? && birthdate > 18.years.ago
                 errors.add(:birthdate, 'devi avere almeno 18 anni.')
             end
+        end
+
+        def downcase_beforesave
+            self.name = name.downcase
+            self.surname = surname.downcase
+            self.email = email.downcase    
+        end
+
+        def create_activation_digest
+            self.activation_token = Partner.new_token
+            self.activation_digest = Partner.digest(activation_token)
         end
 
 end

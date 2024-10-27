@@ -67,7 +67,7 @@ Rails.application.routes.draw do
 
 
   resources :partners, only: [:create]
-
+  resources :partner_actionations, only: [:edit]
 
 
 

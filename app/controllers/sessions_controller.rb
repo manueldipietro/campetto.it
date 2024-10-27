@@ -33,10 +33,18 @@ class SessionsController < ApplicationController
     if @current_route == partner_log_in_path
       partner = Partner.find_by(email: params[:session][:email].downcase)
       if partner && partner.authenticate(params[:session][:password])
-        log_in_partner partner
-        params[:session][:remember_me] == '1' ? remember_partner(partner) : forget_partner(partner)
-        redirect_to partner_dashboard_path
-        return
+        if partner.activated?
+          log_in_partner partner
+          params[:session][:remember_me] == '1' ? remember_partner(partner) : forget_partner(partner)
+          redirect_back_or partner_dashboard_path
+          return
+        else
+          message = "Account non attivato! "
+          message += "Controlla la tua mail per il link di attivazione."
+          flash[:warning] = message
+          redirect_to root_url
+          return
+        end
       else
         flash.now[:danger] = 'Email o password errate'
         render 'partner_new'

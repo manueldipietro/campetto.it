@@ -9,9 +9,12 @@ class PartnersController < ApplicationController
   def create
     @partner = Partner.new(partner_params)
     if @partner.save
-      log_in @partner
-      flash[:success] = "Benvenuto in Campetto.it!" #Per usare il flash va aggiunto al layout
-      redirect_to partner_dashboard_path
+      @partner.send_activation_email
+      flash[:info] = "Controlla la tua email per attivare il tuo account."
+      redirect_to root_url
+      #log_in @partner
+      #flash[:success] = "Benvenuto in Campetto.it!" #Per usare il flash va aggiunto al layout
+      #redirect_to partner_dashboard_path
     else
         render 'new'
     end
