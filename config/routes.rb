@@ -62,7 +62,7 @@ Rails.application.routes.draw do
   get     'partner_sign_up',              to: 'partners#new'
   get     'partner_log_in',               to: 'sessions#new'
   post    'partner_log_in',               to: 'sessions#create'
-  delete  'administrator_log_out',        to: 'sessions#destroy'  
+  delete  'partner_log_out',        to: 'sessions#destroy'  
   get     'partner_dashboard',            to: 'partners#dashboard'
 
 

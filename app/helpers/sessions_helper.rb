@@ -29,6 +29,12 @@ module SessionsHelper
         administrator == current_administrator
     end
 
+        # Returns true if the given administrator is the current admnistrator
+    def current_administrator?(partner)
+        administrator == current_partner
+    end
+    
+
     # Returns the current logged-in administrator (if any)
     def current_administrator
         if (administrator_id = session[:administrator_id])
@@ -89,7 +95,7 @@ module SessionsHelper
 
     #Logs out the current partner
     def log_out_partner
-        forget_parter(current_partner)
+        forget_partner(current_partner)
         session.delete(:partner_id)
         @current_partner = nil
     end

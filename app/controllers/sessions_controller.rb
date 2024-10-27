@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  
+
   def new
     @current_route = request.path 
     # Administrator
@@ -74,7 +74,7 @@ class SessionsController < ApplicationController
       return
     end
     # Partner
-    if @current_route == partner_log_in_path
+    if @current_route == partner_log_out_path
       log_out_partner if logged_in_partner?
       redirect_to root_url
       return
