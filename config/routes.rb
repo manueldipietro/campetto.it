@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post 'request_password_reset', to: 'users#request_password_reset'
   get 'edit_password', to: 'users#edit_password', as: 'edit_password'
   patch 'update_password', to: 'users#update_password'
+  
 
   # Ricerca campi
   get 'search_fields', to: 'fields#search', as: 'search_fields'
@@ -99,10 +100,17 @@ Rails.application.routes.draw do
 
   # SportsCenters' routes
   #Rotte per update ed edit
-  get       'sports_centers_edit',        to: 'sports_centers#edit'
-  patch     'sports_centers_update',      to: 'sports_centers#update'
+  get       'sports_centers_new',           to: 'sports_centers#new'
+  get       'sports_centers_edit',          to: 'sports_centers#edit'
+  patch     'sports_centers_update',        to: 'sports_centers#update'
   delete    'sports_centers_destroy',       to: 'sports_centers#destroy'
-  resources :sports_centers, only: [:new, :create, :index, :create]
+
+  get       'sports_centers_delegate_new',      to: 'sports_centers#delegate_new'
+  post      'sports_centers_delegate_create',   to: 'sports_centers#delegate_create'
+  get       'sports_centers_delegate_index',    to: 'sports_centers#delegate_index'
+  delete    'sports_centers_delegate_remove',   to: 'sports_centers#delegate_remove'
+  
+  resources :sports_centers, only: [:new, :create, :index]
 
   get       '/error',                      to: 'pages#home'
 

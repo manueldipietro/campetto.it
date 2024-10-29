@@ -5,15 +5,17 @@ class SportsCentersController < ApplicationController
     # Partner method
     def new
         @sports_center = SportsCenter.new
+        render partial: 'new', layout: false
     end
     
     def create
         @sports_center = SportsCenter.new(sports_center_params)
         @sports_center.owner_id  = current_partner_id
         if @sports_center.save
-            render json: { message: "Created!"}, status: :created
+            redirect_to partner_dashboard_path
         else
             puts @sports_center.errors.full_messages
+            #Redirect ad error!
             render json: { message: "Error!" }, status: :unprocessable_entity
         end
     end
@@ -29,11 +31,15 @@ class SportsCentersController < ApplicationController
 
     def edit
         @sports_center = SportsCenter.find(params[:id]);
-        render partial: 'edit', layout: false
+        if @sports_center.owned_by?(current_partner)
+            render partial: 'edit', layout: false
+        else
+            #Redirect aunhatorized
+            render json: {message: "Accesso negato"}, status: :unprocessable_entity
+        end
     end
 
     def update
-        Rails.logger.debug(params.inspect)
         @sports_center = SportsCenter.find(params[:sports_center][:id]);
         if @sports_center.update(sports_center_params)
             render json: {}, status: :ok;
@@ -51,21 +57,54 @@ class SportsCentersController < ApplicationController
     end
 
     # Delegated management
-    def create_delegate
-        #Renderizza il form per creare un delegato
+    def delegate_new
+        render partial: 'new_delegate', layout: false
     end
 
-    def index_delegate
-        #Mostra tutti i delegate di un campo sportivo
+    #Accessibile solo dal partner proprietario
+    def delegate_create
+        sports_center = SportsCenter.find(params[:sport_center_id])
+        partner = Partner.find_by(email: params[:email])
+        if sports_center && partner
+            sports_center.managers << partner unless sports_center.managers.include?(partner)
+            render json: {}, status: :ok
+        else
+            render json: {}, status: :unprocessable_entity
+        end
     end
 
-    def remove_delegate
-        #Rimuove un delegate da un campo sportivo
+    def delegate_index
+        sports_center = SportsCenter.find(params[:id])
+        delegates = sports_center.managers
+        
+        delegate_info = delegates.map do |delegate|
+            {
+                id: delegate.id,
+                name: delegate.name,
+                surname: delegate.surname,
+                email: delegate.email
+            }
+        end
+        
+        render json: delegate_info, status: :ok
+    end
 
+    def delegate_remove
+        sports_center = SportsCenter.find(params[:sport_center_id])
+        partner = Partner.find_by(email: params[:email])
+        if sports_center && partner && sports_center.managers.include?(partner)
+                sports_center.managers.delete(partner)
+                render json: {}, status: :ok
+        else
+            render json: {}, status: :unprocessable_entity
+        end
     end
 
     # Funzioni per amministratore
-    
+    # Modifica, elimina
+
+    #3 livelli di autorizzazione: proprietario, 
+
     private
         def sports_center_params
             params.require(:sports_center).permit(:tax_code, :vat_number, :iban, :email, :phone, :company_name, :registered_office)
@@ -82,6 +121,7 @@ class SportsCentersController < ApplicationController
               redirect_to partner_log_in_url
             end
         end
+
 
         def current_partner_id
             current_partner.id

@@ -3,7 +3,7 @@ class SportsCenter < ApplicationRecord
     belongs_to :owner, class_name: 'Partner', foreign_key: 'owner_id'
 
     # Relazione many-to-many con Partner per i manager
-    has_many :partners_sports_centers
+    has_many :partners_sports_centers, dependent: :destroy
     has_many :managers, through: :partners_sports_centers, source: :partner
 
     # Validation
@@ -18,6 +18,10 @@ class SportsCenter < ApplicationRecord
     # 
     def owned_by?(partner)
         self.owner == partner
+    end
+
+    def managed_by?(partner)
+        managers.include?(partner)
     end
 
 end

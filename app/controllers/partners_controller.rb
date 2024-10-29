@@ -16,6 +16,7 @@ class PartnersController < ApplicationController
       #flash[:success] = "Benvenuto in Campetto.it!" #Per usare il flash va aggiunto al layout
       #redirect_to partner_dashboard_path
     else
+        #Cambia con redirect
         redirect_to administrator_log_in_path
         return
         render 'new'
