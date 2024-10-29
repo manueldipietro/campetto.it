@@ -24,16 +24,14 @@ class PartnersController < ApplicationController
 
   def dashboard
     @partner = Partner.find(session[:partner_id])
+    @fields = Field.all
   end
 
   #myprofile e edit  
   
-  #index for administrator
+  #index for partner
   def index
-    
   end
-
-  #index for 
   
   private
     

@@ -9,11 +9,26 @@
             <!-- Sezione Utente e Logout a Destra -->
             <div id="-tp-header-heading-ctr">
                 <!-- Sezione Utente con Icona e Nome -->
-                <div id="manual-account">
-                    <i class="fas fa-user-circle"></i>
-                    <span><%= @layout_variable_username %></span>
-                </div>        
-                <!-- Pulsante Logout -->
+                <%if yield(:role) == 'Partner' %>
+                    <div>
+                        <button type="button" class="btn btn-primary">Nuovo centro sportivo</button>
+                    </div>
+
+                    <div id="-tp-header-heading-sportscenter">
+                        <select id="-tp-header-heading-sportscenter-chooser">
+                            <!--Qui inserire con Javascript i campi sportivi-->
+                            <!-- Se non c'è nessun campo sportivo non mostrare-->
+                        </select>
+                    </div>
+                    
+                <% end %>
+                
+                <!--Qui va inserito il link all'edit del profilo-->
+                    <div id="manual-account">
+                        <i class="fas fa-user-circle"></i>
+                        <span><%= @layout_variable_username %></span>
+                    </div>        
+                
                 <% if yield(:role) == 'Administrator' %>
                     <%= link_to "/administrator_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %> 
                         <i class="fas fa-sign-out-alt"></i>
@@ -23,10 +38,6 @@
                         <i class="fas fa-sign-out-alt"></i>
                     <% end %>
                 <% end %>
-                <!-- Pulsante Menu per Mobile -->
-                <!--<a id="-tp-header-heading-ctr-menubtn" class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#-tp-header-heading-mobctr" aria-controls="-tp-header-heading-mobctr" title="Menu">
-                    <i class="fas fa-bars"></i>
-                </a>-->    
             </div>
         </div>
     </div>

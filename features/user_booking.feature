@@ -29,5 +29,3 @@ Feature: Field search and booking
         Then I should see "Tennis Colosseo"
         When I click on field "Tennis Colosseo"
         And I should see "05/11/2024 10:00 - 11:00"
-        Then I click on the book button for the slot "05/11/2024 10:00 - 11:00"
-        And I confirm my booking

@@ -2,12 +2,19 @@ class Partner < ApplicationRecord
     attr_accessor   :remember_token, :activation_token, :reset_token
     before_save     :downcase_beforesave
     before_create   :create_activation_digest
+    
 
-    has_many :owned_sports_center, class_name: 'SportsCenter', foreign_key: 'owner_id'
+    # Associazione per i centri posseduti
+    has_many :owned_sports_centers, class_name: 'SportsCenter', foreign_key: 'owner_id'
+
+    # Associazione many-to-many per i centri gestiti
     has_many :partners_sports_centers
     has_many :managed_sports_centers, through: :partners_sports_centers, source: :sports_center
-    validate :cannot_be_owner_and_manager
-    
+
+    # Validazione per assicurare che un Partner non possa possedere e gestire lo stesso centro sportivo
+    validate :cannot_own_and_manage_same_sports_center
+
+
     MAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+\.[a-z]{2,}\z/i
     GENDER_REGEX = /\A[mfu]\z/i
 
@@ -86,14 +93,6 @@ class Partner < ApplicationRecord
             end
         end
 
-        def cannot_be_owner_and_manager
-            managed_sports_centers.each do |center|
-                if owned_sports_centers.include?(center)
-                    errors.add(:base, "You cannot be both the owner and operator of the same SportsCenter.")
-                end
-            end
-        end
-
         def downcase_beforesave
             self.name = name.downcase
             self.surname = surname.downcase
@@ -104,5 +103,14 @@ class Partner < ApplicationRecord
             self.activation_token = Partner.new_token
             self.activation_digest = Partner.digest(activation_token)
         end
-
+        
+        def cannot_own_and_manage_same_sports_center
+            return if managed_sports_centers.nil? || owned_sports_centers.nil?
+            managed_sports_centers.each do |center|
+                if owned_sports_centers.include?(center)
+                    errors.add(:base, "A partner cannot simultaneously own and manage the same sports center.")
+                end
+            end
+        end
+        
 end

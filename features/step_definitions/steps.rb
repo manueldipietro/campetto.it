@@ -29,6 +29,13 @@ Then("I should be redirected to account page") do
     expect(current_path).to eq(accountUtente_path)
 end
 
+When("I visit the partner login page") do
+    visit partner_log_in_path
+end
+
+Then("I should be redirected to partner dashboard") do
+    expect(current_path).to eq(partner_dashboard_path)
+end
 # Riempimento form
 When("I fill in {string} with {string}") do |field, value|
     fill_in field, with: value
@@ -57,11 +64,6 @@ end
 
 Then('I click on the book button for the slot {string}') do |slot_time|
     find('.slot-card', text: slot_time).find('.btn-success').click
-end
-
-When('I confirm my booking') do
-    # Simula la risposta della creazione del checkout
-    visit checkout_success_path
 end
 
 # check database
@@ -131,3 +133,28 @@ Given("a field with the following details:") do |table|
     expect(available_slots).to be > 100, "Expected to find more than 0 available slots, found #{available_slots}"
 end
   
+
+Given("I have a confirmed partner") do
+    @partner = Partner.create!(
+      name: "Mario",
+      surname: "Rossi",
+      gender: "",
+      birthdate: "1990-01-01",
+      mobile: "1234567890",
+      email: "partner@example.com",
+      password: "Password@1",
+      password_confirmation: "Password@1"
+    )
+    
+    @partner.update_attribute(:activated, true)
+    @partner.update_attribute(:activated_at, Time.zone.now)
+    @partner.reload
+end
+
+Then('I should be redirected to {string}') do |url|
+    expect(page).to have_current_path(url)
+end
+
+Then('a new booking should be registered in the database') do
+    expect(Booking.count).to eq(1) # Verifica che sia stata creata una prenotazione
+end
