@@ -49,7 +49,8 @@ class AdministratorsController < ApplicationController
     @administrator = Administrator.find(session[:administrator_id])
     @reviews = Review.all.order(created_at: :desc)
     @reports = Report.all
-
+    @fields = Field.order(:sports_center_id, :created_at)
+    @bookings = Booking.all
   end
   
   def index

@@ -86,9 +86,10 @@
                             </div>
                         </div>
 
-                        <!-- Campo Conferma Password (HTML puro) -->
+                        <!-- Campo Conferma Password -->
+    
                         <div class="input__field">
-                            <input type="password" id="conferma_password" required class="form-control" />
+                            <%= f.password_field :password_confirmation, id: "conferma_password", required: true, class: "form-control" %>
                             <label for="conferma_password">Conferma password</label>
                             <i id="occhioConf" class="fa-solid fa-eye mostra__pass" onclick="mostraPasswordConf()"></i>
                         </div>
@@ -102,8 +103,7 @@
                             </label>
                         </div>
 
-                        <!-- Pulsante Registrati -->
-                        <%= f.submit "Registrati", class: "buttonCerca", name: "signup-btn" %>
+                        <%= f.submit "Registrazione", class: "buttonCerca", name: "signup-btn" %>
 
                         <% if flash[:alert] %>
                             <div class="alert alert-danger alert-small">
