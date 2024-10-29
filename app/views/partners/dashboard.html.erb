@@ -15,64 +15,150 @@
     <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione segnalazioni"><i class="fas fa-file-alt"></i></button>
 </div>
 
-
 <!-- Sezione schede -->
 <!-- Le prime due schede vanno renderizzate solo se si è i proprietari dello sports center -->
 <div style="display: none;" id="sportscenter-manager" class="work-area">
     <h2 class="work-area-heading"><i class="fas fa-cogs"></i> Gestione centro sportivo</h2>
     <div class="work-area-command">
         <!-- VUOTO -->
+        <script>
+            function sportsCenterEditLoad(response){
+                loadPartialIntoElement(response, "#sportscenter-manager .work-area-show");
+            }
+        </script>
     </div>
     <div class = "work-area-show">
         <!--Qui ci deve essere richiamato il partial dello sportscenter edit-->
     </div>
 </div>
-<script>
-    $(document).ready( function(){
-        $('#sportscenter-manager-updatesubmit').on('click', function(e){
-            e.preventDefault();
-            const url ="<%= sports_centers_update_path(@sports_center) %>";
-            const formData = $('#new_sports_center').serialize();
-            $.ajax({
-                url: url,
-                type: 'PATCH',
-                data: formData,
-                dataType: 'json',
-                success: function(response){
-                    $('.work-area').hide();
-                    $('.work-area-show').empty();
-                    $('#sportscenter-manager').show();
-                    requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterLoad, onFailureRedirect);
-                },
-                error: function(xhr, status, error){
-                    onFailure(xhr.status);
-                }
+
+<div class="modal fade" id="sportscenter-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuovo centro sportivo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <script>
+          $('#sportscenter-new').on('shown.bs.modal', function(){
+            requester('sports_centers_new', 'GET', 'HTML', sportsCenterNewLoad, onFailureRedirect);
+          });
+
+          $('#sportscenter-new').on('hidden.bs.modal', function(){
+            $('#sports-center-new .modal-body').empty();
+          });
+
+        $(document).ready( function(){
+            $('#sportscenter-manager-updatesubmit').on('click', function(e){
+                e.preventDefault();
+                const url ="<%= sports_centers_update_path(@sports_center) %>";
+                const formData = $('#new_sports_center').serialize();
+                $.ajax({
+                    url: url,
+                    type: 'PATCH',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response){
+                        $('.work-area').hide();
+                        $('.work-area-show').empty();
+                        $('#sportscenter-manager').show();
+                        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+                    },
+                    error: function(xhr, status, error){
+                        onFailure(xhr.status);
+                    }
+                });
             });
         });
-    });
-</script>
+        </script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div style="display: none;" id="delegate-manager" class="work-area">
     <h2 class="work-area-heading"><i class="fas fa-cogs"></i> Gestione delegati</h2>
     <div class="work-area-command">
-        <button class="btn btn-ctr">Aggiungi delegati</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delegate-manager-new">Nuovo delegato</button>
     </div>
     <div class = "work-area-show">
-        <!-- Index per delegati, con bottoni per eliminazione -->
+        <!-- This section are used by Javascript -->
+        <script>
+            function delegateIndexLoad(response){
+                console.log(response)
+                response.forEach(delegate => {
+                    const delegateHtml = `
+                        <div>
+                            <p>Nome: ${delegate.name}</p>
+                            <p>Cognome: ${delegate.name}</p>
+                            <p>Email: ${delegate.email}</p>
+                            <button class="btn btn-danger delete-delegate" data-email="${delegate.email}" data-id="${delegate.id}">Elimina Delegato</button>
+                        </div>
+                    `;
+                    $('#delegate-manager .work-area-show').append(delegateHtml);
+                });
+
+                $(document).on('click', '.delete-delegate', function(){
+                    const delegateId = $(this).data('id');
+                    const delegateEmail = $(this).data('email');
+                    const url = `sports_centers_delegate_remove?sport_center_id=${delegateId}&email=${encodeURIComponent(delegateEmail)}`;
+                    if(confirm('Sei sicuro di voler eliminare questo delegato?')){
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                sport_center_id: delegateId,
+                                email: delegateEmail
+                            },
+                            dataType: 'json',
+                            success: function(response){
+                                $('button[data-id='+delegatedId+']').closest('div').remove(); // Rimuovi l'elemento dal DOM
+                            },
+                            error: function(xhr, status, error){
+                                console.log("Error");
+                            }
+                        });
+                    }
+                });
+            }
+        </Script>
     </div>
 </div>
 
+<div class="modal fade" id="delegate-manager-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuovo delegato</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <script>
+            $('#delegate-manager-new').on('shown.bs.modal', function(){
+                requester('sports_centers_delegate_new', 'GET', 'HTML', delegateNewLoad, onFailureRedirect);
+            });
+            $('#delegate-manager-new').on('hidden.bs.modal', function(){
+                $('#sports-center-new .modal-body').empty();
+            });
+            function delegateNewLoad(response){
+                loadPartialIntoElement(response, '#delegate-manager-new .modal-body');        
+            }
 
+            //PREVENIRE IL COMPORTAMENTO DI DEFAULT DEL TUTTO
 
-
-<!-- Sezione modal -->
-
-
-
-
-
-
+        </script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Sezione script -->
 <script>
@@ -100,12 +186,15 @@
         $(targetId).show()
         
         //Clean all div
-
+        
         //Prepare the next div
         if(targetId == '#sportscenter-manager'){
-            requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterLoad, onFailureRedirect);
+            requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
         }
-
+        if(targetId == '#delegate-manager'){
+            requester('sports_centers_delegate_index?id='+sport_center_id, 'GET', 'JSON', delegateIndexLoad, onFailureRedirect);
+        }
+        
     }
 
     // Send an ajax request to remote server
@@ -154,18 +243,13 @@
         $('.work-area').hide();
         $('.work-area-show').empty();
         $('#sportscenter-manager').show();
-        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterLoad, onFailureRedirect);
+        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
     }
     function sportCenterChangeReaction(){
         sport_center_id = $('#-tp-header-heading-sportscenter-chooser').val();
         $('.work-area').hide();
         $('.work-area-show').empty();
         $('#sportscenter-manager').show();
-        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterLoad, onFailureRedirect);
+        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
     }
-
-    function sportsCenterLoad(response){
-        loadPartialIntoElement(response, "#sportscenter-manager .work-area-show");
-    }
-
 </script>

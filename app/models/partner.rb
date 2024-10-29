@@ -5,7 +5,7 @@ class Partner < ApplicationRecord
     
 
     # Associazione per i centri posseduti
-    has_many :owned_sports_centers, class_name: 'SportsCenter', foreign_key: 'owner_id'
+    has_many :owned_sports_centers, class_name: 'SportsCenter', foreign_key: 'owner_id', dependent: :destroy
 
     # Associazione many-to-many per i centri gestiti
     has_many :partners_sports_centers
