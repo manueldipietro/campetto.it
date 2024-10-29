@@ -4,6 +4,8 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: [:destroy]
   before_action :authorize_user, only: [:destroy]
   before_action :admin_only, only: [:destroy]
+  
+
 
   # Visualizza tutte le recensioni per un campo specifico
   def field_reviews

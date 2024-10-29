@@ -1,193 +1,180 @@
+<!-- app/views/admin/administrators/dashboard.html.erb -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    
-    <title><%=yield(:title)%> | Campetto.it</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag 'dashboard_layout', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
+  <title><%= yield(:title) %> | Campetto.it</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'dashboard_layout', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
-    <% if yield(:role) == 'Administrator'%>
-        <% 
-            @layout_variable_username = @administrator.name + ' ' + @administrator.surname
-            @layout_variable_username = @layout_variable_username.split.map(&:capitalize).join(' ')
-        %>
-    <% elsif yield(:role) == 'Partner' %>
-        <% 
-            @layout_variable_username = @partner.name + ' ' + @partner.surname 
-            @layout_variable_username = @layout_variable_username.split.map(&:capitalize).join(' ')
-        %>
+  <% if yield(:role) == 'Administrator' %>
+    <% @layout_variable_username = "#{@administrator.name} #{@administrator.surname}".split.map(&:capitalize).join(' ') %>
+  <% elsif yield(:role) == 'Partner' %>
+    <% @layout_variable_username = "#{@partner.name} #{@partner.surname}".split.map(&:capitalize).join(' ') %>
+  <% end %>
+
+  <%= render 'layouts/header_dashboard' %>
+
+  <main id="-tp-main">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <% if yield(:role) == 'Administrator' %>
+      <div id="command-bar">
+        <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi">
+          <i class="fas fa-cogs"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione Campi">
+          <i class="fas fa-futbol"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#slot-manager" title="Gestione Slot">
+          <i class="fas fa-futbol"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione Prenotazioni">
+          <i class="fas fa-calendar-alt"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione Recensioni">
+          <i class="fas fa-star"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione Segnalazioni">
+          <i class="fas fa-file-alt"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#user-manager" title="Gestione Utenti">
+          <i class="fas fa-users"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#partner-manager" title="Gestione Partner">
+          <i class="fas fa-users"></i>
+        </button>
+        <button class="btn btn-primary dashboard-control" data-target="#administrator-manager" title="Gestione Amministratori">
+          <i class="fas fa-users"></i>
+        </button>
+      </div>
     <% end %>
 
-    <%= render 'layouts/header_dashboard.html.erb'%>
-    <main id="-tp-main">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <script
-		src="https://code.jquery.com/jquery-3.7.1.min.js"
-		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-		crossorigin="anonymous"
-    ></script>
-    
-    
-    <%  if yield(:role) == 'Administrator'%>
-        <div id="command-bar">
-                <button class="btn btn-primary dashboard-control" data-target="#sportcenter-manager" title="Gestione Centri Sportivi">
-                    <i class="fas fa-cogs"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione Campi">
-                    <i class="fas fa-futbol"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#slot-manager" title="Gestione Slot">
-                    <i class="fas fa-futbol"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione Prenotazioni">
-                    <i class="fas fa-calendar-alt"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione Recensioni">
-                    <i class="fas fa-star"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione Segnalazioni">
-                    <i class="fas fa-file-alt"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#users-manager" title="Gestione Utenti">
-                    <i class="fas fa-users"></i>
-                </button>
-                <button class="btn btn-primary dashboard-control" data-target="#partner-manager" title="Gestione Partner">
-                    <i class="fas fa-users"></i>
-                </button>    
-                <button class="btn btn-primary dashboard-control" data-target="#administrator-manager" title="Gestione Amministratori">
-                    <i class="fas fa-users"></i>
-                </button>    
-        </div>
-    <% end %>
     <%= yield %>
-    </main>
-    
-    <%= render 'layouts/footer_dashboard.html.erb' %>
-	<%  if yield(:role) == 'Administrator'%>
+  </main>
+
+  <%= render 'layouts/footer_dashboard' %>
+
+  <% if yield(:role) == 'Administrator' %>
     <script>
-        $(document).on('mouseenter', '.dashboard-control', showPopover);
-        $(document).on('mouseleave', '.dashboard-control', hidePopover);
+      $(document).on('mouseenter', '.dashboard-control', showPopover);
+      $(document).on('mouseleave', '.dashboard-control', hidePopover);
 
-        function showPopover(){
-            $(this).popover({
-                placement: 'right',
-                html: true,
-                trigger:'show',
-            });
-            $(this).popover('show');
-            return;
-        }
-
-        function hidePopover(){
-            $(this).popover('dispose');
-            return;
-        }
-
-    
-        $(document).on('click', '.dashboard-control', dashboardChangeTab);
-
-        function dashboardChangeTab(){
-            $('.work-area').hide();
-            var targetId = $(this).attr('data-target');
-            $(targetId).show()
-        }
-
-        $(document).on('click', '.dashboard-control', actioner);
-        function actioner(){
-            /*var targetId = $(this).attr('data-target');
-            if(targetId == '@administrator-manager'){
-                request_url = 'administrators'
-                request_type = 'GET'
-                request_type
-            }*/
-        }
-
-        function requester(requestUrl, requestType, requestDataType, onSuccess, onFailure){
-            $.ajax({
-                url: requestUrl,
-                type: requestType,
-                dataType: requestDataType,
-                success: function(response){
-                    onSuccess(response);
-                },
-                error: function(response){
-                    onFailure(response);
-                }
-            });
-        }
-
-        function administratorShower(response){
-            response.forEach(function(administrator){
-                const adminShowTemplate = `
-                    <div>
-                        <p>Email: ${administrator.email}</p>
-                        <p>Name: ${administrator.name}</p>
-                        <p>Surname: ${administrator.surname}</p>
-                        <p>Is Root: ${administrator.root}</p>
-                    </div>
-                `;
-                $('#administrator-manager .work-area-show').append(adminShowTemplate);
-            });
-        }
-
-        $(document).ready(function(){
-            $('#administrator-manager-new').on('shown.bs.modal', formShower('#administrator-manager-new', 'administrator_sign_up'));
-            $('#administrator-manager-new').on('shown.bs.modal', modalCleaner('#administrator-manager-new'));
+      function showPopover(){
+        $(this).popover({
+          placement: 'right',
+          html: true,
+          trigger:'show',
         });
+        $(this).popover('show');
+        return;
+      }
 
-        function formShower(modal_id, url){
-            requester(
-                url,
-                'GET',
-                'html',
-                function(response){
-                    $(modal_id+' .modal-body').html(response);
-                },
-                function(response){
-                    $(modal_id+' .modal-body').html('<p>Errore durante il recupero delle informazioni!</p>');
-                }
-            );
-        }
+      function hidePopover(){
+        $(this).popover('dispose');
+        return;
+      }
 
+      $(document).on('click', '.dashboard-control', dashboardChangeTab);
 
-        function modalCleaner(modal_id){
+      function dashboardChangeTab(){
+        $('.work-area').hide();
+        var targetId = $(this).attr('data-target');
+        $(targetId).show()
+      }
 
-        }
+      $(document).on('click', '.dashboard-control', actioner);
 
-        function formSubmitter(modal_id, url){
+      function actioner(){
+        /*var targetId = $(this).attr('data-target');
+        if(targetId == '@administrator-manager'){
+          request_url = 'administrators'
+          request_type = 'GET'
+          request_type
+        }*/
+      }
 
-        }
+      function requester(requestUrl, requestType, requestDataType, onSuccess, onFailure){
+        $.ajax({
+          url: requestUrl,
+          type: requestType,
+          dataType: requestDataType,
+          success: function(response){
+            onSuccess(response);
+          },
+          error: function(response){
+            onFailure(response);
+          }
+        });
+      }
 
-    </script>    
-    <%end%>
-    <%  if yield(:role) == 'Administrator'%>
+      function administratorShower(response){
+        response.forEach(function(administrator){
+          const adminShowTemplate = `
+          <div>
+            <p>Email: ${administrator.email}</p>
+            <p>Name: ${administrator.name}</p>
+            <p>Surname: ${administrator.surname}</p>
+            <p>Is Root: ${administrator.root}</p>
+          </div>
+          `;
+          $('#administrator-manager .work-area-show').append(adminShowTemplate);
+        });
+      }
+
+      $(document).ready(function(){
+        $('#administrator-manager-new').on('shown.bs.modal', formShower('#administrator-manager-new', 'administrator_sign_up'));
+        $('#administrator-manager-new').on('shown.bs.modal', modalCleaner('#administrator-manager-new'));
+      });
+
+      function formShower(modal_id, url){
+        requester(
+          url,
+          'GET',
+          'html',
+          function(response){
+            $(modal_id+' .modal-body').html(response);
+          },
+          function(response){
+            $(modal_id+' .modal-body').html('<p>Errore durante il recupero delle informazioni!</p>');
+          }
+        );
+      }
+
+      function modalCleaner(modal_id){
+      }
+
+      function formSubmitter(modal_id, url){
+      }
+    </script>
+  <% end %>
+
+  <% if yield(:role) == 'Administrator' %>
     <div class="modal fade" id="administrator-manager-new" tabindex="-1" aria-labelledby="administrator-manager-new-title" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="administrator-manager-new-title">Crea un nuovo amministratore</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="administrator-manager-new-title">Crea un nuovo amministratore</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
+      </div>
     </div>
-    <%end%>
-
+  <% end %>
 </body>
 </html>
+

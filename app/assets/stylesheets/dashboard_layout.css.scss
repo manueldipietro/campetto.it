@@ -17,7 +17,7 @@ body {
     grid-template-columns: 100%;
     grid-template-rows: auto 1fr auto;
     background-color: #f4f4f4;
-    overflow: hidden;
+    overflow: auto;
     font-family: var(--bs-body-font-family); /* Utilizzo del font predefinito di Bootstrap */
     font-weight: 500;
 }

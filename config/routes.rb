@@ -107,6 +107,10 @@ Rails.application.routes.draw do
   get       '/error',                      to: 'pages#home'
 
   get 'user_reviews', to: 'reviews#user_index', as: 'user_reviews'
+  
+  namespace :admin do
+    resources :users, only: [:index, :create, :edit, :update, :destroy]
+  end
 
 end
 
