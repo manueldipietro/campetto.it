@@ -33,10 +33,22 @@
     </div>
 </div>
 
-<div style="display: none" id="slotBooking-manager" class="work-area">
+<div style="display: none" id="booking-manager" class="work-area">
     <h2 class="work-area-heading">
-        <i class="fas fa-calendar-alt"></i> Gestione Slot & Prenotazioni
+        <i class="fas fa-calendar-alt"></i> Gestione Prenotazioni
     </h2>
+    <div class="fields-wrapper-admin">
+    <% @bookings.each do |booking| %>
+        <div class="booking-card">
+            <div class="booking-info">
+            <h2><%= booking.slot.field.nome %></h2>
+                <p><strong>Data:</strong> <span><%= booking.slot.start_time.strftime('%d/%m/%Y %H:%M') %></span></p>
+                <p><strong>Prezzo:</strong> <span>€<%= booking.slot.field.prezzo %></span></p>
+                <p><strong>Cliente</strong> <span><%= booking.user_id %></span></p>
+            </div>
+        </div>
+    <% end %>
+    </div>
 </div>
 
 
