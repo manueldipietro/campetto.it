@@ -14,8 +14,14 @@
                     <span><%= @layout_variable_username %></span>
                 </div>        
                 <!-- Pulsante Logout -->
-                <%= link_to "/administrator_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %>
-                    <i class="fas fa-sign-out-alt"></i>
+                <% if yield(:role) == 'Administrator' %>
+                    <%= link_to "/administrator_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %> 
+                        <i class="fas fa-sign-out-alt"></i>
+                    <% end %>
+                <% elsif yield(:role) == 'Partner' %>
+                    <%= link_to "/partner_log_out", id: "-tp-header-heading-ctr-log-out", class: "btn btn-primary", title: "Logout", method: :delete do %>
+                        <i class="fas fa-sign-out-alt"></i>
+                    <% end %>
                 <% end %>
                 <!-- Pulsante Menu per Mobile -->
                 <!--<a id="-tp-header-heading-ctr-menubtn" class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#-tp-header-heading-mobctr" aria-controls="-tp-header-heading-mobctr" title="Menu">

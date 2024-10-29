@@ -1,26 +1,53 @@
 class SessionsController < ApplicationController
-  
+
   def new
     @current_route = request.path 
+    # Administrator
     if @current_route == administrator_log_in_path
       render 'administrator_new'
+      return
+    end
+    # Partner
+    if @current_route == partner_log_in_path
+      render 'partner_new'
       return
     end
   end
   
   def create
     @current_route = request.path
-    
+    # Administrator
     if @current_route == administrator_log_in_path
-      administrator = Administrator.find_by(email: params[:session][:email])
+      administrator = Administrator.find_by(email: params[:session][:email].downcase)
       if administrator && administrator.authenticate(params[:session][:password])
         log_in_administrator administrator
         params[:session][:remember_me] == '1' ? remember_administrator(administrator) : forget_administrator(administrator)
         redirect_back_or administrator_dashboard_path
         return
       else
-        flash.now[:danger] = 'Invalid email/password combination'
+        flash.now[:danger] = 'Email o password errate'
         render 'administrator_new'
+        return
+      end
+    end
+    if @current_route == partner_log_in_path
+      partner = Partner.find_by(email: params[:session][:email].downcase)
+      if partner && partner.authenticate(params[:session][:password])
+        if partner.activated?
+          log_in_partner partner
+          params[:session][:remember_me] == '1' ? remember_partner(partner) : forget_partner(partner)
+          redirect_back_or partner_dashboard_path
+          return
+        else
+          message = "Account non attivato! "
+          message += "Controlla la tua mail per il link di attivazione."
+          flash[:warning] = message
+          redirect_to root_url
+          return
+        end
+      else
+        flash.now[:danger] = 'Email o password errate'
+        render 'partner_new'
         return
       end
     end
@@ -48,9 +75,15 @@ class SessionsController < ApplicationController
 
   def destroy
     @current_route = request.path
-    
+    # Administrator
     if @current_route == administrator_log_out_path
       log_out_administrator if logged_in_administrator?
+      redirect_to root_url
+      return
+    end
+    # Partner
+    if @current_route == partner_log_out_path
+      log_out_partner if logged_in_partner?
       redirect_to root_url
       return
     end

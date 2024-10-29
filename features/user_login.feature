@@ -1,4 +1,4 @@
-Feature: User Registration and Login
+Feature: User Confirmation and Login
 
   Scenario: User confirms account successfully
     Given I have registered a user with email "test@example.com" and password "Password123!"
@@ -13,6 +13,7 @@ Feature: User Registration and Login
     And I click on "Login"
     Then I should be redirected to account page
     And I should see "Accesso effettuato con successo."
+    Then I should see "Ciao test@example.com"
 
   Scenario: User tries to log in without confirming account
     Given I have registered a user with email "test2@example.com" and password "Password123!"
@@ -25,4 +26,4 @@ Feature: User Registration and Login
     Scenario: User visits their account page while logged in
     Given I am logged in as a confirmed user with email "test@example.com" and password "Password123!"
     When I visit my account page
-    Then I should see "Ciao"
+    Then I should see "Ciao test@example.com"

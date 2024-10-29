@@ -62,7 +62,7 @@
               </li>
               <% unless current_user %>
               <li class="nav-item">
-                <a class="nav-link mx-lg-2" href="#">Gestisci un Campo?</a>
+                <%= link_to 'Gestisci un Campo?', partner_log_in_path, class: 'nav-link mx-lg-2' %>
               </li>
               <% end %>
             </ul>

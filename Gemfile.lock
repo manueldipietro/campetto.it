@@ -47,6 +47,13 @@ GEM
     activerecord (6.1.7.8)
       activemodel (= 6.1.7.8)
       activesupport (= 6.1.7.8)
+    activerecord-session_store (2.1.0)
+      actionpack (>= 6.1)
+      activerecord (>= 6.1)
+      cgi (>= 0.3.6)
+      multi_json (~> 1.11, >= 1.11.2)
+      rack (>= 2.0.8, < 4)
+      railties (>= 6.1)
     activestorage (6.1.7.8)
       actionpack (= 6.1.7.8)
       activejob (= 6.1.7.8)
@@ -66,6 +73,7 @@ GEM
       execjs (~> 2)
     base64 (0.2.0)
     bcrypt (3.1.20)
+    bigdecimal (3.1.8)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -86,9 +94,13 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
+    cgi (0.4.1)
     chronic (0.10.2)
     coderay (1.1.3)
     concurrent-ruby (1.3.4)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     csv (3.3.0)
     cucumber (8.0.0)
@@ -150,6 +162,7 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashdiff (1.1.1)
     hashie (5.0.0)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
@@ -344,6 +357,10 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (~> 4.0, < 4.11)
+    webmock (3.24.0)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webpacker (5.4.4)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -364,14 +381,16 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-session_store
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
   bootstrap (~> 5.2, >= 5.2.3)
   byebug
-  capybara (>= 3.26)
+  capybara (~> 3.36)
   capybara-email
   cucumber-rails
   database_cleaner
+  database_cleaner-active_record
   dotenv-rails
   factory_bot (~> 6.3.0)
   ffi (~> 1.16.3)
@@ -385,6 +404,7 @@ DEPENDENCIES
   pg (~> 1.1)
   pry
   puma (~> 5.0)
+  rack
   rack-mini-profiler (~> 2.0)
   rack_session_access
   railroady
@@ -392,13 +412,14 @@ DEPENDENCIES
   rails-controller-testing
   rspec-rails
   sass-rails (>= 6)
-  selenium-webdriver (>= 4.0.0.rc1)
+  selenium-webdriver (~> 4.0)
   spring
   stripe
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
   webdrivers
+  webmock
   webpacker (~> 5.4.4)
   whenever
 

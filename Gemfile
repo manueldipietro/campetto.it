@@ -54,9 +54,9 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.26'
+  gem 'capybara', '~> 3.36'
   gem 'capybara-email'
-  gem 'selenium-webdriver', '>= 4.0.0.rc1'
+  gem 'selenium-webdriver', '~> 4.0'
   gem 'rails-controller-testing'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
@@ -64,7 +64,9 @@ group :test do
   gem 'factory_bot', '~> 6.3.0'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
   gem 'rack_session_access'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -72,6 +74,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # AGGIUNTA GEM PER FIX PROBLEMA
 gem 'ffi', '~>1.16.3'
+
+gem 'activerecord-session_store'
+gem 'rack'
+
 
 #gemme per autenticazione google
 gem 'omniauth'
