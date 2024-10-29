@@ -40,7 +40,7 @@ class PartnersController < ApplicationController
   private
     
     def partner_params
-      params.require(:partner).permit(:name, :surname, :gender, :mobile, :birthdate, :email, :password, :password_confimartion)
+      params.require(:partner).permit(:name, :surname, :gender, :mobile, :birthdate, :email, :password, :password_confirmation)
     end
 
     def logged_in_partner

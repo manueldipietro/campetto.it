@@ -117,6 +117,18 @@ GEM
       activesupport (>= 5.0.0)
     jwt (2.9.3)
       base64
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     leaflet-rails (1.9.5)
       actionpack (>= 4.2.0)
       railties (>= 4.2.0)
@@ -246,6 +258,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.13.1)
+    rubex (0.0.1)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
@@ -318,6 +331,7 @@ DEPENDENCIES
   ffi (~> 1.16.3)
   geocoder
   jbuilder (~> 2.7)
+  kaminari
   leaflet-rails
   listen (~> 3.3)
   omniauth
@@ -330,6 +344,7 @@ DEPENDENCIES
   rails (~> 6.1.7, >= 6.1.7.8)
   rails-controller-testing
   rspec-rails (~> 4.0.2)
+  rubex
   sass-rails (>= 6)
   selenium-webdriver (>= 4.0.0.rc1)
   spring

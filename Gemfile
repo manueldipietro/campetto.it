@@ -80,3 +80,6 @@ gem 'bootstrap', '~> 5.2', '>= 5.2.3'
 gem 'leaflet-rails'
 
 gem 'geocoder'
+
+gem 'rubex'
+gem 'kaminari'

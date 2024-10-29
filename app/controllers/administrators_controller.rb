@@ -1,5 +1,6 @@
 class AdministratorsController < ApplicationController
-  layout 'dashboard', only: [:dashboard]
+  layout false,                             only: [:new]
+  layout 'dashboard',                       only: [:dashboard]
   before_action :logged_in_administrator,   only: [:edit, :update, :dashboard] #,:delete
 
   #This method show the administrator page, TODO: make accessible only from owner and from other administrator with root privileges
@@ -10,6 +11,7 @@ class AdministratorsController < ApplicationController
   #This method show the signup form, TODO: make this accessible on dashboard only from root administrator
   def new
     @administrator = Administrator.new
+    render partial: 'new', layout: false
   end
 
   #This metod is intended to be used with AJAX
@@ -22,6 +24,10 @@ class AdministratorsController < ApplicationController
     else
       render json: { message: 'Error during administrator creation. Invalid params' }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @administrator = Administrator.find(params[:id])
   end
 
   def myprofile
@@ -43,8 +49,14 @@ class AdministratorsController < ApplicationController
     @administrator = Administrator.find(session[:administrator_id])
     @reviews = Review.all.order(created_at: :desc)
     @reports = Report.all
+
   end
   
+  def index
+    @administrator = Administrator.page(params[:page]).per(10)
+    render json: @administrator, stauts: :ok
+  end
+
   private
     def administrator_params
       params.require(:administrator).permit(:name, :surname, :email, :password, :password_confimartion, :root)

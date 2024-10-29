@@ -3,10 +3,11 @@ class CreateSportsCenters < ActiveRecord::Migration[6.1]
     create_table :sports_centers do |t|
       t.string :tax_code
       t.string :vat_number
-      t.string :campany_name
+      t.string :company_name
       t.string :iban
       t.string :email
       t.string :phone
+      t.string :registered_office
 
       t.timestamps
     end
