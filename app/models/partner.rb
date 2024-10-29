@@ -5,7 +5,7 @@ class Partner < ApplicationRecord
     
 
     # Associazione per i centri posseduti
-    has_many :owned_sports_centers, class_name: 'SportsCenter', foreign_key: 'owner_id'
+    has_many :owned_sports_centers, class_name: 'SportsCenter', foreign_key: 'owner_id', dependent: :destroy
 
     # Associazione many-to-many per i centri gestiti
     has_many :partners_sports_centers
@@ -39,7 +39,7 @@ class Partner < ApplicationRecord
     end
 
     def remember
-        self.remember_token = User.new_token
+        self.remember_token = Partner.new_token
         update_attribute(:remember_digest, User.digest(remember_token))
     end
 

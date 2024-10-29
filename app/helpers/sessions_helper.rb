@@ -18,7 +18,7 @@ module SessionsHelper
     end
 
     # Remembers a partner in a persistent session
-    def rememeber_partner(partner)
+    def remember_partner(partner)
         partner.remember
         cookies.permanent.signed[:partner_id] = partner.id
         cookies.permanent.signed[:partner_remember_token] = user.remember_token
