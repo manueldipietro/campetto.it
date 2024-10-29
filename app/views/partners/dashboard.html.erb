@@ -49,6 +49,10 @@
             $('#sports-center-new .modal-body').empty();
           });
 
+            function sportsCenterNewLoad(response){
+                loadPartialIntoElement(response, '#sportscenter-new .modal-body');        
+            }
+
         $(document).ready( function(){
             $('#sportscenter-manager-updatesubmit').on('click', function(e){
                 e.preventDefault();
