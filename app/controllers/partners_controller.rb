@@ -2,64 +2,61 @@ class PartnersController < ApplicationController
   layout 'dashboard', only: [:dashboard]
   before_action :logged_in_partner, only: [:dashboard]
 
+  #OK
   def new
     @partner = Partner.new
   end
 
+  #OK
   def create
     @partner = Partner.new(partner_params)
     if @partner.save
       @partner.send_activation_email
       flash[:info] = "Controlla la tua email per attivare il tuo account."
       redirect_to root_url
-      #log_in @partner
-      #flash[:success] = "Benvenuto in Campetto.it!" #Per usare il flash va aggiunto al layout
-      #redirect_to partner_dashboard_path
     else
-        #Cambia con redirect
-        redirect_to administrator_log_in_path
-        return
         render 'new'
     end
   end
+
 
   def dashboard
     @partner = Partner.find(session[:partner_id])
     @fields = Field.joins(:sports_center).where(sports_centers: { owner_id: @partner.id })
     @bookings = Booking.joins(slot: { field: :sports_center })
                    .where(sports_centers: { owner_id: @partner.id })
-    
   end
-
-  #Pagina per renderizzare il mio profilo
-  def edit
-
-  end
-
-  # Pagina per modificare il mio profilo
-  def update
-  
-  end
-
-
-
 
   #Pagina per mostrare tutti i partner
   def index
     partners = Partner.all
-    render json: partners
+    render json: partners, status: :ok
   end
 
-  #Pagina per la modifica da parte dell'amministratore
-  def update_per_admin
+  #def myprofile
+  #  @partner = Partner.find(session[:partner_id])
+  #end
 
-  end
+  #def myprofile_update
+
+  #end
   
-  def edit_per_admin
+  #def edit
+  #  render partial: '_edit', layout: false
+  #end
 
+  #def update
+
+  #end
+
+  def destroy
+    partner = Partner.find(params[:id])
+    if partner.destroy
+      render json: {message: "Partner eliminato con successo."}, status: :ok
+    else 
+      render json: {message: "Errore durante l'eliminazione dell'amministratore."}, status: :unprocessable_entity
+    end
   end
-
-
 
   private
     
