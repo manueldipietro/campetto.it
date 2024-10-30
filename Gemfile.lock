@@ -135,7 +135,6 @@ GEM
       rexml (~> 3.0)
       webrick (~> 1.7)
     cucumber-tag-expressions (4.1.0)
-    dante (0.2.0)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.0)
@@ -360,10 +359,6 @@ GEM
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
     stripe (13.0.2)
-    stripe-ruby-mock (2.5.8)
-      dante (>= 0.2.0)
-      multi_json (~> 1.0)
-      stripe (>= 2.0.3)
     sys-uname (1.3.0)
       ffi (~> 1.1)
     thor (1.3.2)
@@ -444,7 +439,6 @@ DEPENDENCIES
   selenium-webdriver (~> 4.0)
   spring
   stripe
-  stripe-ruby-mock
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)

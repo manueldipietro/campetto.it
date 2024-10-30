@@ -22,7 +22,7 @@
     <% if current_user %>
       <%= link_to 'Scrivi una Recensione', new_field_review_path(@field), class: 'btn btn-primary write-review-btn' %>
     <% else %>
-      <p class="login-prompt">Devi essere loggato per aggiungere una recensione. <%= link_to 'Accedi', login_path %> o <%= link_to 'Registrati', signup_path %>.</p>
+      <p class="login-prompt">Devi essere loggato per aggiungere una recensione.</p>
     <% end %>
   </div>
 

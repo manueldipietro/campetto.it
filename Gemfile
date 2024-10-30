@@ -67,7 +67,6 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'rack_session_access'
   gem 'webmock'
-  gem 'stripe-ruby-mock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
