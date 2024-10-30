@@ -93,8 +93,11 @@ Rails.application.routes.draw do
   post      'administrator_log_in',       to: 'sessions#create'
   delete    'administrator_log_out',      to: 'sessions#destroy'
   get       'administrator_dashboard',    to: 'administrators#dashboard'
-  get       'administrator_my_profile',   to: 'administrators#myprofile'
   post      'administrator_update',       to: 'administrators#update'
+  delete    'administrator_destroy',      to: 'administrators#destroy'
+  get       'administrator_index',        to: 'administrators#index'
+  get       'administrator_profile',      to: 'administrators#edit'
+
   resources :administrators, only: [:create, :update, :index]
   
 

@@ -27,14 +27,33 @@ class PartnersController < ApplicationController
     @partner = Partner.find(session[:partner_id])
   end
 
-  #myprofile e edit  
-  
-  #index for administrator
-  def index
-    
+  #Pagina per renderizzare il mio profilo
+  def edit
+
   end
 
-  #index for 
+  # Pagina per modificare il mio profilo
+  def update
+  
+  end
+
+
+
+
+  #Pagina per mostrare tutti i partner
+  def index
+    partners = Partner.all
+    render json: partners
+  end
+
+  #Pagina per la modifica da parte dell'amministratore
+  def update_per_admin
+
+  end
+  
+  def edit_per_admin
+
+  end
 
 
 

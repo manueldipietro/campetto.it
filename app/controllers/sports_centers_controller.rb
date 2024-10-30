@@ -51,6 +51,7 @@ class SportsCentersController < ApplicationController
     def destroy
         sports_center = SportsCenter.find(params[:id])
         if sports_center
+            sports_center.managers.clear
             sports_center.destroy
         end
         redirect_to partner_dashboard_path
@@ -85,7 +86,6 @@ class SportsCentersController < ApplicationController
                 email: delegate.email
             }
         end
-        
         render json: delegate_info, status: :ok
     end
 
