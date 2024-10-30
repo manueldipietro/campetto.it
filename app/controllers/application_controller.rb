@@ -22,5 +22,14 @@ class ApplicationController < ActionController::Base
     unless logged_in?
       redirect_to logReg_path, alert: "Devi accedere per visualizzare questa pagina."
     end
+    end
+    
+     def authenticate_partner!
+    unless logged_in_partner?
+      store_location
+      flash[:danger] = "Devi essere loggato come partner per accedere a questa pagina."
+      redirect_to partner_log_in_url
+    end
+
   end
 end
