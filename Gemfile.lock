@@ -71,7 +71,9 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     autoprefixer-rails (10.4.19.0)
       execjs (~> 2)
+    base64 (0.2.0)
     bcrypt (3.1.20)
+    bigdecimal (3.1.8)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -148,6 +150,8 @@ GEM
       railties (>= 3.2)
     erubi (1.13.0)
     execjs (2.10.0)
+    factory_bot (6.3.0)
+      activesupport (>= 5.0.0)
     faraday (2.8.1)
       base64
       faraday-net_http (>= 2.0, < 3.1)
@@ -454,4 +458,3 @@ RUBY VERSION
 
 BUNDLED WITH
    2.1.4
-
