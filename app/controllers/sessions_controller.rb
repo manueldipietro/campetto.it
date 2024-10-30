@@ -53,17 +53,11 @@ class SessionsController < ApplicationController
     end
 
     user = User.find_by(email: session_params[:email_login])
-    Rails.logger.debug("Attempting to find user with email: #{session_params[:email_login]}")
-
-    if user.nil?
-      flash[:alert] = "Email non trovata."
-      redirect_to logReg_path(form: 'login')
-      return
-    end
   
     if user&.authenticate(session_params[:password_login])
       if user.confirmed_at?
-        session[:user_id] = user.id
+        session[:user_id] = user.id 
+        flash[:notice] = "Accesso effettuato con successo."
         redirect_to accountUtente_path
       else
         flash[:alert] = "Devi confermare il tuo account prima di accedere."
@@ -72,10 +66,9 @@ class SessionsController < ApplicationController
     else
       flash[:alert] = "Email o password errati."
       redirect_to logReg_path(form: 'login')
-    end
+    end    
   end
   
-
   def welcome
     @user = User.find(session[:user_id])
   end

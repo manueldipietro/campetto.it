@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
- before_action :authenticate_user!, except: [:new, :create, :confirm, :request_password_reset, :edit_password, :update_password]
+  before_action :authenticate_user!, except: [:new, :create, :confirm, :request_password_reset, :edit_password, :update_password]
   before_action :set_user, only: [:edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
@@ -8,17 +8,23 @@ class UsersController < ApplicationController
   end
   
   def create
-        @user = User.new(user_params)
-        @user.confirmation_sent_at = Time.now
+    @user = User.new(user_params)
+    
+    if @user.password != @user.password_confirmation
+      flash.now[:alert] = "Le password non corrispondono."
+      render :new and return
+    end
+    
+    @user.confirmation_sent_at = Time.now
 
-        if @user.save
-          UserMailer.registration_confirmation(@user).deliver_now
-          flash[:notice] = "Registrazione avvenuta con successo, ora conferma via email"
-          redirect_to logReg_path(form: 'login')
-        else
-            flash[:alert] = "Email già registrata, usane un'altra."
-            redirect_to logReg_path(form: 'signup')
-        end
+    if @user.save
+      UserMailer.registration_confirmation(@user).deliver_now
+      flash[:notice] = "Registrazione avvenuta con successo, ora conferma via email"
+      redirect_to logReg_path(form: 'login')
+    else
+      flash[:alert] = "Email già registrata, usane un'altra."
+      redirect_to logReg_path(form: 'signup')
+    end
   end
 
  def edit
@@ -40,17 +46,17 @@ class UsersController < ApplicationController
     end
   end
 
- def destroy
-  @user.destroy
-  # Disconnetti l'utente dopo l'eliminazione dell'account
-  session[:user_id] = nil
-  flash[:notice] = "Il tuo account è stato eliminato."
-  redirect_to root_path
-end
+  def destroy
+    @user.destroy
+    # Disconnetti l'utente dopo l'eliminazione dell'account
+    session[:user_id] = nil
+    flash[:notice] = "Il tuo account è stato eliminato."
+    redirect_to root_path
+  end
   
 
   def accountUtente
-    @user = current_user
+    @user = User.find(session[:user_id])
   end
   
   #Conferma email
@@ -144,12 +150,6 @@ end
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :nome, :cognome)
-  end
-
-  def require_logins
-    unless current_user
-      redirect_to login_path, alert: 'Devi essere loggato per accedere a questa pagina.'
-    end
   end
 end
 

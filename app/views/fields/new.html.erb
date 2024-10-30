@@ -71,8 +71,8 @@
 
       <!-- Campo Immagine -->
       <div class="form-group">
-        <%= form.label :image, "Immagine del Campo", class: "form-label" %>
-        <%= form.file_field :image, class: "form-control", required:true %>
+          <%= form.label :image, "Immagine del Campo", class: "form-label" %>
+          <%= form.file_field :image, class: "form-control", required: true, accept: "image/jpeg,image/gif,image/png,image/bmp,image/webp" %>
       </div>
 
       <!-- Nuovi campi per gli slot -->
