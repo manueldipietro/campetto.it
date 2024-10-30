@@ -77,7 +77,6 @@
             <li><a href="<%= user_reviews_path %>">Recensioni</a></li>
             <li><a href="<%= reports_user_path(current_user) %>">Segnalazioni</a></li>
             <li><%= link_to 'Edita Profilo', edit_user_path(@user) %></li>
-            <li><a href="#" id="changePassw">Cambia Password</a></li>
             <li><%= link_to 'Elimina Profilo', user_path(@user), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare il tuo profilo?' }, class: 'delete-profile-link' %>
             </li>
           </ul>
@@ -138,15 +137,6 @@
         </div>
       </div>
     </section>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        <% if flash[:show_popup] %>
-          document.getElementById('form__changepassword').style.display = 'block';
-          document.getElementById('blur-background').style.display = 'block';
-        <% end %>
-      });
-    </script>
   </body>
 </html>
 

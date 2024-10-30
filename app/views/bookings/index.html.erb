@@ -6,9 +6,9 @@
       <title>Campetto</title>
   </head>
   <body>
-    <h1>Le tue prenotazioni</h1>
-
+  <section class= "booking-pagina">
     <div class="bookings-filter">
+    <h1>Le tue prenotazioni</h1>
       <button id="future-bookings-button" onclick="showFutureBookings()">Future</button>
       <button id="past-bookings-button" onclick="showPastBookings()">Passate</button>
     </div>
@@ -98,7 +98,7 @@
         </div>
       <% end %>
     </div>
-
+  </section>
     <script>
       function toggleReportForm(bookingId) {
         const form = document.getElementById(`report-form-${bookingId}`);

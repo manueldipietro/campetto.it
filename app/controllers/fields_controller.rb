@@ -1,5 +1,6 @@
 class FieldsController < ApplicationController
   before_action :set_field, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_partner!, only: [:new, :create]
 
   # Lista di tutti i campi
   def index
@@ -12,13 +13,24 @@ class FieldsController < ApplicationController
   end
 
  def create
-  @field = Field.new(field_params)
+  sports_center_id = params[:field][:sports_center_id]
+  partner_id = session[:partner_id]
 
-  if @field.save
-    redirect_to @field, notice: 'Campo creato con successo.'
+  # Verifica che il Centro Sportivo appartenga al partner autenticato
+  if SportsCenter.exists?(id: sports_center_id, owner_id: partner_id)
+    # Logica per creare l'oggetto o completare l'azione
+    @field = Field.new(field_params)
+
+    if @field.save
+      redirect_to partner_dashboard_path, notice: 'Campo creato con successo.'
+    else
+      render :new
+    end
   else
-    render :new
+    flash[:alert] = "ID del Centro Sportivo non valido o non appartiene al partner corrente."
+    redirect_to new_field_path
   end
+
 end
 
 
@@ -137,7 +149,7 @@ end
 
   # Parametri permessi
   def field_params
-  params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :image, :via, :citta, :cap, :start_time, :end_time, :interval, exclude_days: [])
+  params.require(:field).permit(:sports_center_id, :nome, :descrizione, :sport, :prezzo, :image, :via, :citta, :cap, :start_time, :end_time, :interval, exclude_days: [])
 end
 
 end

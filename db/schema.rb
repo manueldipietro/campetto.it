@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_30_203722) do
+ActiveRecord::Schema.define(version: 2024_10_28_174121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,10 +80,11 @@ ActiveRecord::Schema.define(version: 2024_10_30_203722) do
     t.integer "interval"
     t.string "exclude_days"
     t.string "indirizzo"
+    t.bigint "sports_center_id"
     t.string "via"
     t.string "citta"
     t.string "cap"
-    t.integer "sports_center_id"
+    t.index ["sports_center_id"], name: "index_fields_on_sports_center_id"
   end
 
   create_table "partners", force: :cascade do |t|
@@ -129,8 +130,8 @@ ActiveRecord::Schema.define(version: 2024_10_30_203722) do
     t.string "titolo"
     t.integer "valutazione"
     t.text "testo"
-    t.bigint "user_id", null: false
     t.bigint "field_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_id"], name: "index_reviews_on_field_id"
@@ -175,6 +176,9 @@ ActiveRecord::Schema.define(version: 2024_10_30_203722) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.string "uid"
     t.string "provider"
     t.datetime "confirmed_at"
@@ -182,6 +186,7 @@ ActiveRecord::Schema.define(version: 2024_10_30_203722) do
     t.datetime "confirmation_sent_at"
     t.string "nome"
     t.string "cognome"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

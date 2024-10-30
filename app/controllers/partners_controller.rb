@@ -23,9 +23,24 @@ class PartnersController < ApplicationController
   def dashboard
     @partner = Partner.find(session[:partner_id])
     @fields = Field.joins(:sports_center).where(sports_centers: { owner_id: @partner.id })
-    @bookings = Booking.joins(slot: { field: :sports_center })
-                   .where(sports_centers: { owner_id: @partner.id })
+    field_ids = @fields.pluck(:id)
+
+    # Filtra le prenotazioni usando gli ID dei campi
+    @bookings = Booking.joins(:slot).where(slots: { field_id: field_ids })
   end
+
+  #Pagina per renderizzare il mio profilo
+  def edit
+
+  end
+
+  # Pagina per modificare il mio profilo
+  def update
+  
+  end
+
+
+
 
   #Pagina per mostrare tutti i partner
   def index
