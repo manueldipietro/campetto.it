@@ -61,7 +61,7 @@
             <label for="user_password" class="form-label">Password</label>
             <input type="password" class="form-control" id="user_password" name="user[password]" <%= @user&.persisted? ? '' : 'required' %>>
           </div>
-          
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
           <button type="submit" class="btn btn-primary"><%= @user&.persisted? ? 'Aggiorna' : 'Crea' %> Utente</button>
