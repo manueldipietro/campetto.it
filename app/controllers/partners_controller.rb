@@ -32,12 +32,36 @@ class PartnersController < ApplicationController
     @bookings = Booking.joins(:slot).where(slots: { field_id: field_ids })
   end
 
-  #myprofile e edit  
+  #Pagina per renderizzare il mio profilo
+  def edit
+
+  end
+
+  # Pagina per modificare il mio profilo
+  def update
   
-  #index for partner
+  end
+
+
+
+
+  #Pagina per mostrare tutti i partner
   def index
+    partners = Partner.all
+    render json: partners
+  end
+
+  #Pagina per la modifica da parte dell'amministratore
+  def update_per_admin
+
   end
   
+  def edit_per_admin
+
+  end
+
+
+
   private
     
     def partner_params

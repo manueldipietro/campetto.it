@@ -87,13 +87,16 @@ Rails.application.routes.draw do
   get 'reverse_geocode', to: 'fields#reverse_geocode'
 
   # Administrators' routes
-  get 'administrator_sign_up', to: 'administrators#new'
-  get 'administrator_log_in', to: 'sessions#new'
-  post 'administrator_log_in', to: 'sessions#create'
-  delete 'administrator_log_out', to: 'sessions#destroy'
-  get 'administrator_dashboard', to: 'administrators#dashboard'
-  get 'administrator_my_profile', to: 'administrators#myprofile'
-  post 'administrator_update', to: 'administrators#update'
+  get       'administrator_sign_up',      to: 'administrators#new'
+  get       'administrator_log_in',       to: 'sessions#new'
+  post      'administrator_log_in',       to: 'sessions#create'
+  delete    'administrator_log_out',      to: 'sessions#destroy'
+  get       'administrator_dashboard',    to: 'administrators#dashboard'
+  post      'administrator_update',       to: 'administrators#update'
+  delete    'administrator_destroy',      to: 'administrators#destroy'
+  get       'administrator_index',        to: 'administrators#index'
+  get       'administrator_profile',      to: 'administrators#edit'
+
   resources :administrators, only: [:create, :update, :index]
 
   # SportsCenters' routes

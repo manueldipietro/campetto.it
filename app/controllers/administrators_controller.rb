@@ -1,50 +1,53 @@
 class AdministratorsController < ApplicationController
-  layout false,                             only: [:new]
-  layout 'dashboard',                       only: [:dashboard]
-  before_action :logged_in_administrator,   only: [:edit, :update, :dashboard] #,:delete
-
-  #This method show the administrator page, TODO: make accessible only from owner and from other administrator with root privileges
-  def show
-    @administrator = Administrator.find(params[:id])
-  end
+  layout false,                             only: [:new, :create, :index, :destroy]
+  layout 'dashboard',                       only: [:dashboard, :edit]
+  before_action :logged_in_administrator,   only: [:new, :create, :edit, :update, :dashboard, :index, :destroy]
+  before_action :root_administrator,        only: [:new, :create, :index, :edit_per_root, :update_per_root, :destroy]
   
-  #This method show the signup form, TODO: make this accessible on dashboard only from root administrator
+  # Ok C-
   def new
     @administrator = Administrator.new
-    render partial: 'new', layout: false
-  end
-
-  #This metod is intended to be used with AJAX
+    render partial: 'new'
+  end  
+  
+  # Ok C-
   def create
-    @administrator = Administrator.new(administrator_params)
-    if @administrator.save
-      #flash[:success]
-      #log_in @administrator
-      redirect_to administrator_log_in_path
+    administrator = Administrator.new(administrator_params)
+    if administrator.save
+      render json: {message: "Amministratore creato con successo."}, status: :ok
     else
-      render json: { message: 'Error during administrator creation. Invalid params' }, status: :unprocessable_entity
+      render json: { message: "Errore durante la creazione dell'amministratore." }, status: :unprocessable_entity
     end
   end
-
-  def destroy
-    @administrator = Administrator.find(params[:id])
-  end
-
-  def myprofile
-    @administrator = Administrator.find(session[:administrator_id])
-  end
-
-  def update
-    @administrator = Administrator.find(session[:administrator_id])
-    if @administrator.update_attributes(administrator_update_params)
-      flash[:success] = "Dati aggiornati con successo"
-      redirect_to edit
+  
+  # Ok C-
+  def edit
+    if request.path == administrator_profile_path
+      @administrator = Administrator.find(session[:administrator_id])
+      render 'edit'
       return
     else
-      render 'edit'
+      render partial: '_edit', layout: false
+      return
     end
   end
 
+  #C -
+  def update
+    if request.path == administrator_profile_update_path
+      @administrator.update_attributes(administrator_update_params)
+      redirect_to administrator_profile_path
+    elsif current_administrator.root?
+      @administrator = Administrator.find(params[:id]);
+      if @administrator.update_attributes(administrator_update_params)
+        render json: {message: "Amministratore aggiornato con successo."}, status: :ok
+      else
+        render json: {message: "Errore durante l'aggiornamento dell'amministratore."}, status: :unprocessable_entity
+      end
+    end
+  end
+
+  # C
   def dashboard
     @administrator = Administrator.find(session[:administrator_id])
     @reviews = Review.all.order(created_at: :desc)
@@ -54,18 +57,34 @@ class AdministratorsController < ApplicationController
     @bookings = Booking.all
   end
   
+  # C
   def index
-    @administrator = Administrator.page(params[:page]).per(10)
-    render json: @administrator, stauts: :ok
+    administrator = Administrator.all
+    render json: administrator, stauts: :ok
+  end
+
+  # C
+  def destroy
+    puts params[:id]
+    administrator = Administrator.find(params[:id])
+    if administrator.destroy
+      render json: {message: "Amministratore eliminato con successo."}, stauts: :ok
+    else
+      render json: {message: "Errore durante l'eliminazione dell'amministratore."}, status: :unprocessable_entity
+    end
   end
 
   private
     def administrator_params
-      params.require(:administrator).permit(:name, :surname, :email, :password, :password_confimartion, :root)
+      params.require(:administrator).permit(:name, :surname, :email, :password, :password_confirmation, :root)
     end
 
     def administrator_update_params
-      params.require(:administrator).permit(:password, :password_confimartion)
+      if request.path == administrator_profile_update_path
+        params.require(:administrator).permit(:password, :password_confimartion, :password_old)
+      else
+        params.require(:administrator).permit(:name, :surname, :email, :password, :password_confirmation)
+      end
     end
 
     # Confirms a logged-in administrator
@@ -76,10 +95,10 @@ class AdministratorsController < ApplicationController
         redirect_to administrator_log_in_url
       end
     end
-    
-    # Confirms a root administrator
+
+    # Confirms a root , forse in questo caso è meglio reindirizzare a 403 Forbidden?
     def root_administrator
-      redirect_to(administrator_dashboard_url) unless current_user.admin?
+      render json: {message: 'Non autorizzato!'}, status: :forbidden unless current_administrator.root?
     end
 
 end
