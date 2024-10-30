@@ -1,5 +1,6 @@
 class FieldsController < ApplicationController
   before_action :set_field, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_partner!, only: [:new, :create]
 
   # Lista di tutti i campi
   def index
@@ -137,7 +138,7 @@ end
 
   # Parametri permessi
   def field_params
-  params.require(:field).permit(:nome, :descrizione, :sport, :prezzo, :image, :via, :citta, :cap, :start_time, :end_time, :interval, exclude_days: [])
+  params.require(:field).permit(:sports_center_id,:nome, :descrizione, :sport, :prezzo, :image, :via, :citta, :cap, :start_time, :end_time, :interval, exclude_days: [])
 end
 
 end

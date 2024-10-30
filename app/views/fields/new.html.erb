@@ -24,7 +24,11 @@
           </ul>
         </div>
       <% end %>
-
+      <!-- ID Centro Sportivo -->
+      <div class="form-group">
+        <%= form.label :sports_center_id, "ID del tuo Centro Sportivo", class: "form-label" %>
+        <%= form.number_field :sports_center_id, required: true, class: "form-control" %>
+      </div>
       <!-- Campo Nome -->
       <div class="form-group">
         <%= form.label :nome, "Nome del Campo", class: "form-label" %>

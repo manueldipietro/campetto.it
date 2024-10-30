@@ -109,8 +109,8 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
   create_table "partners_sports_centers", id: false, force: :cascade do |t|
     t.bigint "partner_id", null: false
     t.bigint "sports_center_id", null: false
-    t.index ["partner_id", "sports_center_id"], name: "index_partners_centers_on_partner_center"
-    t.index ["sports_center_id", "partner_id"], name: "index_centers_partners_on_center_partner"
+    t.index ["partner_id", "sports_center_id"], name: "index_partners_sports_centers_on_partner_and_center", unique: true
+    t.index ["sports_center_id", "partner_id"], name: "index_sports_centers_partners_on_center_and_partner", unique: true
   end
 
   create_table "reports", force: :cascade do |t|
@@ -130,8 +130,8 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.string "titolo"
     t.integer "valutazione"
     t.text "testo"
-    t.bigint "user_id", null: false
     t.bigint "field_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_id"], name: "index_reviews_on_field_id"
@@ -164,13 +164,10 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.string "iban"
     t.string "email"
     t.string "phone"
+    t.string "registered_office"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "owner_id"
-    t.string "name"
-    t.string "indirizzo"
-    t.string "citta"
-    t.string "cap"
+    t.bigint "owner_id"
     t.index ["owner_id"], name: "index_sports_centers_on_owner_id"
   end
 
@@ -179,6 +176,9 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.string "uid"
     t.string "provider"
     t.datetime "confirmed_at"
@@ -186,14 +186,15 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.datetime "confirmation_sent_at"
     t.string "nome"
     t.string "cognome"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookings", "slots"
   add_foreign_key "bookings", "users"
-  add_foreign_key "fields", "sports_centers"
   add_foreign_key "reviews", "fields"
   add_foreign_key "reviews", "users"
   add_foreign_key "slots", "fields"
+  add_foreign_key "sports_centers", "partners", column: "owner_id"
 end
