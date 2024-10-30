@@ -21,7 +21,7 @@ module SessionsHelper
     def remember_partner(partner)
         partner.remember
         cookies.permanent.signed[:partner_id] = partner.id
-        cookies.permanent.signed[:partner_remember_token] = user.remember_token
+        cookies.permanent.signed[:partner_remember_token] = partner.remember_token
     end
 
     # Returns true if the given administrator is the current admnistrator
