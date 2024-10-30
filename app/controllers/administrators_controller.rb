@@ -50,7 +50,8 @@ class AdministratorsController < ApplicationController
     @reviews = Review.all.order(created_at: :desc)
     @reports = Report.all
     @users = User.all
-
+    @fields = Field.order(:sports_center_id, :created_at)
+    @bookings = Booking.all
   end
   
   def index

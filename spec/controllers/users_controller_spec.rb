@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe UsersController, type: :controller do
   describe 'POST #create' do
@@ -7,7 +8,8 @@ RSpec.describe UsersController, type: :controller do
         {
           user: {
             email: 'test@example.com',
-            password: 'password123'
+            password: 'password123',
+            password_confirmation:'password123'
           }
         }
       end
@@ -36,7 +38,8 @@ RSpec.describe UsersController, type: :controller do
         {
           user: {
             email: 'invalid_email',
-            password: 'short'
+            password: 'short',
+            password_confirmation: 'short'
           }
         }
       end
@@ -56,7 +59,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'GET #confirm' do
-    let!(:user) { User.create(email: 'test@example.com', password: 'password123', confirmation_token: 'valid_token', confirmation_sent_at: Time.now) }
+    let!(:user) { User.create(email: 'test@example.com', password: 'password123', password_confirmation:'password123', confirmation_token: 'valid_token', confirmation_sent_at: Time.now) }
 
     context 'when the token is valid and not expired' do
       before do
@@ -79,6 +82,7 @@ RSpec.describe UsersController, type: :controller do
         User.create(
           email: 'test@example.com',
           password: 'password123',
+          password_confirmation: 'password123',
           confirmation_token: 'valid_token', # Puoi usare un token valido
           confirmation_sent_at: 2.hours.ago # Simula un token scaduto
         )
@@ -92,31 +96,29 @@ RSpec.describe UsersController, type: :controller do
     end    
   end
 
-  describe 'GET #accountUtente' do
-    context 'when user is not logged in' do
-      it 'redirects to login page' do
+  describe "GET #accountUtente" do
+    context "when user is not logged in" do
+      it "redirects to logReg_path with an alert message" do
         get :accountUtente
+
+        # Verifica che ci sia un redirect verso logReg_path
         expect(response).to redirect_to(logReg_path)
+
+        # Verifica che il messaggio di alert sia presente
         expect(flash[:alert]).to eq("Devi accedere per visualizzare questa pagina.")
       end
     end
 
-    context 'when user is logged in' do
-      let!(:user) do
-        User.create(
-          email: 'test@example.com',
-          password: 'password123',
-          confirmation_token: 'valid_token', # Puoi usare un token valido
-          confirmation_sent_at: 2.hours.ago # Simula un token scaduto
-        )
-      end
+    context "when user is logged in" do
+      it "allows access to the account page" do
+        user = User.create!(email: "test@example.com", password: "Password1!",password_confirmation:"Password1!", confirmed_at: Time.now)
 
-      before do
         session[:user_id] = user.id
-      end
 
-      it 'renders the accountUtente template' do
         get :accountUtente
+        
+        expect(response).to have_http_status(:success)
+
         expect(response).to render_template(:accountUtente)
       end
     end

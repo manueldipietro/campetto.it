@@ -58,9 +58,7 @@
       </div>
     </div> <!-- Fine di .row -->
 
-    <!-- Sezione Prenotazione -->
-    <div class="booking-section mt-5">
-      <h2 class="text-center">Prenota un campo</h2>
+    <h2 class="text-center">Prenota un campo</h2>
 
       <!-- Navigazione Giorni e Selezione Data -->
       <div class="day-navigation">
@@ -80,6 +78,8 @@
         <!-- Bottone Giorno Successivo -->
         <%= link_to 'Giorno successivo', field_path(@field, date: @selected_date + 1), class: 'btn btn-outline-primary next-day' %>
       </div>
+    <!-- Sezione Prenotazione -->
+    <div class="booking-section mt-5">
 
       <!-- Slot Disponibili -->
       <h2 class="mt-4">Slot disponibili per il <%= @selected_date.strftime("%d %B %Y") %>:</h2>
