@@ -56,7 +56,7 @@ $(document).on('click', '.dashboard-control', dashboardChangeTab);
 function dashboardChangeTab(){
     $('.work-area').hide();
     var targetId = $(this).attr('data-target');
-    $(targetId).show()
+    $(targetId).show();
     //onSuccessDefaultAction('TEST:{}');
 }
 $(document).on('click', '.dashboard-control', dashboardActioner);
