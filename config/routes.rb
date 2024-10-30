@@ -26,7 +26,6 @@ Rails.application.routes.draw do
   post 'request_password_reset', to: 'users#request_password_reset'
   get 'edit_password', to: 'users#edit_password', as: 'edit_password'
   patch 'update_password', to: 'users#update_password'
-  
 
   # Ricerca campi
   get 'search_fields', to: 'fields#search', as: 'search_fields'
@@ -66,59 +65,56 @@ Rails.application.routes.draw do
       patch :reject
     end
   end
-    
+
   # Rotte per il checkout
   post 'checkout/create', to: 'checkout#create'
   get 'checkout/success', to: 'checkout#success'
   get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
 
-
   # Rotte per partner
-  # Rotta per registrazione
-  get     'partner_sign_up',              to: 'partners#new'
-  get     'partner_log_in',               to: 'sessions#new'
-  post    'partner_log_in',               to: 'sessions#create'
-  delete  'partner_log_out',              to: 'sessions#destroy'  
-  get     'partner_dashboard',            to: 'partners#dashboard'
-  resources :partners,                    only: [:create]
-  resources :partner_activations,         only: [:edit]
-  resources :partner_password_resets,     only: [:new, :create, :edit, :update]
+  get 'partner_sign_up', to: 'partners#new'
+  get 'partner_log_in', to: 'sessions#new'
+  post 'partner_log_in', to: 'sessions#create'
+  delete 'partner_log_out', to: 'sessions#destroy'
+  get 'partner_dashboard', to: 'partners#dashboard'
+  resources :partners, only: [:create]
+  resources :partner_activations, only: [:edit]
+  resources :partner_password_resets, only: [:new, :create, :edit, :update]
 
+  # Rotta per le recensioni del partner corrente
+  get '/partner_reviews', to: 'reviews#partner_reviews', as: 'partner_reviews'
 
   get 'reverse_geocode', to: 'fields#reverse_geocode'
-  
+
   # Administrators' routes
-  get       'administrator_sign_up',      to: 'administrators#new'
-  get       'administrator_log_in',       to: 'sessions#new'
-  post      'administrator_log_in',       to: 'sessions#create'
-  delete    'administrator_log_out',      to: 'sessions#destroy'
-  get       'administrator_dashboard',    to: 'administrators#dashboard'
-  get       'administrator_my_profile',   to: 'administrators#myprofile'
-  post      'administrator_update',       to: 'administrators#update'
+  get 'administrator_sign_up', to: 'administrators#new'
+  get 'administrator_log_in', to: 'sessions#new'
+  post 'administrator_log_in', to: 'sessions#create'
+  delete 'administrator_log_out', to: 'sessions#destroy'
+  get 'administrator_dashboard', to: 'administrators#dashboard'
+  get 'administrator_my_profile', to: 'administrators#myprofile'
+  post 'administrator_update', to: 'administrators#update'
   resources :administrators, only: [:create, :update, :index]
-  
 
   # SportsCenters' routes
-  #Rotte per update ed edit
-  get       'sports_centers_new',           to: 'sports_centers#new'
-  get       'sports_centers_edit',          to: 'sports_centers#edit'
-  patch     'sports_centers_update',        to: 'sports_centers#update'
-  delete    'sports_centers_destroy',       to: 'sports_centers#destroy'
+  get 'sports_centers_new', to: 'sports_centers#new'
+  get 'sports_centers_edit', to: 'sports_centers#edit'
+  patch 'sports_centers_update', to: 'sports_centers#update'
+  delete 'sports_centers_destroy', to: 'sports_centers#destroy'
 
-  get       'sports_centers_delegate_new',      to: 'sports_centers#delegate_new'
-  post      'sports_centers_delegate_create',   to: 'sports_centers#delegate_create'
-  get       'sports_centers_delegate_index',    to: 'sports_centers#delegate_index'
-  delete    'sports_centers_delegate_remove',   to: 'sports_centers#delegate_remove'
-  
+  get 'sports_centers_delegate_new', to: 'sports_centers#delegate_new'
+  post 'sports_centers_delegate_create', to: 'sports_centers#delegate_create'
+  get 'sports_centers_delegate_index', to: 'sports_centers#delegate_index'
+  delete 'sports_centers_delegate_remove', to: 'sports_centers#delegate_remove'
+
   resources :sports_centers, only: [:new, :create, :index]
 
-  get       '/error',                      to: 'pages#home'
+  get '/error', to: 'pages#home'
 
   get 'user_reviews', to: 'reviews#user_index', as: 'user_reviews'
-  
+
   namespace :admin do
     resources :users, only: [:index, :create, :edit, :update, :destroy]
   end
-
 end
 
