@@ -130,8 +130,8 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.string "titolo"
     t.integer "valutazione"
     t.text "testo"
-    t.bigint "field_id", null: false
     t.bigint "user_id", null: false
+    t.bigint "field_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["field_id"], name: "index_reviews_on_field_id"
@@ -179,9 +179,6 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.string "uid"
     t.string "provider"
     t.datetime "confirmed_at"
@@ -189,7 +186,6 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.datetime "confirmation_sent_at"
     t.string "nome"
     t.string "cognome"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
