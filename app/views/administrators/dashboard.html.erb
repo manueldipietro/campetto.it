@@ -55,31 +55,38 @@ $(document).on('click', '.dashboard-control', dashboardChangeTab);
 function dashboardChangeTab(){
     $('.work-area').hide();
     var targetId = $(this).attr('data-target');
-    $(targetId).show()
+    $(targetId).show();
     //onSuccessDefaultAction('TEST:{}');
 }
 $(document).on('click', '.dashboard-control', dashboardActioner);
 function dashboardActioner(){
     var targetId = $(this).attr('data-target');
     
-    //Clean all tfhe show dir
-
     //Load the target div
     if(targetId == '#administrator-manager'){
         $('#administrator-manager .work-area-show').empty();
         requester('/administrator_index', 'GET', 'json', undefined, undefined, administrator_indexShow, onFailureDefaultAction);
     }
+    if(targetId == '#partner-manager'){
+        $('#partner-manager .work-area-show').empty();
+        requester('/partner_index', 'GET', 'json', undefined, undefined, partner_indexShow, onFailureDefaultAction);
+    }
+
 }
 
 function onFailureDefaultAction(response){
-    //$('#failure-modal').modal('show');
-    //$('#failure-modal .modal-body').html('<p>'+response.message+'</p>');
-    console.log(response);
+    if(response.message){
+        //$('#failure-modal').modal('show');
+        //$('#failure-modal .modal-body').html('<p>'+response.message+'</p>');
+        console.log(response);
+    }
 }
 
 function onSuccessDefaultAction(response){
-    $('#success-modal').modal('show');
-    $('#success-modal .modal-body').html('<p>'+response.message+'</p>');
+    if(response.message){
+        $('#success-modal').modal('show');
+        $('#success-modal .modal-body').html('<p>'+response.message+'</p>');
+    }
 }
 
 function cardRemove(cardIdentifier){
@@ -91,17 +98,14 @@ function loadPartialIntoElement(toLoad, whereLoad){
 }
 
 </script>
-
-
-
-
-
+<!--Sezione sportcenter-->
 <div style="" id="sportcenter-manager" class="work-area">
     <h2 class="work-area-heading">
         <i class="fas fa-cogs"></i> Gestione centri sportivi
     </h2>
     
 </div>
+<!-- Fine sezione sportcenter -->
 
 <div style="display: none" id="playground-manager" class="work-area">
     <h2 class="work-area-heading">
@@ -202,6 +206,50 @@ function loadPartialIntoElement(toLoad, whereLoad){
     <h2 class="work-area-heading">
         <i class="fas fa-cogs"></i> Gestione partner
     </h2>
+    <div class= "work-area-command" ></div>
+    <div class= "work-area-show" >
+        <script>
+                function partner_indexShow(response){
+                    $('#partner-manager .work-area-show').empty();
+                    if (response.length > 0) {
+                        response.forEach(partner => {
+                            toInsert = `
+                                <div class="partner-card">
+                                    <p><strong>ID:</strong> ${partner.id}</p>
+                                    <p><strong>Email:</strong> ${partner.email}</p>
+                                    <p><strong>Nome:</strong> ${partner.name}</p>
+                                    <p><strong>Cognome:</strong> ${partner.surname}</p>
+                                    <p><strong>Genere:</strong> ${partner.gender}</p>
+                                    <p><strong>Data di nascita:</strong>${new Date(partner.birthdate).toLocaleString()}</p>
+                                    <p><strong>Creato il:</strong> ${new Date(partner.created_at).toLocaleString()}</p>
+                                    <p><strong>Ultimo aggiornamento:</strong> ${new Date(partner.updated_at).toLocaleString()}</p>
+                                    <button class="btn btn-danger delete-partner" data-id="${partner.id}">Cancella partner</button>
+                                    <hr />
+                                </div>
+                            `;
+                            $('#partner-manager .work-area-show').append(toInsert);
+                        });
+                    } else {
+                        $('#partner-manager .work-area-show').html('<p>Nessun partner trovato.</p>');
+                    }
+                }
+                
+                $(document).on('click', '.delete-partner', partner_destroy);
+                function partner_destroy(id){
+                    const partnerId = $(this).data('id');
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Recupera il token CSRF
+                    if(confirm("Sei sicuro di voler eliminare questo amministratore?")){
+                        requester('/partner', 'DELETE', 'json', {id: partnerId}, {'X-CSRF-Token': csrfToken }, 
+                        function(response){
+                                cardRemove('.partner-card:has(button[data-id='+partnerId+'])');
+                                onSuccessDefaultAction(response);
+                            },
+                            onFailureDefaultAction
+                        );
+                    }
+                }
+        </script>  
+    </div>
 </div>
 
 
@@ -246,13 +294,14 @@ function loadPartialIntoElement(toLoad, whereLoad){
                     const adminId = $(this).data('id');
                     const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Recupera il token CSRF
                     if(confirm("Sei sicuro di voler eliminare questo amministratore?")){
-                        requester('/administrator_destroy', 'DELETE', 'json', {id: adminId}, {'X-CSRF-Token': csrfToken }, administrator_cardRemove, onFailureDefaultAction);
+                        requester('/administrator_destroy', 'DELETE', 'json', {id: adminId}, {'X-CSRF-Token': csrfToken }, 
+                        function(response){
+                                cardRemove('.administrator-card:has(button[data-id='+adminId+'])');
+                                onSuccessDefaultAction(response);
+                            },
+                            onFailureDefaultAction
+                        );
                     }
-                }
-
-                function administrator_cardRemove(response){
-                    cardRemove('.administrator-card:has(button[data-id='+adminId+'])');
-                    onSuccessDefaultAction(response);
                 }
 
                 $('#administrator-manager-new').on('click', administrator_ShowNew);
@@ -281,18 +330,22 @@ function loadPartialIntoElement(toLoad, whereLoad){
                             response = requester('administrator_sign_up', 'GET', 'html', {}, {}, administrator_newShow, onFailureDefaultAction);
                         });
 
-                        $('administrator-manager-new-form').on('submit', function(event){
+                        $('#administrator-manager-new-form').on('submit', function(event){
                             event.preventDefault();
                             const formData = $(this).serialize();
+                            console.log('Ci Arrivo1');
                             $.ajax({
                                 url: $(this).attr('action'),
                                 method: 'POST',
                                 data: formData,
                                 dataType: 'json',
                                 success: onSuccessDefaultAction,
-                                default: onFailureDefaultAction
+                                error: onFailureDefaultAction,
+                                complete: function(){
+                                    console.log('Ci Arrivo');
+                                    $('#administrator-manager-new').modal('hide');
+                                }
                             });
-                            $('#administrator-manager-new').modal('hide');
                         });
 
                     </script>

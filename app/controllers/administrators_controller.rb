@@ -1,6 +1,6 @@
 class AdministratorsController < ApplicationController
   layout false,                             only: [:new, :create, :index, :destroy]
-  layout 'dashboard',                       only: [:dashboard, :edit]
+  layout 'dashboard',                       only: [:dashboard]
   before_action :logged_in_administrator,   only: [:new, :create, :edit, :update, :dashboard, :index, :destroy]
   before_action :root_administrator,        only: [:new, :create, :index, :edit_per_root, :update_per_root, :destroy]
   
@@ -59,16 +59,15 @@ class AdministratorsController < ApplicationController
   
   # C
   def index
-    administrator = Administrator.all
-    render json: administrator, stauts: :ok
+    administrators = Administrator.all
+    render json: administrators, status: :ok
   end
 
   # C
   def destroy
-    puts params[:id]
     administrator = Administrator.find(params[:id])
     if administrator.destroy
-      render json: {message: "Amministratore eliminato con successo."}, stauts: :ok
+      render json: {message: "Amministratore eliminato con successo."}, status: :ok
     else
       render json: {message: "Errore durante l'eliminazione dell'amministratore."}, status: :unprocessable_entity
     end
