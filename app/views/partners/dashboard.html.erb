@@ -11,9 +11,13 @@
 
     <button class="btn btn-primary dashboard-control" data-target="#playground-manager" title="Gestione campi sportivi"><i class="fas fa-futbol"></i></button>
     <button class="btn btn-primary dashboard-control" data-target="#booking-manager" title="Gestione prenotazioni"><i class="fas fa-calendar-alt"></i></button>
-    <button class="btn btn-primary dashboard-control" data-target="#review-manager" title="Gestione recensioni"><i class="fas fa-star"></i></button>
 
-</div>
+    <button class="btn btn-primary dashboard-control" data-target="#review-manager" onclick="loadPartnerReviews(<%= @partner.id %>)" title="Gestione recensioni">
+      <i class="fas fa-star"></i>
+    </button>
+
+    <button class="btn btn-primary dashboard-control" data-target="#report-manager" title="Gestione segnalazioni"><i class="fas fa-file-alt"></i></button>
+
 
 <!-- Sezione schede -->
 <!-- Le prime due schede vanno renderizzate solo se si è i proprietari dello sports center -->
@@ -27,7 +31,7 @@
             }
         </script>
     </div>
-    <div class = "work-area-show">
+    <div class="work-area-show">
         <!--Qui ci deve essere richiamato il partial dello sportscenter edit-->
     </div>
 </div>
@@ -46,35 +50,35 @@
           });
 
           $('#sportscenter-new').on('hidden.bs.modal', function(){
-            $('#sports-center-new .modal-body').empty();
+            $('#sportscenter-new .modal-body').empty();
           });
 
-            function sportsCenterNewLoad(response){
-                loadPartialIntoElement(response, '#sportscenter-new .modal-body');        
-            }
+          function sportsCenterNewLoad(response){
+              loadPartialIntoElement(response, '#sportscenter-new .modal-body');        
+          }
 
-        $(document).ready( function(){
-            $('#sportscenter-manager-updatesubmit').on('click', function(e){
-                e.preventDefault();
-                const url ="<%= sports_centers_update_path(@sports_center) %>";
-                const formData = $('#new_sports_center').serialize();
-                $.ajax({
-                    url: url,
-                    type: 'PATCH',
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response){
-                        $('.work-area').hide();
-                        $('.work-area-show').empty();
-                        $('#sportscenter-manager').show();
-                        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
-                    },
-                    error: function(xhr, status, error){
-                        onFailure(xhr.status);
-                    }
-                });
-            });
-        });
+          $(document).ready( function(){
+              $('#sportscenter-manager-updatesubmit').on('click', function(e){
+                  e.preventDefault();
+                  const url ="<%= sports_centers_update_path(@sports_center) %>";
+                  const formData = $('#new_sports_center').serialize();
+                  $.ajax({
+                      url: url,
+                      type: 'PATCH',
+                      data: formData,
+                      dataType: 'json',
+                      success: function(response){
+                          $('.work-area').hide();
+                          $('.work-area-show').empty();
+                          $('#sportscenter-manager').show();
+                          requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+                      },
+                      error: function(xhr, status, error){
+                          onFailure(xhr.status);
+                      }
+                  });
+              });
+          });
         </script>
       </div>
       <div class="modal-footer">
@@ -84,13 +88,12 @@
   </div>
 </div>
 
-
 <div style="display: none;" id="delegate-manager" class="work-area">
     <h2 class="work-area-heading"><i class="fas fa-cogs"></i> Gestione delegati</h2>
     <div class="work-area-command">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delegate-manager-new">Nuovo delegato</button>
     </div>
-    <div class = "work-area-show">
+    <div class="work-area-show">
         <!-- This section are used by Javascript -->
         <script>
             function delegateIndexLoad(response){
@@ -99,7 +102,7 @@
                     const delegateHtml = `
                         <div>
                             <p>Nome: ${delegate.name}</p>
-                            <p>Cognome: ${delegate.name}</p>
+                            <p>Cognome: ${delegate.surname}</p>
                             <p>Email: ${delegate.email}</p>
                             <button class="btn btn-danger delete-delegate" data-email="${delegate.email}" data-id="${delegate.id}">Elimina Delegato</button>
                         </div>
@@ -110,7 +113,7 @@
                 $(document).on('click', '.delete-delegate', function(){
                     const delegateId = $(this).data('id');
                     const delegateEmail = $(this).data('email');
-                    const url = `sports_centers_delegate_remove?sport_center_id=${delegateId}&email=${encodeURIComponent(delegateEmail)}`;
+                    const url = `/sports_centers_delegate_remove?sport_center_id=${delegateId}&email=${encodeURIComponent(delegateEmail)}`;
                     if(confirm('Sei sicuro di voler eliminare questo delegato?')){
                         $.ajax({
                             url: url,
@@ -121,7 +124,7 @@
                             },
                             dataType: 'json',
                             success: function(response){
-                                $('button[data-id='+delegatedId+']').closest('div').remove(); // Rimuovi l'elemento dal DOM
+                                $('button[data-id='+delegateId+']').closest('div').remove(); // Rimuovi l'elemento dal DOM
                             },
                             error: function(xhr, status, error){
                                 console.log("Error");
@@ -130,7 +133,7 @@
                     }
                 });
             }
-        </Script>
+        </script>
     </div>
 </div>
 
@@ -269,14 +272,11 @@
                 requester('sports_centers_delegate_new', 'GET', 'HTML', delegateNewLoad, onFailureRedirect);
             });
             $('#delegate-manager-new').on('hidden.bs.modal', function(){
-                $('#sports-center-new .modal-body').empty();
+                $('#delegate-manager-new .modal-body').empty();
             });
             function delegateNewLoad(response){
                 loadPartialIntoElement(response, '#delegate-manager-new .modal-body');        
             }
-
-            //PREVENIRE IL COMPORTAMENTO DI DEFAULT DEL TUTTO
-
         </script>
       </div>
       <div class="modal-footer">
@@ -286,12 +286,22 @@
   </div>
 </div>
 
+<!-- Sezione Gestione Recensioni -->
+<div style="display: none;" id="review-manager" class="work-area">
+    <h2 class="work-area-heading"><i class="fas fa-star"></i> Gestione recensioni</h2>
+    <div class="work-area-show">
+        <!-- Qui verranno caricate le recensioni tramite AJAX -->
+        <p>Caricamento recensioni...</p>
+    </div>
+</div>
+
 <!-- Sezione script -->
 <script>
-    //Functions that manages the layout
+    // Functions that manage the layout
     $(document).on('mouseenter', '.dashboard-control', showPopover);
     $(document).on('mouseleave', '.dashboard-control', hidePopover);
     $(document).on('click', '.dashboard-control', dashboardChangeTab);
+
     function showPopover(){
         $(this).popover({
             placement: 'right',
@@ -301,29 +311,43 @@
         $(this).popover('show');
         return;
     }
+
     function hidePopover(){
         $(this).popover('dispose');
         return;
     }
+
     function dashboardChangeTab(){
         $('.work-area').hide();
         $('.work-area-show').empty();
-        var targetId = $(this).attr('data-target');
-        $(targetId).show()
+        var targetId = $(this).data('target');
+        $(targetId).show();
         
-        //Clean all div
-        
-        //Prepare the next div
-        if(targetId == '#sportscenter-manager'){
-            requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+        // Carica il contenuto corretto
+        if (targetId === '#sportscenter-manager'){
+            requester(`/sports_centers_edit?id=${sport_center_id}`, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+        } else if (targetId === '#delegate-manager'){
+            requester(`/sports_centers_delegate_index?id=${sport_center_id}`, 'GET', 'JSON', delegateIndexLoad, onFailureRedirect);
         }
-        if(targetId == '#delegate-manager'){
-            requester('sports_centers_delegate_index?id='+sport_center_id, 'GET', 'JSON', delegateIndexLoad, onFailureRedirect);
-        }
-        
     }
 
-    // Send an ajax request to remote server
+    // Funzione per caricare le recensioni del partner tramite AJAX
+    function loadPartnerReviews(partnerId) {
+        $.ajax({
+            url: `/partner_reviews`,  // Usa la rotta corretta
+            type: 'GET',
+            dataType: 'html',
+            data: { partner_id: partnerId }, // Passa il partner_id come parametro
+            success: function (response) {
+                $('#review-manager .work-area-show').html(response);
+            },
+            error: function () {
+                $('#review-manager .work-area-show').html('<p class="text-danger">Errore nel caricamento delle recensioni. Riprova più tardi.</p>');
+            }
+        });
+    }
+
+    // Funzione per inviare richiesta AJAX al server
     function requester(requestUrl, requestType, requestDataType, onSuccess, onFailure){
         $.ajax({
             url: requestUrl,
@@ -337,15 +361,17 @@
             }
         });
     }
+
     function loadPartialIntoElement(toLoad, whereLoad){
         $(whereLoad).html(toLoad);
     }
+
     function onFailureRedirect(code){
         console.log("ERRORE!");
         //window.location.href = '/error?'+code;
     }
 
-    // Function that manage the sportCenters 
+    // Function that manages the sportCenters 
     $(document).ready(function(){
         requester('sports_centers', 'GET', 'JSON', sportsCenterSelector, onFailureRedirect);
         $('#-tp-header-heading-sportscenter-chooser').on('change', sportCenterChangeReaction);
@@ -369,13 +395,15 @@
         $('.work-area').hide();
         $('.work-area-show').empty();
         $('#sportscenter-manager').show();
-        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+        requester(`/sports_centers_edit?id=${sport_center_id}`, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
     }
+
     function sportCenterChangeReaction(){
         sport_center_id = $('#-tp-header-heading-sportscenter-chooser').val();
         $('.work-area').hide();
         $('.work-area-show').empty();
         $('#sportscenter-manager').show();
-        requester('sports_centers_edit?id='+sport_center_id, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
+        requester(`/sports_centers_edit?id=${sport_center_id}`, 'GET', 'HTML', sportsCenterEditLoad, onFailureRedirect);
     }
 </script>
+
