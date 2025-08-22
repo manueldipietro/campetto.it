@@ -2,7 +2,7 @@ class Field < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_one_attached :image
   has_many :slots, dependent: :destroy
-  belongs_to :sports_center,optional: true 
+  belongs_to :sports_center, optional: true
 
   after_create :create_slots
 
@@ -13,8 +13,7 @@ class Field < ApplicationRecord
   # Esegui la geocodifica solo se uno dei campi dell'indirizzo è cambiato
   after_validation :geocode_and_handle_errors, if: :address_changed?
 
-serialize :exclude_days, Array
-
+  serialize :exclude_days, Array
 
   private
 
@@ -40,8 +39,8 @@ serialize :exclude_days, Array
       errors.add(:base, "L'indirizzo inserito non è valido o il geocoding non è riuscito.")
     end
   end
-  
-   # Aggiungi metodi per mappare latitude e longitude
+
+  # Alias per compatibilità con chi usa latitude/longitude
   def latitude
     latitudine
   end
@@ -50,4 +49,3 @@ serialize :exclude_days, Array
     longitudine
   end
 end
-
