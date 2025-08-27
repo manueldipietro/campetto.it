@@ -4,7 +4,9 @@
   <!-- Intestazione della pagina -->
   <div class="reviews-header">
     <h1 class="field-name"><%= @field.nome %></h1>
-    <p class="field-location"><%= @field.indirizzo %></p>
+   <p class="field-location">
+  <%= [@field.via, @field.cap, @field.citta, "Italia"].reject(&:blank?).join(", ") %>
+</p>
     <div class="field-rating">
       <% average_rating = @field.reviews.average(:valutazione)&.round(1) || 0 %>
       <span class="average-rating"><%= average_rating %>/5</span>
@@ -53,11 +55,11 @@
             <h3 class="review-title"><%= review.titolo %></h3>
             <p class="review-text"><%= review.testo %></p>
           </div>
-          <% if current_user == review.user %>
-            <div class="review-actions">
-              <%= link_to 'Elimina', field_reviews_path(@field, review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger delete-review-btn' %>
+          <% if current_user && current_user.id == review.user_id %>
+  <div class="review-actions">
+   <%= link_to 'Elimina', review_path(review), method: :delete, data: { confirm: 'Sei sicuro di voler eliminare questa recensione?' }, class: 'btn btn-danger delete-review-btn' %>
             </div>
-          <% end %>
+<% end %>
         </div>
       <% end %>
     <% else %>
