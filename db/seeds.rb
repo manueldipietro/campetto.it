@@ -18,6 +18,41 @@ admin_root = Administrator.create!(
 puts "Amministratore root creato: #{admin_root.email}"
 
 
+# --- Partner demo + Centro demo + associazione campi ---
+
+partner_email = 'partner@example.com'
+
+partner = Partner.find_or_create_by!(email: partner_email) do |p|
+  p.name                  = 'Mario'
+  p.surname               = 'Rossi'
+  p.gender                = 'm'                   # 'm'/'f'/'u' oppure ometti
+  p.mobile                = '+393331234567'       # 10-15 cifre, + opzionale
+  p.birthdate             = Date.new(1999,1,1)
+  p.password              = 'Password!123'
+  p.password_confirmation = 'Password!123'
+  p.activated             = true
+  p.activated_at          = Time.zone.now
+end
+puts "Partner demo: #{partner.email}"
+
+# Valori validi per le regex italiane (CF/P.IVA/IBAN/email/telefono)
+sc = SportsCenter.find_or_initialize_by(company_name: 'Centro Demo Campetto')
+sc.tax_code         = 'RSSMRA99A01H501U'         # CF plausibile
+sc.vat_number       = 'IT12345678901'            # P.IVA 11 cifre con IT
+sc.iban             = 'IT60X0542811101000000123456'
+sc.email            = 'centro.demo@campetto.it'
+sc.phone            = '+39061234567'
+sc.registered_office= 'Via di Test 1, 00100 Roma (RM)'
+sc.owner            = partner
+sc.save!
+puts "SportsCenter demo di #{partner.email}: #{sc.company_name}"
+
+# Associa tutti i Field esistenti al centro demo (solo quelli senza centro)
+Field.where(sports_center_id: nil).find_each do |f|
+  f.update_columns(sports_center_id: sc.id)  # diretto, evita validazioni/geocoding
+end
+puts "Associati #{Field.where(sports_center_id: sc.id).count} campi al centro demo."
+
 if Field.count.zero?
   puts "Seeding campi demo…"
 

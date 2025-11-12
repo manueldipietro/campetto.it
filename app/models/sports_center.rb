@@ -1,7 +1,7 @@
 class SportsCenter < ApplicationRecord
     # Associa il proprietario come singolo partner
     belongs_to :owner, class_name: 'Partner', foreign_key: 'owner_id'
-
+     has_many :fields, dependent: :nullify 
     # Relazione many-to-many con Partner per i manager
     has_many :partners_sports_centers, dependent: :destroy
     has_many :managers, through: :partners_sports_centers, source: :partner

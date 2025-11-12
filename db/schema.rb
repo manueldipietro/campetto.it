@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_28_174121) do
+ActiveRecord::Schema.define(version: 2025_11_12_154115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
     t.string "via"
     t.string "citta"
     t.string "cap"
+    t.bigint "sports_center_id"
+    t.index ["sports_center_id"], name: "index_fields_on_sports_center_id"
   end
 
   create_table "partners", force: :cascade do |t|
@@ -187,6 +189,7 @@ ActiveRecord::Schema.define(version: 2024_10_28_174121) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookings", "slots"
   add_foreign_key "bookings", "users"
+  add_foreign_key "fields", "sports_centers"
   add_foreign_key "reviews", "fields"
   add_foreign_key "reviews", "users"
   add_foreign_key "slots", "fields"

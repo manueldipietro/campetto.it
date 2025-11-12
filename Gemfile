@@ -82,7 +82,6 @@ gem 'rack'
 #gemme per autenticazione google
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'dotenv-rails'
 gem 'omniauth-rails_csrf_protection'
 
 gem 'whenever', require: false
